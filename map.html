@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SDSCA - Map</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" href="stuca.png" type="image/png">
+    <script src="./js/main.js"></script>
+
+    <style>
+        .material-icons {
+            font-size: 6em;
+        }
+
+        .map {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+
+<div id="googleMap" class="map"></div>
+<div id="header" >
+    <a href="list.php"><i class="material-icons">menu</button></i></a>
+</div>
+
+<script>
+    function myMap() {
+
+        var myLocation = new google.maps.LatLng(62.598567, 29.745048);
+        var restaurant = new google.maps.LatLng(62.603933, 29.744134);
+        //var closest = new google.maps.LatLng(62.597944, 29.743766);
+
+        var closest = [];
+
+        var marker ;
+        var icon_user = {
+            url: "https://maps.google.com/mapfiles/ms/micons/man.png",
+        };
+
+        var icon_restaurant = {
+            url: "https://maps.google.com/mapfiles/ms/micons/red-dot.png",
+        };
+
+        var icon_closest = {
+            url: "https://maps.google.com/mapfiles/ms/micons/blue-dot.png",
+        };
+
+        var mapProp = {
+            center: myLocation,
+            zoom: 14,
+            fullscreenControl: false,
+            streetViewControl:false,
+            zoomControl:false,
+            mapTypeControl:false
+        };
+
+        //let locations = getCookies('restaurants');
+
+        var locations = [
+            ['Opiskelijaravintola Carelia', 62.603933, 29.744134, 'Yliopistokatu 4, 80100 Joensuu', 'http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/joensuu/opiskelijaravintola_carelia/'],
+            ['Borealis', 62.605397, 29.740524, 'Yliopistokatu 7, 80100 Joensuu', 'http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/joensuu/Futura/']
+        ];
+
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(header);
+
+        var markers = new Array();
+
+        var infoWindow = new google.maps.InfoWindow({
+            //maxWidth: 200,
+            content: ""
+        });
+
+        var user = new google.maps.Marker({
+            position: myLocation,
+            icon: "https://maps.google.com/mapfiles/ms/micons/man.png",
+            title: 'My Location'
+        });
+        user.setMap(map);
+
+        for (i = 0; i < locations.length; i++) {
+            var marker = new google.maps.Marker({
+                position: {lat: locations[i][1], lng: locations[i][2]},
+                map: map,
+                info:
+                "<b>"+locations[i][0]+"</b><br>"+
+                "Location: "+locations[i][1]+", "+locations[i][2]+"<br>"+
+                "Address: "+locations[i][3]+"<br>"+
+                "<a href= "+locations[i][4]+">Website</a>",
+                icons: icon_restaurant
+            });
+            addInfoWindow(infoWindow,marker, locations[i][0]);
+
+            markers.push(marker);
+
+        }
+
+        for (i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+
+        //Distance testing
+        locations[0].push(getDistance(restaurant, user));
+
+        function addInfoWindow(infoWindow, marker, message) {
+            google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.setContent(marker.info);
+                infoWindow.open(map, marker);
+            });
+        }
+
+
+    }
+
+    function getDistance(restaurant, user){
+        restaurant = 10;
+        user = 5;
+        return restaurant - user;
+    }
+
+    function getClosest(){
+
+    }
+
+    function drawRoute() {
+
+    }
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQyXJKLhKIYX0XeSZ8TvNJWxr_vOuZf8s&callback=myMap">
+</script>
+
+</body>

@@ -1,0 +1,45 @@
+@CHARSET "UTF-8";
+
+html {
+    font-size: 2em;
+}
+
+body {
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    border-bottom: 1px solid black;
+    height: 5em;
+}
+
+.header * {
+    display: flex;
+    flex-grow: 1;
+    align-items: center; /* Vertical center */
+    justify-content: center; /* Horizontal center */
+}
+
+.header h1 {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    flex-grow: 2;
+    margin: auto;
+}
+
+.header a .material-icons {
+    font-size: 4em;
+}
+
+a, a:hover, a:focus { text-decoration: none; }
+
+.material-icons {
+    vertical-align: middle !important;
+    color: steelblue;
+}
+
+
+* {
+    /*outline: 1px solid black;*/
+}

@@ -34,7 +34,7 @@ if ( empty($_COOKIE['restaurants']) ) {
 <head>
     <meta charset="UTF-8">
     <title>SDSCA</title>
-    <link rel="icon" href="stuca.png" type="image/png">
+    <link rel="icon" href="favicon-anim.gif" type="image/gif">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/main.css">
     <script src="./js/main.js"></script>

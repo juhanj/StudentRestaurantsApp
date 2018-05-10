@@ -6,7 +6,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>SDSCA - Settings</title>
-    <link rel="icon" href="stuca.png" type="image/png">
+    <link rel="icon" href="favicon-anim.gif" type="image/gif">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/main.css">
     <style>

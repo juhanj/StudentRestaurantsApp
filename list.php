@@ -25,11 +25,21 @@ function calc_distance( $lat1, $lon1, $lat2, $lon2) {
 function print_distance( $dist ) {
     if ( !$dist ) { return ''; }
 
-    return "&mdash; (~{$dist} m)";
+    $unit = "m";
+    $decimals = 0;
+
+    if ( $dist > 1500 ) {
+        $dist = $dist / 1000;
+        $unit = "km";
+        $decimals = 1;
+    }
+    $dist = number_format( $dist, $decimals, ",", ".");
+
+    return "&mdash; (~{$dist} {$unit})";
 }
 
 function cmp_dist($a, $b) {
-    return strcmp($a->distance, $b->distance);
+    return $a->distance > $b->distance;
 }
 
 function print_menu_link( $r ) {

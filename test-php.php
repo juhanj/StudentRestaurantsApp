@@ -1,4 +1,7 @@
 <?php
+/*============
+ * FUNCTIONS *
+ ============*/
 function debug($var, $var_dump = false)
 {
     echo "<br>\r\n<pre>Print_r ::<br>\r\n";
@@ -10,9 +13,34 @@ function debug($var, $var_dump = false)
         echo "</pre><br>\r\n";
     };
 }
-debug( $_COOKIE );
+function calc_distance( $lat1, $lon1, $lat2, $lon2) {
+    $theta = $lon1 - $lon2;
+    $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+    $dist = acos($dist);
+    $dist = rad2deg($dist);
 
-debug( file_get_contents('restaurants.json') );
+    return $dist * 60 * 1.1515 * 1.609344;
+}
+function cmp_dist($a, $b) {
+    return $a->distance > $b->distance;
+}
+
+/*========
+ * LOGIC *
+ ========*/
+/** @var Restaurant[] $restaurants */
+$restaurants = json_decode(file_get_contents('restaurants.json'))->restaurants;
+
+if ( !empty($_COOKIE['location']) ) {
+    $loc = json_decode( $_COOKIE['location'] );
+    foreach ( $restaurants as $r ) {
+        $r->distance = calc_distance( $r->location->lat, $r->location->long, $loc[0], $loc[1])*1000;
+    }
+
+    usort($restaurants, "cmp_dist");
+}
+
+debug( $restaurants );
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,9 +53,6 @@ debug( file_get_contents('restaurants.json') );
 <body>
 
 <script>
-    let lat = 62.601262;
-    let long = 29.743602;
-    setCookie("location",JSON.stringify([lat, long]),0);
 </script>
 
 </body>

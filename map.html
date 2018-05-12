@@ -62,12 +62,8 @@
             mapTypeControl:false
         };
 
-        //let locations = getCookies('restaurants');
-
-        var locations = [
-            ['Opiskelijaravintola Carelia', 62.603933, 29.744134, 'Yliopistokatu 4, 80100 Joensuu', 'http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/joensuu/opiskelijaravintola_carelia/'],
-            ['Borealis', 62.605397, 29.740524, 'Yliopistokatu 7, 80100 Joensuu', 'http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/joensuu/Futura/']
-        ];
+        var locations = getCookie('restaurants');
+        var obj = JSON.parse(locations);
 
         var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(header);
@@ -86,15 +82,16 @@
         });
         user.setMap(map);
 
-        for (i = 0; i < locations.length; i++) {
+        for (i = 0; i < obj.length; i++) {
             var marker = new google.maps.Marker({
-                position: {lat: locations[i][1], lng: locations[i][2]},
+                position: {lat: obj[i].loc.lat, lng: obj[i].loc.long},
                 map: map,
+
                 info:
-                "<b>"+locations[i][0]+"</b><br>"+
-                "Location: "+locations[i][1]+", "+locations[i][2]+"<br>"+
-                "Address: "+locations[i][3]+"<br>"+
-                "<a href= "+locations[i][4]+">Website</a>",
+                "<b>"+obj[i].name+"</b><br>"+
+                "Location: "+obj[i].loc.lat+", "+obj[i].loc.long+"<br>"+
+                "Address: "+obj[i].addr+"<br>"+
+                "<a href= "+obj[i].url+">Website</a>",
                 icons: icon_restaurant
             });
             addInfoWindow(infoWindow,marker, locations[i][0]);
@@ -108,7 +105,7 @@
         }
 
         //Distance testing
-        locations[0].push(getDistance(restaurant, user));
+        //locations[0].push(getDistance(restaurant, user));
 
         function addInfoWindow(infoWindow, marker, message) {
             google.maps.event.addListener(marker, 'click', function () {

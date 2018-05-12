@@ -204,8 +204,8 @@
 			"menuUrl": "https://www.visiitti.fi/lounasravintolat/",
 			"menuUrl_JSON": null,
 			"location": {
-				"lat": 62.60491,
-				"long": 29.74146
+				"lat": 62.605365,
+				"long": 29.741656
 			},
 			"normalLunchHours": [
 				["10:30","13:00"],

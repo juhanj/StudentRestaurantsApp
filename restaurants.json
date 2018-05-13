@@ -226,8 +226,8 @@
 			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/kuopio/ita-suomen-yliopistocanthia/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=0436&language=fi",
 			"location": {
-				"lat": 62.89583,
-				"long": 27.64167
+				"lat": 62.895777,
+				"long": 27.641414
 			},
 			"normalLunchHours": [
 				["10:15","14:00"],
@@ -248,8 +248,8 @@
 			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/kuopio/ita-suomen-yliopisto--snellmania/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=0437&language=fi",
 			"location": {
-				"lat": 62.89257,
-				"long": 27.63558
+				"lat": 62.892549,
+				"long": 27.635581
 			},
 			"normalLunchHours": [
 				["10:30","13:30"],
@@ -270,8 +270,8 @@
 			"menuUrl": "http://www.amica.fi/tietoteknia",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=0439&language=fi",
 			"location": {
-				"lat": 62.89097,
-				"long": 27.63669
+				"lat": 62.890926,
+				"long": 27.636479
 			},
 			"normalLunchHours": [
 				["10:30","13:30"],
@@ -292,8 +292,8 @@
 			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/kuopio/ita-suomen-yliopisto--mediteknia/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=0442&language=fi",
 			"location": {
-				"lat": 62.89586,
-				"long": 27.64044
+				"lat": 62.895951,
+				"long": 27.640635
 			},
 			"normalLunchHours": [
 				["10:30","12:30"],

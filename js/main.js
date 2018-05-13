@@ -28,3 +28,19 @@ function getCookie( name ) {
 function deleteCookie(name) {
     document.cookie = name + '=; Max-Age=-1;';
 }
+
+function getLocation() {
+    if (!navigator.geolocation) {
+        return false;
+    }
+
+    function success( position ) {
+        setCookie( "location", JSON.stringify([position.coords.latitude,position.coords.longitude]), 0 );
+    }
+    function error() {
+        setCookie( "location", JSON.stringify(null), 0 );
+    }
+
+    navigator.geolocation.getCurrentPosition( success, error );
+    return true;
+}

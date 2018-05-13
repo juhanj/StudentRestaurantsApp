@@ -160,8 +160,8 @@
 			"menuUrl": "http://mehtimakiravintolat.fi/ravintola-puisto/",
 			"menuUrl_JSON": null,
 			"location": {
-				"lat": 62.59863,
-				"long": 29.74252
+				"lat": 62.598636,
+				"long": 29.743620
 			},
 			"normalLunchHours": [
 				["10:30","14:00"],
@@ -182,8 +182,8 @@
 			"menuUrl": "http://mehtimakiravintolat.fi/kahvila-forum/",
 			"menuUrl_JSON": null,
 			"location": {
-				"lat": 62.59797,
-				"long": 29.74037
+				"lat": 62.597989,
+				"long": 29.741467
 			},
 			"normalLunchHours": [
 				["10:30","13:00"],

@@ -31,11 +31,14 @@
 
 <script>
     function myMap() {
+        var defaultLocation = new google.maps.LatLng(62.598567, 29.745048);
         var myLocation = new google.maps.LatLng(62.598567, 29.745048);
-        var restaurant = new google.maps.LatLng(62.603933, 29.744134);
+        //var restaurant = new google.maps.LatLng(62.603933, 29.744134);
         //var closest = new google.maps.LatLng(62.597944, 29.743766);
+
         var closest = [];
         var marker ;
+
         var icon_user = {
             url: "https://maps.google.com/mapfiles/ms/micons/man.png",
         };
@@ -45,6 +48,7 @@
         var icon_closest = {
             url: "https://maps.google.com/mapfiles/ms/micons/blue-dot.png",
         };
+
         var mapProp = {
             center: myLocation,
             zoom: 14,
@@ -53,21 +57,36 @@
             zoomControl:false,
             mapTypeControl:false
         };
+
         var locations = getCookie('restaurants');
         var obj = JSON.parse(locations);
         var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(header);
+
         var markers = new Array();
         var infoWindow = new google.maps.InfoWindow({
             //maxWidth: 200,
             content: ""
         });
-        var user = new google.maps.Marker({
-            position: myLocation,
-            icon: "https://maps.google.com/mapfiles/ms/micons/man.png",
-            title: 'My Location'
-        });
-        user.setMap(map);
+
+        var geolocation = getCookie('location');
+        var geolocobj = JSON.parse(geolocation);
+
+        if (geolocobj == null) {
+          console.log("Location not found");
+        } else {
+          console.log ("Location found");
+          var user = new google.maps.Marker({
+              position: {lat: geolocobj[0], lng: geolocobj[1]},
+              info:
+              "<b>My Location</b>",
+              icon: "https://maps.google.com/mapfiles/ms/micons/man.png",
+              title: 'My Location'
+          });
+          user.setMap(map);
+          map.setCenter({lat: geolocobj[0], lng: geolocobj[1]});
+        }
+
         for (i = 0; i < obj.length; i++) {
             var marker = new google.maps.Marker({
                 position: {lat: obj[i].loc.lat, lng: obj[i].loc.long},
@@ -82,11 +101,11 @@
             addInfoWindow(infoWindow,marker, locations[i][0]);
             markers.push(marker);
         }
+
         for (i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
         }
-        //Distance testing
-        //locations[0].push(getDistance(restaurant, user));
+
         function addInfoWindow(infoWindow, marker, message) {
             google.maps.event.addListener(marker, 'click', function () {
                 infoWindow.setContent(marker.info);
@@ -94,15 +113,13 @@
             });
         }
     }
-    function getDistance(restaurant, user){
-        restaurant = 10;
-        user = 5;
-        return restaurant - user;
-    }
+
     function getClosest(){
     }
+
     function drawRoute() {
     }
+
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQyXJKLhKIYX0XeSZ8TvNJWxr_vOuZf8s&callback=myMap">

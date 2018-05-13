@@ -73,9 +73,7 @@ if ( empty($_COOKIE['restaurants']) ) {
         setCookie( "restaurants", r, 7 );
     <?php endif; ?>
 
-    let lat = 62.601262;
-    let long = 29.743602;
-    setCookie( "location", JSON.stringify([lat, long]), 0 );
+    getLocation();
 </script>
 
 </body>

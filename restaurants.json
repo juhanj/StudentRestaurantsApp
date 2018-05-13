@@ -25,7 +25,7 @@
 		{
 			"id": 1,
 			"name": "Carelia",
-			"menuUrl": "http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/joensuu/opiskelijaravintola_carelia/",
+			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/joensuu/studentrestaurant_carelia/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=0417&language=fi",
 			"location": {
 				"lat": 62.60393,
@@ -47,7 +47,7 @@
 		{
 			"id": 2,
 			"name": "Aura",
-			"menuUrl": "http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/joensuu/aura/",
+			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/joensuu/aura/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=0413&language=fi",
 			"location": {
 				"lat": 62.60376,
@@ -69,7 +69,7 @@
 		{
 			"id": 3,
 			"name": "Futura",
-			"menuUrl": "http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/joensuu/Futura/",
+			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/joensuu/futura/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=041702&language=fi",
 			"location": {
 				"lat": 62.60441,
@@ -91,17 +91,17 @@
 		{
 			"id": 4,
 			"name": "Natura",
-			"menuUrl": "http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/joensuu/Futura/",
+			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/joensuu/futura/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=041702&language=fi",
 			"location": {
 				"lat": 62.60368,
 				"long": 29.73953
 			},
 			"normalLunchHours": [
-				["10:30","14:00"],
-				["10:30","14:00"],
-				["10:30","14:00"],
-				["10:30","14:00"],
+				["10:30","13:00"],
+				["10:30","13:00"],
+				["10:30","13:00"],
+				["10:30","13:00"],
 				["10:30","13:00"],
 				null,
 				null
@@ -113,7 +113,7 @@
 		{
 			"id": 5,
 			"name": "Borealis",
-			"menuUrl": "http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/joensuu/Futura/",
+			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/joensuu/futura/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=041702&language=fi",
 			"location": {
 				"lat": 62.60540,
@@ -135,7 +135,7 @@
 		{
 			"id": 6,
 			"name": "Metria",
-			"menuUrl": "http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/joensuu/Futura/",
+			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/joensuu/futura/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=041702&language=fi",
 			"location": {
 				"lat": 62.60467,
@@ -150,13 +150,13 @@
 				null,
 				null
 			],
-			"food": false,
-			"kela": false,
+			"food": true,
+			"kela": true,
 			"address": "Yliopistokatu 7, Joensuu"
 		},
 		{
 			"id": 7,
-			"name": "Puisto",
+			"name": "Ravintola Puisto",
 			"menuUrl": "http://mehtimakiravintolat.fi/ravintola-puisto/",
 			"menuUrl_JSON": null,
 			"location": {
@@ -164,11 +164,11 @@
 				"long": 29.743620
 			},
 			"normalLunchHours": [
-				["10:30","13:00"],
-				["10:30","13:00"],
-				["10:30","13:00"],
-				["10:30","13:00"],
-				["10:30","13:00"],
+				["10:30","14:00"],
+				["10:30","14:00"],
+				["10:30","14:00"],
+				["10:30","14:00"],
+				["10:30","14:00"],
 				null,
 				null
 			],
@@ -223,7 +223,7 @@
 		{
 			"id": 10,
 			"name": "Canthia",
-			"menuUrl": "http://www.amica.fi/canthia",
+			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/kuopio/ita-suomen-yliopistocanthia/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=0436&language=fi",
 			"location": {
 				"lat": 62.89583,
@@ -245,7 +245,7 @@
 		{
 			"id": 11,
 			"name": "Snellmania",
-			"menuUrl": "http://www.amica.fi/snellmania",
+			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/kuopio/ita-suomen-yliopisto--snellmania/",
 			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=0437&language=fi",
 			"location": {
 				"lat": 62.89257,
@@ -274,11 +274,33 @@
 				"long": 27.63669
 			},
 			"normalLunchHours": [
-				["10:30","13:45"],
-				["10:30","13:45"],
-				["10:30","13:45"],
-				["10:30","13:45"],
-				["10:30","13:45"],
+				["10:30","13:30"],
+				["10:30","13:30"],
+				["10:30","13:30"],
+				["10:30","13:30"],
+				["10:30","13:30"],
+				null,
+				null
+			],
+			"food": true,
+			"kela": true,
+			"address": "Savilahdentie 6 , Kuopio"
+		},
+		{
+			"id": 13,
+			"name": "Mediteknia",
+			"menuUrl": "http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/kuopio/ita-suomen-yliopisto--mediteknia/",
+			"menuUrl_JSON": "http://www.amica.fi/modules/json/json/Index?costNumber=0442&language=fi",
+			"location": {
+				"lat": 62.89586,
+				"long": 27.64044
+			},
+			"normalLunchHours": [
+				["10:30","12:30"],
+				["10:30","12:30"],
+				["10:30","12:30"],
+				["10:30","12:30"],
+				["10:30","12:30"],
 				null,
 				null
 			],

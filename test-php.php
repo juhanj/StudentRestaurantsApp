@@ -16,6 +16,7 @@
 </head>
 <body>
 
+<div id="foo"></div>
 
 <script>
     function getLocation() {
@@ -25,6 +26,8 @@
 
         function success( position ) {
             setCookie( "location", JSON.stringify([position.coords.latitude,position.coords.longitude]), 0 );
+            document.getElementById('foo').innerHTML
+                = JSON.stringify([position.coords.latitude,position.coords.longitude]);
         }
         function error() {
             setCookie( "location", JSON.stringify("null"), 0 );
@@ -34,9 +37,7 @@
         return true;
     }
 
-    let test = getLocation();
-
-    console.log(test);
+    getLocation();
 </script>
 
 </body>

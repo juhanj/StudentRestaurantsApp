@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +12,6 @@
         .material-icons {
             font-size: 6em;
         }
-
         .map {
             height: 100%;
             width: 100%;
@@ -33,84 +31,43 @@
 
 <script>
     function myMap() {
-
+        var myLocation = new google.maps.LatLng(62.598567, 29.745048);
+        var restaurant = new google.maps.LatLng(62.603933, 29.744134);
+        //var closest = new google.maps.LatLng(62.597944, 29.743766);
         var closest = [];
-
         var marker ;
         var icon_user = {
             url: "https://maps.google.com/mapfiles/ms/micons/man.png",
         };
-
         var icon_restaurant = {
             url: "https://maps.google.com/mapfiles/ms/micons/red-dot.png",
         };
-
         var icon_closest = {
             url: "https://maps.google.com/mapfiles/ms/micons/blue-dot.png",
         };
-
-        var defaultlocation =  new google.maps.LatLng(62.598567, 29.745048);
-        console.log(defaultlocation);
-        var geolocation = null;
-
-        if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(function(position) {
-                    var geolocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                    var pos = {
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude
-                    };
-
-                    //infoWindow.setPosition(pos);
-                    //infoWindow.setContent('Location found.');
-                    //infoWindow.open(map);
-                    //map.setCenter(pos);
-                  }, function() {
-                    geolocation = defaultlocation;
-                    handleLocationError(true, infoWindow, map.getCenter());
-                  });
-                } else {
-                  // Browser doesn't support Geolocation
-                  geolocation = defaultlocation;
-                  handleLocationError(false, infoWindow, map.getCenter());
-                }
-
         var mapProp = {
-            center: geolocation,
+            center: myLocation,
             zoom: 14,
             fullscreenControl: false,
             streetViewControl:false,
             zoomControl:false,
             mapTypeControl:false
         };
-
         var locations = getCookie('restaurants');
         var obj = JSON.parse(locations);
-
         var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(header);
-
-
-
-          //var geolocation = new google.maps.LatLng(62.598567, 29.745048);
-          var restaurant = new google.maps.LatLng(62.603933, 29.744134);
-          //var closest = new google.maps.LatLng(62.597944, 29.743766);
-
-
         var markers = new Array();
-
         var infoWindow = new google.maps.InfoWindow({
             //maxWidth: 200,
             content: ""
         });
-
         var user = new google.maps.Marker({
-            position: geolocation,
+            position: myLocation,
             icon: "https://maps.google.com/mapfiles/ms/micons/man.png",
             title: 'My Location'
         });
         user.setMap(map);
-
         for (i = 0; i < obj.length; i++) {
             var marker = new google.maps.Marker({
                 position: {lat: obj[i].loc.lat, lng: obj[i].loc.long},
@@ -123,51 +80,29 @@
                 icons: icon_restaurant
             });
             addInfoWindow(infoWindow,marker, locations[i][0]);
-
             markers.push(marker);
-
         }
-
         for (i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
         }
-
         //Distance testing
         //locations[0].push(getDistance(restaurant, user));
-
         function addInfoWindow(infoWindow, marker, message) {
             google.maps.event.addListener(marker, 'click', function () {
                 infoWindow.setContent(marker.info);
                 infoWindow.open(map, marker);
             });
         }
-
-
     }
-
     function getDistance(restaurant, user){
         restaurant = 10;
         user = 5;
         return restaurant - user;
     }
-
     function getClosest(){
-
     }
-
     function drawRoute() {
-
     }
-
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-      infoWindow.setPosition(pos);
-      infoWindow.setContent(browserHasGeolocation ?
-                            'Error: The Geolocation service failed.' :
-                            'Error: Your browser doesn\'t support geolocation.');
-      infoWindow.open(map);
-    }
-
-
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQyXJKLhKIYX0XeSZ8TvNJWxr_vOuZf8s&callback=myMap">

@@ -23,101 +23,117 @@
 </head>
 <body>
 
-
 <div id="googleMap" class="map"></div>
 <div id="header" >
     <a href="list.php"><i class="material-icons">menu</button></i></a>
 </div>
 
 <script>
+
     function myMap() {
-        var defaultLocation = new google.maps.LatLng(62.598567, 29.745048);
-        var myLocation = new google.maps.LatLng(62.598567, 29.745048);
-        //var restaurant = new google.maps.LatLng(62.603933, 29.744134);
-        //var closest = new google.maps.LatLng(62.597944, 29.743766);
+      var defaultLocation = new google.maps.LatLng(62.60393, 29.74413);
+      //var myLocation = new google.maps.LatLng(62.598567, 29.745048);
+      //var restaurant = new google.maps.LatLng(62.603933, 29.744134);
+      //var closest = new google.maps.LatLng(62.597944, 29.743766);
 
-        var closest = [];
-        var marker ;
+      var closest = [];
+      var marker ;
 
-        var icon_user = {
-            url: "https://maps.google.com/mapfiles/ms/micons/man.png",
-        };
-        var icon_restaurant = {
-            url: "https://maps.google.com/mapfiles/ms/micons/red-dot.png",
-        };
-        var icon_closest = {
-            url: "https://maps.google.com/mapfiles/ms/micons/blue-dot.png",
-        };
+      var icon_user = {
+        url: "https://maps.google.com/mapfiles/ms/micons/man.png",
+      };
+      var icon_restaurant = {
+        url: "https://maps.google.com/mapfiles/ms/micons/red-dot.png",
+      };
+      var icon_closest = {
+        url: "https://maps.google.com/mapfiles/ms/micons/blue-dot.png",
+      };
 
-        var mapProp = {
-            center: myLocation,
-            zoom: 14,
-            fullscreenControl: false,
-            streetViewControl:false,
-            zoomControl:false,
-            mapTypeControl:false
-        };
+      var mapProp = {
+          center: defaultLocation,
+          zoom: 14,
+          fullscreenControl: false,
+          streetViewControl:false,
+          zoomControl:false,
+          mapTypeControl:false
+      };
 
-        var locations = getCookie('restaurants');
-        var obj = JSON.parse(locations);
-        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(header);
+      var locations = getCookie('restaurants');
+      var obj = JSON.parse(locations);
 
-        var markers = new Array();
-        var infoWindow = new google.maps.InfoWindow({
-            //maxWidth: 200,
-            content: ""
-        });
+      var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(header);
 
-        var geolocation = getCookie('location');
-        var geolocobj = JSON.parse(geolocation);
+      var markers = new Array();
+      var infoWindow = new google.maps.InfoWindow({
+          //maxWidth: 200,
+          content: ""
+      });
 
-        if (geolocobj == null) {
-          console.log("Location not found");
-        } else {
-          console.log ("Location found");
+      var geolocation = getCookie('location');
+      var geolocobj = JSON.parse(geolocation);
+
+      if (geolocobj == null) {
+        console.log("Location not found");
+      } else {
+        console.log ("Location found");
+        navigator.geolocation.watchPosition(function (pos) {
+          var lat = pos.coords.latitude,
+              lng = pos.coords.longitude;
+          coords = new google.maps.LatLng(lat, lng);
+
           var user = new google.maps.Marker({
-              position: {lat: geolocobj[0], lng: geolocobj[1]},
-              info:
-              "<b>My Location</b>",
-              icon: "https://maps.google.com/mapfiles/ms/micons/man.png",
-              title: 'My Location'
+            info:
+            "<b>My Location</b>",
+            icon: "https://maps.google.com/mapfiles/ms/micons/man.png",
+            title: 'My Location'
           });
+
           user.setMap(map);
-          map.setCenter({lat: geolocobj[0], lng: geolocobj[1]});
-        }
+          user.setPosition(coords);
+          map.setCenter(coords);
+        }, error);
 
-        for (i = 0; i < obj.length; i++) {
-            var marker = new google.maps.Marker({
-                position: {lat: obj[i].loc.lat, lng: obj[i].loc.long},
-                map: map,
-                info:
-                "<b>"+obj[i].name+"</b><br>"+
-                "Location: "+obj[i].loc.lat+", "+obj[i].loc.long+"<br>"+
-                "Address: "+obj[i].addr+"<br>"+
-                "<a href= "+obj[i].url+">Website</a>",
-                icons: icon_restaurant
-            });
-            addInfoWindow(infoWindow,marker, locations[i][0]);
-            markers.push(marker);
-        }
+      }
 
-        for (i = 0; i < markers.length; i++) {
-            markers[i].setMap(map);
-        }
+      for (i = 0; i < obj.length; i++) {
+          var marker = new google.maps.Marker({
+              position: {lat: obj[i].loc.lat, lng: obj[i].loc.long},
+              map: map,
+              info:
+              "<b>"+obj[i].name+"</b><br>"+
+              "Location: "+obj[i].loc.lat+", "+obj[i].loc.long+"<br>"+
+              "Address: "+obj[i].addr+"<br>"+
+              "<a href= "+obj[i].url+">Website</a>",
+              icons: icon_restaurant
+          });
+          addInfoWindow(infoWindow,marker, locations[i][0]);
+          markers.push(marker);
+      }
 
-        function addInfoWindow(infoWindow, marker, message) {
-            google.maps.event.addListener(marker, 'click', function () {
-                infoWindow.setContent(marker.info);
-                infoWindow.open(map, marker);
-            });
-        }
+      for (i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+      }
+
     }
 
     function getClosest(){
+
     }
 
     function drawRoute() {
+
+    }
+
+    function error(err) {
+      alert('ERROR(' + err.code + '): ' + err.message);
+    }
+
+    function addInfoWindow(infoWindow, marker, message) {
+        google.maps.event.addListener(marker, 'click', function () {
+            infoWindow.setContent(marker.info);
+            infoWindow.open(map, marker);
+        });
     }
 
 </script>

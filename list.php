@@ -61,9 +61,6 @@ function print_hours( $hours ) {
 /** @var Restaurant[] $restaurants */
 $restaurants = json_decode(file_get_contents('restaurants.json'))->restaurants;
 
-$date = new DateTime('now');
-$_SESSION['current_day'] = $date->format('N')-1;
-
 foreach ( $restaurants as $r ) {
     $_SESSION['times'][$r->id] = $r->normalLunchHours;
 }
@@ -146,8 +143,6 @@ $day_names = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
     <h1>Restaurants</h1>
     <a href="settings.php"><i class="material-icons">settings</i></a>
 </div>
-
-
 
 <ol>
     <?php foreach ( $restaurants as $r ) : ?>

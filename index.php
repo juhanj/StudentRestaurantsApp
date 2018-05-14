@@ -13,6 +13,9 @@ function debug($var, $var_dump = false)
     };
 }
 
+$date = new DateTime('now');
+$_SESSION['current_day'] = $date->format('N')-1;
+
 if ( empty($_COOKIE['restaurants']) ) {
     /** @var Restaurant[] $restaurants */
     $restaurants = json_decode(file_get_contents('restaurants.json'))->restaurants;

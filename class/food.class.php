@@ -14,7 +14,7 @@ class Food {
     function __construct ( $foo ) {
         $this->name = $foo->Name;
         $this->prices = $foo->Price;
-        $this->vegetarian = ($foo->name == "Kasvislounas" OR $foo->name == "Kasviskeitto");
+        $this->vegetarian = (strcasecmp($this->name,"kasvislounas")==0 OR strcasecmp($this->name,"kasviskeitto")==0);
         $this->components = $foo->Components;
     }
 

@@ -27,6 +27,7 @@ if ( $restaurant ) {
     $week = $restaurant->week;
 }
 $menu_available = (bool)$restaurant;
+$vege = !empty($_COOKIE['vege']) ? $_COOKIE['vege'] : false;
 ?>
 <!DOCTYPE html>
 <html>
@@ -64,15 +65,17 @@ $menu_available = (bool)$restaurant;
             <?php if ($day->lunchHours != null) : ?>
                 <ul>
                     <?php foreach ($day->menu as $menu) : ?>
-                        <li>
-                            <span style="font-weight: bold;"><?= $menu->name ?></span><br>
-                            <?php if ( $menu->prices != "Opiskelija 1,88 € / Henkilökunta 4,10 € / Vierailija 7,20 €" ) : ?>
-                                <?= $menu->prices ?><br>
-                            <?php endif; ?>
-                            <?php foreach ($menu->components as $c) : ?>
-                                <?= $c ?><br>
-                            <?php endforeach; ?>
-                        </li>
+                        <?php if ( !$vege OR $menu->vegetarian ) : ?>
+                            <li>
+                                <span style="font-weight: bold;"><?= $menu->name ?></span><br>
+                                <?php if ( $menu->prices != "Opiskelija 1,88 € / Henkilökunta 4,10 € / Vierailija 7,20 €" ) : ?>
+                                    <?= $menu->prices ?><br>
+                                <?php endif; ?>
+                                <?php foreach ($menu->components as $c) : ?>
+                                    <?= $c ?><br>
+                                <?php endforeach; ?>
+                            </li>
+                        <?php endif; ?>
                     <?php endforeach; ?>
 
                     <?php if ( empty($day->menu) ) : ?>

@@ -74,7 +74,7 @@ $restaurants = file_get_contents('restaurants.json');
         // Route drawing
 
         navigator.geolocation.watchPosition( updateMap, error,
-            {enableHighAccuracy: true, timeout: 10000, maximumAge: 5 * 1000 });
+            {enableHighAccuracy: false, timeout: 10000, maximumAge: 20 * 1000 });
     }
 
     function rad(x) {
@@ -98,11 +98,14 @@ $restaurants = file_get_contents('restaurants.json');
         let shortestDistance = -1;
 
         restaurants.forEach(function (r) {
-            r.distance = haversineDist( userLocation, r.location );
-            if ( (shortestDistance === -1 || r.distance < shortestDistance) && r.marker.icon !== icons.closed ) {
-                shortestDistance = r.distance;
-                closestRestaurant = r;
+            if ( r.marker.icon !== icons.closed ) {
+                r.distance = haversineDist( userLocation, r.location );
+                if ( shortestDistance === -1 || r.distance < shortestDistance ) {
+                    shortestDistance = r.distance;
+                    closestRestaurant = r;
+                }
             }
+
         });
 
         if ( typeof closestRestaurant === "undefined" ) {
@@ -177,7 +180,7 @@ $restaurants = file_get_contents('restaurants.json');
         userMarker.setPosition(userLocation);
 
         // If change in position, update mapCenter to user.
-        if ( Math.abs(userLocationChange) > 0 ) {
+        if ( Math.abs(userLocationChange) > 0.0002 ) {
             map.setCenter(userLocation);
         }
 

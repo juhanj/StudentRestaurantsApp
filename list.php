@@ -13,46 +13,52 @@ function debug($var, $var_dump = false)
     };
 }
 
-function calc_distance( $lat1, $lon1, $lat2, $lon2) {
+function calc_distance($lat1, $lon1, $lat2, $lon2)
+{
     $theta = $lon1 - $lon2;
-    $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+    $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
     $dist = acos($dist);
     $dist = rad2deg($dist);
 
     return $dist * 60 * 1.1515 * 1.609344;
 }
 
-function print_distance( $dist ) {
-    if ( !$dist ) { return ''; }
+function print_distance($dist)
+{
+    if (!$dist) {
+        return '';
+    }
 
     $unit = "m";
     $decimals = 0;
 
-    if ( $dist > 1500 ) {
+    if ($dist > 1500) {
         $dist = $dist / 1000;
         $unit = "km";
         $decimals = 1;
     }
-    $dist = number_format( $dist, $decimals, ",", ".");
+    $dist = number_format($dist, $decimals, ",", ".");
 
     return "(~{$dist} {$unit})";
 }
 
-function cmp_dist($a, $b) {
+function cmp_dist($a, $b)
+{
     return $a->distance > $b->distance;
 }
 
-function print_menu_link( $r ) {
-    if ( !empty($r->menuUrl_JSON) ) {
+function print_menu_link($r)
+{
+    if (!empty($r->menuUrl_JSON)) {
         return "<a href='menu.php?id={$r->id}'><i class='material-icons'>restaurant_menu</i></a>";
-    }
-    else {
+    } else {
         return "<a href='{$r->menuUrl}'><i class='material-icons'>link</i></a>";
     }
 }
 
-function print_hours( $hours ) {
-    if ( empty($hours) ) {
+function print_hours($hours)
+{
+    if (empty($hours)) {
         return "<i class='material-icons' style='color: firebrick;'>close</i>Closed";
     }
     return "{$hours[0]} &ndash; {$hours[1]}";
@@ -61,19 +67,22 @@ function print_hours( $hours ) {
 /** @var Restaurant[] $restaurants */
 $restaurants = json_decode(file_get_contents('restaurants.json'))->restaurants;
 
-foreach ( $restaurants as $r ) {
+foreach ($restaurants as $r) {
     $_SESSION['times'][$r->id] = $r->normalLunchHours;
 }
 
-if ( !empty($_COOKIE['location']) ) {
-    $loc = json_decode( $_COOKIE['location'] );
-    foreach ( $restaurants as $r ) {
-        $r->distance = calc_distance( $r->location->lat, $r->location->long, $loc[0], $loc[1])*1000;
+if (!empty($_COOKIE['location'])) {
+    $loc = json_decode($_COOKIE['location']);
+    foreach ($restaurants as $r) {
+        $r->distance = calc_distance($r->location->lat, $r->location->long, $loc[0], $loc[1]) * 1000;
     }
 
     usort($restaurants, "cmp_dist");
 }
-$day_names = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+$day_names = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+$food = !empty($_COOKIE['food']) ? $_COOKIE['food'] : false;
+$kela = !empty($_COOKIE['kela']) ? $_COOKIE['kela'] : false;
 ?>
 <!DOCTYPE html>
 <html>
@@ -98,9 +107,9 @@ $day_names = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
             padding-left: 1em;
         }
 
-
-        li .buttons  { background: #d7eaff; }
-
+        li .buttons {
+            background: #d7eaff;
+        }
 
         summary {
             margin: 50px 0;
@@ -145,33 +154,40 @@ $day_names = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 </div>
 
 <ol>
-    <?php foreach ( $restaurants as $r ) : ?>
-        <li data-id="<?=$r->id?>">
+    <?php foreach ($restaurants as $r) : ?>
 
-            <details>
-                <summary>
-                    <h2><?= $r->name ?> <span id="dist-<?=$r->id?>"><?= print_distance($r->distance) ?></span></h2><br>
-                </summary>
-                <div>
-                    <p><?= $r->address ?></p>
-                    <span>Normal opening hours:</span>
-                    <ol class="opening-hours-list">
-                        <?php $i=0; foreach ( $r->normalLunchHours as $hours ) : ?>
-                        <li>
-                            <span class="day-name"><?= $day_names[$i++] ?></span>
-                            <span class="opening-hours"><?= print_hours($hours) ?></span>
-                        </li>
-                        <?php endforeach; ?>
-                    </ol>
-                </div>
-            </details>
+        <?php if ( !$food OR $r->food ) : ?>
+            <?php if ( !$kela OR $r->kela ) : ?>
+                <li data-id="<?= $r->id ?>">
+
+                    <details>
+                        <summary>
+                            <h2><?= $r->name ?> <span id="dist-<?= $r->id ?>"><?= print_distance($r->distance) ?></span>
+                            </h2><br>
+                        </summary>
+                        <div>
+                            <p><?= $r->address ?></p>
+                            <span>Normal opening hours:</span>
+                            <ol class="opening-hours-list">
+                                <?php $i = 0;
+                                foreach ($r->normalLunchHours as $hours) : ?>
+                                    <li>
+                                        <span class="day-name"><?= $day_names[$i++] ?></span>
+                                        <span class="opening-hours"><?= print_hours($hours) ?></span>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ol>
+                        </div>
+                    </details>
 
 
-            <div class="buttons">
-                <a href="map.php?id=<?=$r->id?>"><i class="material-icons">directions</i></a>
-                <?= print_menu_link($r) ?>
-            </div>
-        </li>
+                    <div class="buttons">
+                        <a href="map.php?id=<?= $r->id ?>"><i class="material-icons">directions</i></a>
+                        <?= print_menu_link($r) ?>
+                    </div>
+                </li>
+            <?php endif; ?>
+        <?php endif; ?>
     <?php endforeach; ?>
 </ol>
 

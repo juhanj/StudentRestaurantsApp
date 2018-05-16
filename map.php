@@ -45,7 +45,7 @@ $restaurants = file_get_contents('restaurants.json');
     let debug = document.getElementById('debug-text');
     let restaurants = [];
     let onlyKela, onlyFood;
-    let weekDayIndex = moment().isoWeekday();
+    let weekDayIndex = moment().isoWeekday()-1;
     let userLocation = { lat : null, lng : null };
     let userLocationChange;
     let userMarker, closestRestaurantMarker;
@@ -127,10 +127,11 @@ $restaurants = file_get_contents('restaurants.json');
 
     function initRestaurantMarker( r ) {
         let link = r.menuUrl_JSON === null
-            ? "<a href= " + r.menuUrl + ">Link to Website</a><br>"
-            : "<a href='./menu.php?id=" + r.id + "'>Link to In-app menu</a><br>";
+            ? "<a href= " + r.menuUrl + ">Link to Website</a>"
+            : "<a href='./menu.php?id=" + r.id + "'>Link to In-app menu</a>";
 
         let openToday = "";
+        let openTomorrow = '';
         let icon = icons.restaurant;
 
         // Check icon, if place closed, change to red pin
@@ -146,6 +147,17 @@ $restaurants = file_get_contents('restaurants.json');
             openToday = r.normalLunchHours[weekDayIndex][0] + "&ndash;" + r.normalLunchHours[weekDayIndex][1];
         }
 
+        if ( weekDayIndex < 7) {
+            openTomorrow = (r.normalLunchHours[weekDayIndex+1] === null)
+                ? 'Closed!'
+                : r.normalLunchHours[weekDayIndex+1][0] + "&ndash;" + r.normalLunchHours[weekDayIndex+1][1];
+        } else {
+            openTomorrow = (r.normalLunchHours[1] === null)
+                ? 'Closed!'
+                : r.normalLunchHours[0][0] + "&ndash;" + r.normalLunchHours[0][1];
+        }
+
+
         r.marker  = new google.maps.Marker({
             position: { lat: r.location.lat, lng: r.location.long },
             map: map,
@@ -153,8 +165,9 @@ $restaurants = file_get_contents('restaurants.json');
             info:
                 "<b>" + r.name + "</b><br>" +
                 r.address + "<br>" +
-                link +
-                "Open today: " + openToday
+                link + "<br>" +
+                "Open today: " + openToday + "<br>" +
+                "Tomorrow: " + openTomorrow
         });
         google.maps.event.addListener(r.marker, 'click', function () {
             infoWindow.setContent(r.marker.info);
@@ -219,14 +232,14 @@ $restaurants = file_get_contents('restaurants.json');
     }
 
     restaurants = <?= $restaurants ?>.restaurants;
-    onlyKela = getCookie('kela');
-    onlyFood = getCookie('food');
+    onlyKela = (getCookie('kela') === "1");
+    onlyFood = (getCookie('food') === "1");
 
     for(let i = restaurants.length - 1; i >= 0; i--) {
-        if ( onlyKela === true && r.kela === false ) {
+        if ( onlyKela === true && restaurants[i].kela === false ) {
             delete restaurants[i];
         }
-        else if ( onlyFood === true && r.food === false ) {
+        else if ( onlyFood === true && restaurants[i].food === false ) {
             delete restaurants[i];
         }
     }

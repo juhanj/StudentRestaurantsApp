@@ -13,8 +13,7 @@ function debug($var, $var_dump = false)
     };
 }
 
-function calc_distance($lat1, $lon1, $lat2, $lon2)
-{
+function calc_distance($lat1, $lon1, $lat2, $lon2) {
     $theta = $lon1 - $lon2;
     $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
     $dist = acos($dist);
@@ -23,27 +22,42 @@ function calc_distance($lat1, $lon1, $lat2, $lon2)
     return $dist * 60 * 1.1515 * 1.609344;
 }
 
-function print_distance($dist)
-{
+function ceiling($number, $significance = 1) {
+    return ( is_numeric($number) && is_numeric($significance) )
+        ? (ceil($number/$significance)*$significance)
+        : false;
+}
+
+function print_distance($dist) {
     if (!$dist) {
         return '';
     }
 
     $unit = "m";
-    $decimals = 0;
 
-    if ($dist > 1500) {
+    if ( $dist <= 500 ) {
+        $dist = ceiling( $dist, 10 );
+    } elseif ( $dist > 500 ) {
+        $dist = ceiling( $dist, 50 );
+    } elseif ( $dist > 1000 ) {
+        $dist = ceiling( $dist, 100 );
+    } elseif ( $dist > 50000 ) {
+        $dist = ceiling( $dist, 5000 );
+    } elseif ( $dist > 100000 ) {
+        $dist = ceiling( $dist, 10000 );
+    }
+
+    if ($dist >= 1000) {
         $dist = $dist / 1000;
         $unit = "km";
-        $decimals = 1;
     }
-    $dist = number_format($dist, $decimals, ",", ".");
 
-    return "(~{$dist} {$unit})";
+    $dist = number_format($dist, 0, ",", " ");
+
+    return "({$dist} {$unit})";
 }
 
-function cmp_dist($a, $b)
-{
+function cmp_dist($a, $b) {
     return $a->distance > $b->distance;
 }
 
@@ -104,7 +118,9 @@ $kela = !empty($_COOKIE['kela']) ? $_COOKIE['kela'] : false;
         }
 
         li h2 span {
+            float: right;
             padding-left: 1em;
+            padding-right: 2em;
         }
 
         li .buttons {

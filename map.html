@@ -13,6 +13,7 @@
         .material-icons {
             font-size: 6em;
         }
+
         .map {
             height: 100%;
             width: 100%;
@@ -25,12 +26,12 @@
 <body>
 
 <div id="googleMap" class="map"></div>
-<div id="header" >
+<div id="header">
     <a href="list.php"><i class="material-icons">menu</i></a>
 </div>
 
 <script>
-    var map,
+    let map,
         marker,
         markers,
         defaultLocation,
@@ -49,148 +50,151 @@
         lng;
 
     function myMap() {
-      defaultLocation = new google.maps.LatLng(62.60393, 29.74413);
-      //var myLocation = new google.maps.LatLng(62.598567, 29.745048);
-      //var restaurant = new google.maps.LatLng(62.603933, 29.744134);
-      //var closest = new google.maps.LatLng(62.597944, 29.743766);
 
-      closest = [];
-      //marker ;
+        defaultLocation = new google.maps.LatLng(62.60393, 29.74413);
+        //var myLocation = new google.maps.LatLng(62.598567, 29.745048);
+        //var restaurant = new google.maps.LatLng(62.603933, 29.744134);
+        //var closest = new google.maps.LatLng(62.597944, 29.743766);
 
-      icon_user = {
-        url: "https://maps.google.com/mapfiles/ms/micons/man.png",
-      };
-      icon_restaurant = {
-        url: "https://maps.google.com/mapfiles/ms/micons/red-dot.png",
-      };
-      icon_closest = {
-        url: "https://maps.google.com/mapfiles/ms/micons/blue-dot.png",
-      };
+        closest = [];
+        //marker ;
 
-      mapProp = {
-          center: defaultLocation,
-          zoom: 14,
-          fullscreenControl: false,
-          streetViewControl:false,
-          zoomControl:false,
-          mapTypeControl:false
-      };
+        icon_user = {
+            url: "https://maps.google.com/mapfiles/ms/micons/man.png",
+        };
+        icon_restaurant = {
+            url: "https://maps.google.com/mapfiles/ms/micons/red-dot.png",
+        };
+        icon_closest = {
+            url: "https://maps.google.com/mapfiles/ms/micons/blue-dot.png",
+        };
 
-      locations = getCookie('restaurants');
-      obj = JSON.parse(locations);
+        mapProp = {
+            center: defaultLocation,
+            zoom: 14,
+            fullscreenControl: false,
+            streetViewControl: false,
+            zoomControl: false,
+            mapTypeControl: false
+        };
 
-      map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-      map.controls[google.maps.ControlPosition.TOP_LEFT].push(header);
+        locations = getCookie('restaurants');
+        obj = JSON.parse(locations);
 
-      markers = new Array();
-      infoWindow = new google.maps.InfoWindow({
-          //maxWidth: 200,
-          content: ""
-      });
+        map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(header);
 
-      geolocation = getCookie('location');
-      geolocobj = JSON.parse(geolocation);
+        markers = [];
+        infoWindow = new google.maps.InfoWindow({
+            //maxWidth: 200,
+            content: ""
+        });
 
-      if (geolocobj == null) {
-        console.log("Location not found");
-      } else {
-        console.log ("Location found");
-        navigator.geolocation.watchPosition(function (pos) {
-          var lat = pos.coords.latitude,
-              lng = pos.coords.longitude;
-          coords = new google.maps.LatLng(lat, lng);
-          user = new google.maps.Marker({
-            info:
-            "<b>My Location</b>",
-            icon: "https://maps.google.com/mapfiles/ms/micons/man.png",
-            title: 'My Location'
-          });
+        geolocation = getCookie('location');
+        geolocobj = JSON.parse(geolocation);
+
+        if (geolocobj == null) {
+            console.log("Location not found");
+        } else {
+            console.log("Location found");
+            navigator.geolocation.watchPosition(function (pos) {
+                var lat = pos.coords.latitude,
+                    lng = pos.coords.longitude;
+                coords = new google.maps.LatLng(lat, lng);
+                user = new google.maps.Marker({
+                    info:
+                        "<b>My Location</b>",
+                    icon: "https://maps.google.com/mapfiles/ms/micons/man.png",
+                    title: 'My Location'
+                });
 
 
-          closest = markers[getClosest(lat,lng)];
-          console.log(closest);
+                closest = markers[getClosest(lat, lng)];
+                console.log(closest);
 
-          user.setPosition(coords);
-          user.setMap(map);
-          map.setCenter(coords);
+                user.setPosition(coords);
+                user.setMap(map);
+                map.setCenter(coords);
 
-          /*
-          if (user.Position == lat && user.Position == lng) {
-            console.log("t");
-          }
-          */
+                /*
+                if (user.Position == lat && user.Position == lng) {
+                  console.log("t");
+                }
+                */
 
-        }, error);
+            }, error);
 
-      }
+        }
 
-      updateMarkers();
-      drawMarkers();
+        updateMarkers();
+        drawMarkers();
 
     }
 
-    function getClosest(lat,lng) {
+    function getClosest(lat, lng) {
         var R = 6371; // radius of earth in km
         var distances = [];
         var closesti = -1;
-        for( i=0; i<markers.length; i++ ) {
+        for (i = 0; i < markers.length; i++) {
             var mlat = markers[i].position.lat();
             var mlng = markers[i].position.lng();
-            var dLat  = rad(mlat - lat);
+            var dLat = rad(mlat - lat);
             var dLong = rad(mlng - lng);
-            var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(rad(lat)) * Math.cos(rad(lat)) * Math.sin(dLong/2) * Math.sin(dLong/2);
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(rad(lat)) * Math.cos(rad(lat)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             var d = R * c;
             distances[i] = d;
-            if ( closesti == -1 || d < distances[closesti] ) {
+            if (closesti == -1 || d < distances[closesti]) {
                 closesti = i;
             }
-         }
+        }
         return closesti;
-      }
+    }
 
-    function rad(x) {return x*Math.PI/180;}
+    function rad(x) {
+        return x * Math.PI / 180;
+    }
 
     function error(err) {
-      alert('ERROR(' + err.code + '): ' + err.message);
+        alert('ERROR(' + err.code + '): ' + err.message);
     }
 
     function updateMarkers() {
-      for (i = 0; i < obj.length; i++) {
-          var marker = new google.maps.Marker({
-              position: {lat: obj[i].loc.lat, lng: obj[i].loc.long},
-              map: map,
-              info:
-              "<b>"+obj[i].name+"</b><br>"+
-              "Location: "+obj[i].loc.lat+", "+obj[i].loc.long+"<br>"+
-              "Address: "+obj[i].addr+"<br>"+
-              "<a href= "+obj[i].url+">Website</a>"
-          });
+        for (i = 0; i < obj.length; i++) {
+            var marker = new google.maps.Marker({
+                position: {lat: obj[i].loc.lat, lng: obj[i].loc.long},
+                map: map,
+                info:
+                "<b>" + obj[i].name + "</b><br>" +
+                "Location: " + obj[i].loc.lat + ", " + obj[i].loc.long + "<br>" +
+                "Address: " + obj[i].addr + "<br>" +
+                "<a href= " + obj[i].url + ">Website</a>"
+            });
 
-          addInfoWindow(infoWindow,marker, locations[i][0]);
-          markers.push(marker);
+            addInfoWindow(infoWindow, marker, locations[i][0]);
+            markers.push(marker);
 
-      }
+        }
 
     }
 
     function drawMarkers() {
-      for (i = 0; i < markers.length; i++) {
-        if (markers[i] == closest) {
-          markers[i].setIcon(icon_closest);
-        } else {
-          markers[i].setIcon(icon_restaurant);
+        for (i = 0; i < markers.length; i++) {
+            if (markers[i] == closest) {
+                markers[i].setIcon(icon_closest);
+            } else {
+                markers[i].setIcon(icon_restaurant);
+            }
+            markers[i].setMap(map);
         }
-          markers[i].setMap(map);
-      }
     }
 
     function addInfoWindow(infoWindow, marker, message) {
-      google.maps.event.addListener(marker, 'click', function () {
-        infoWindow.setContent(marker.info);
-        infoWindow.open(map, marker);
-      });
+        google.maps.event.addListener(marker, 'click', function () {
+            infoWindow.setContent(marker.info);
+            infoWindow.open(map, marker);
+        });
     }
 
     function drawRoute() {

@@ -1,10 +1,5 @@
 <?php
-/*============
- * FUNCTIONS *
- ============*/
-/*========
- * LOGIC *
- ========*/
+$restaurants = file_get_contents('restaurants.json');
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,31 +8,13 @@
     <title>SuperDuperStuCaApp</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="./js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
 </head>
 <body>
 
 <div id="foo"></div>
 
 <script>
-    function getLocation() {
-        if (!navigator.geolocation) {
-            return false;
-        }
-
-        function success( position ) {
-            setCookie( "location", JSON.stringify([position.coords.latitude,position.coords.longitude]), 0 );
-            document.getElementById('foo').innerHTML
-                = JSON.stringify([position.coords.latitude,position.coords.longitude]);
-        }
-        function error() {
-            setCookie( "location", JSON.stringify("null"), 0 );
-        }
-
-        navigator.geolocation.getCurrentPosition( success, error );
-        return true;
-    }
-
-    getLocation();
 </script>
 
 </body>

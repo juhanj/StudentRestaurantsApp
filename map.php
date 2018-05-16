@@ -1,5 +1,5 @@
 <?php
-$rest_id = !empty($_GET['id']) ? $_GET['id'] : 'null';
+$rest_id = !is_null($_GET['id']) ? $_GET['id'] : 'null';
 $restaurants = file_get_contents('restaurants.json');
 ?>
 <!DOCTYPE html>

@@ -15,22 +15,6 @@ function debug($var, $var_dump = false)
 
 $date = new DateTime('now');
 $_SESSION['current_day'] = $date->format('N')-1;
-
-if ( empty($_COOKIE['restaurants']) ) {
-    /** @var Restaurant[] $restaurants */
-    $restaurants = json_decode(file_get_contents('restaurants.json'))->restaurants;
-
-    $temp_array = array();
-    foreach ( $restaurants as $r ) {
-        $temp_obj = new stdClass();
-        $temp_obj->name = $r->name;
-        $temp_obj->url = ($r->menuUrl_JSON) ? "./menu?id={$r->id}" : $r->menuUrl;
-        $temp_obj->loc = $r->location;
-        $temp_obj->addr = $r->address;
-        $temp_array[] = $temp_obj;
-    }
-    $temp_json = json_encode( $temp_array );
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -66,16 +50,11 @@ if ( empty($_COOKIE['restaurants']) ) {
 </div>
 
 <div class="buttons">
-    <a href="map.html"><i class="material-icons large">map</i></a>
+    <a href="map.php"><i class="material-icons large">map</i></a>
     <a href="list.php"><i class="material-icons large">menu</i></a>
 </div>
 
 <script>
-    <?php if ( !empty($temp_json) ) : ?>
-        let r = '<?= $temp_json ?>';
-        setCookie( "restaurants", r, 7 );
-    <?php endif; ?>
-
     getLocation();
 </script>
 

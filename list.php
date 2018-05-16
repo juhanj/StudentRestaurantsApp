@@ -139,7 +139,7 @@ $day_names = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 <body>
 
 <div class="header">
-    <a href="map.html"><i class="material-icons">map</i></a>
+    <a href="map.php"><i class="material-icons">map</i></a>
     <h1>Restaurants</h1>
     <a href="settings.php"><i class="material-icons">settings</i></a>
 </div>
@@ -168,7 +168,7 @@ $day_names = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
 
             <div class="buttons">
-                <a href="map.html?id=<?=$r->id?>"><i class="material-icons">directions</i></a>
+                <a href="map.php?id=<?=$r->id?>"><i class="material-icons">directions</i></a>
                 <?= print_menu_link($r) ?>
             </div>
         </li>

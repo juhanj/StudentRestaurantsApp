@@ -1,8 +1,7 @@
 <?php
 session_start();
-
 $vege = !empty($_COOKIE['vege']) ? $_COOKIE['vege'] : false;
-$cafe = !empty($_COOKIE['cafe']) ? $_COOKIE['cafe'] : false;
+$food = !empty($_COOKIE['food']) ? $_COOKIE['food'] : false;
 $kela = !empty($_COOKIE['kela']) ? $_COOKIE['kela'] : false;
 ?>
 <!DOCTYPE html>
@@ -53,7 +52,7 @@ $kela = !empty($_COOKIE['kela']) ? $_COOKIE['kela'] : false;
     </label>
 
     <label>
-        <input type="checkbox" id="cafes" data-name="cafe" <?= $cafe ? 'checked' : '' ?>>
+        <input type="checkbox" id="cafes" data-name="food" <?= $food ? 'checked' : '' ?>>
         <span>Don't include cafeterias</span>
     </label>
 

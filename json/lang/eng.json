@@ -1,0 +1,66 @@
+{
+	"pages": [
+		{
+			"page" : "_common",
+			"strings": {
+				"HTML_TITLE" : "SDCA"
+			}
+		},
+		{
+			"page" : "index",
+			"strings": {
+				"HTML_TITLE" : "SDCA - List",
+				"HEADER_H1" : "Restaurants",
+				"R_LIST_HOURS_HEAD" : "Normal opening hours",
+				"R_LIST_HOURS_1": "Mon",
+				"R_LIST_HOURS_2": "Tue",
+				"R_LIST_HOURS_3": "Wed",
+				"R_LIST_HOURS_4": "Thu",
+				"R_LIST_HOURS_5": "Fri",
+				"R_LIST_HOURS_6": "Sat",
+				"R_LIST_HOURS_7": "Sun",
+				"R_LIST_HOURS_CLOSED": "Closed"
+			}
+		},
+		{
+			"page" : "settings",
+			"strings": {
+				"HTML_TITLE" : "SDCA - Settings",
+				"HEADER_H1": "Settings",
+				"SETTING_1": "Vegetarian food only",
+				"SETTING_2": "Don't include cafeterias",
+				"SETTING_3": "Kela supported only",
+				"SETTING_3_INFO": "Overrules the cafe option above.",
+				"SETTING_4": "Allow location",
+				"SETTING_4_INFO": "Enables ordering restaurants according to distance.",
+				"SETTING_DB_UPDATE": "Update database"
+			}
+		},
+		{
+			"page" : "first_setup",
+			"strings": {
+				"HTML_TITLE" : "SDCA - setup",
+				"HEADER_H1": "First time setup",
+				"SETTING_1": "Vegetarian food only",
+				"SETTING_2": "Don't include cafeterias",
+				"SETTING_3": "Kela supported only",
+				"SETTING_3_INFO": "Overrules the cafe option above",
+				"SETTING_4": "Allow location",
+				"SETTING_4_INFO": "Enables ordering restaurants according to distance.",
+				"SETTING_DB_UPDATE": "Update database"
+			}
+		},
+		{
+			"page" : "menu",
+			"strings": {
+				"HTML_TITLE" : "SDCA - menu",
+				"HEADER_H1": "First time setup",
+				"SETTING_1": "Vegetarian food only",
+				"SETTING_2": "Don't include cafeterias",
+				"SETTING_3": "Kela supported only",
+				"SETTING_3_INFO": "Overrules the cafe option above",
+				"SETTING_DB_UPDATE": "Update database"
+			}
+		}
+	]
+}

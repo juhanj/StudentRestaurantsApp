@@ -41,7 +41,136 @@ a, a:hover, a:focus { text-decoration: none; }
     color: steelblue;
 }
 
+/* A better looking default horizontal rule */
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #380073;
+	margin: 1em 0;
+	padding: 0;
+}
 
-* {
-    /*outline: 1px solid black;*/
+::-moz-selection {
+	background: #b3d4fc;
+	text-shadow: none;
+}
+::selection {
+	background: #b3d4fc;
+	text-shadow: none;
+}
+
+/************************************************************
+	RESTAURANT LIST (INDEX) STYLINGS
+*************************************************************/
+
+.restaurant-list,
+.opening-hours-list {
+	list-style: none;
+	padding: 0;
+}
+
+.restaurant-list .list-item summary {
+	margin: 50px 0;
+}
+
+.restaurant-list .list-item summary .list-head {
+	display: inline;
+	font-size: 1.5em;
+}
+
+.restaurant-list .list-item .list-head .restaurant-distance {
+	float: right;
+	padding-left: 1em;
+	padding-right: 2em;
+}
+
+.restaurant-list .list-item .more-info {
+	margin-left: 0.5em;
+}
+
+.restaurant-list .list-item .more-info .opening-hours-list {
+	margin-left: 1em;
+}
+
+.restaurant-list .list-item .more-info .opening-hours-list .day-name {
+	display: inline-grid;
+	width: 3em;
+}
+
+.restaurant-list .list-item .buttons {
+	display: flex;
+	background: #d7eaff;
+}
+
+.restaurant-list .list-item .buttons a {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid black;
+}
+
+.restaurant-list .list-item  .buttons a .material-icons {
+	font-size: 4em;
+}
+
+/************************************************************
+	SETTINGS (settings / first_setup) STYLINGS
+*************************************************************/
+
+.settings fieldset {
+	margin: 1em .5em;
+	padding: 0;
+}
+.settings fieldset legend {
+	font-size: inherit;
+}
+
+.settings fieldset :nth-child(2) {
+	margin-top: 1em;
+}
+.settings fieldset :last-child {
+	margin-bottom: 1em;
+}
+
+.settings label {
+	font-size: 2em;
+	display: block;
+	margin: 2em .5em;
+	padding: .5em;
+	vertical-align: middle;
+}
+.settings label span {
+	vertical-align: middle;
+}
+.settings input[type=checkbox] {
+	margin: 0 .5em 0 0;
+	transform: scale(4);
+	vertical-align: middle;
+}
+
+.db_update p {
+	margin-top: 1em;
+	margin-left: .5em;
+	font-size: 2em;
+}
+
+.db_update p .material-icons {
+	font-size: larger;
+}
+
+.fs_continue_btn {
+	width: 90%;
+	height: 3em;
+	margin: 0.5em auto;
+	display: flex;
+	justify-content: center;
+	background-color: mediumpurple;
+	font-size: 2em;
+	border-radius: 20px;
+}
+
+.fs_continue_btn a {
+	color: black;
 }

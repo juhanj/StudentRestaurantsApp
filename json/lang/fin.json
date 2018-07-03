@@ -1,0 +1,30 @@
+{
+	"pages": [
+		{
+			"page" : "index",
+			"strings": {
+				"HEADER_H1" : "Ravintolat",
+				"R_LIST_HOURS_HEAD" : "Normaalit lounasaukioloajat",
+				"R_LIST_HOURS_1": "Maa",
+				"R_LIST_HOURS_2": "Tii",
+				"R_LIST_HOURS_3": "Kes",
+				"R_LIST_HOURS_4": "Tor",
+				"R_LIST_HOURS_5": "Per",
+				"R_LIST_HOURS_6": "Lau",
+				"R_LIST_HOURS_7": "Sun",
+				"R_LIST_HOURS_CLOSED": "Suljettu"
+			}
+		},
+		{
+			"page" : "index",
+			"strings": {
+				"HEADER_H1": "Asetukset",
+				"SETTING_1": "Vain vegetaariset ruoat",
+				"SETTING_2": "Älä näytä kahviloita",
+				"SETTING_3": "Vain kela tuetut-ravintolat",
+				"SETTING_3_INFO": "Ohittaa ylläolevan kahvila-asetuksen",
+				"SETTING_DB_UPDATE": "Päivitä tietokanta"
+			}
+		}
+	]
+}

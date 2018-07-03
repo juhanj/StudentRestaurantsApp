@@ -20,7 +20,8 @@
 			],
 			"food": true,
 			"kela": true,
-			"address": "Tiedepuisto, Länsikatu 15, Joensuu"
+			"address": "Tiedepuisto, Länsikatu 15",
+			"city": "Joensuu"
 		},
 		{
 			"id": 1,
@@ -42,7 +43,8 @@
 			],
 			"food": true,
 			"kela": true,
-			"address": "Carelia, Yliopistokatu 4, Joensuu"
+			"address": "Carelia, Yliopistokatu 4",
+			"city": "Joensuu"
 		},
 		{
 			"id": 2,
@@ -64,7 +66,8 @@
 			],
 			"food": true,
 			"kela": false,
-			"address": "Aurora, Yliopistokatu 2, Joensuu"
+			"address": "Aurora, Yliopistokatu 2",
+			"city": "Joensuu"
 		},
 		{
 			"id": 3,
@@ -86,7 +89,8 @@
 			],
 			"food": true,
 			"kela": true,
-			"address": "Yliopistokatu 7, Joensuu"
+			"address": "Yliopistokatu 7",
+			"city": "Joensuu"
 		},
 		{
 			"id": 4,
@@ -108,7 +112,8 @@
 			],
 			"food": true,
 			"kela": true,
-			"address": "Yliopistokatu 7, Joensuu"
+			"address": "Yliopistokatu 7",
+			"city": "Joensuu"
 		},
 		{
 			"id": 5,
@@ -130,7 +135,8 @@
 			],
 			"food": true,
 			"kela": true,
-			"address": "Yliopistokatu 7, Joensuu"
+			"address": "Yliopistokatu 7",
+			"city": "Joensuu"
 		},
 		{
 			"id": 6,
@@ -152,7 +158,8 @@
 			],
 			"food": true,
 			"kela": true,
-			"address": "Yliopistokatu 7, Joensuu"
+			"address": "Yliopistokatu 7",
+			"city": "Joensuu"
 		},
 		{
 			"id": 7,
@@ -174,7 +181,8 @@
 			],
 			"food": true,
 			"kela": false,
-			"address": "Länsikatu 15, Joensuu"
+			"address": "Länsikatu 15",
+			"city": "Joensuu"
 		},
 		{
 			"id": 8,
@@ -196,7 +204,8 @@
 			],
 			"food": false,
 			"kela": false,
-			"address": "Linnunlahdentie 2, Joensuu"
+			"address": "Linnunlahdentie 2",
+			"city": "Joensuu"
 		},
 		{
 			"id": 9,
@@ -218,7 +227,8 @@
 			],
 			"food": true,
 			"kela": false,
-			"address": "Yliopistokatu 6, Joensuu"
+			"address": "Yliopistokatu 6",
+			"city": "Joensuu"
 		},
 		{
 			"id": 10,
@@ -240,7 +250,8 @@
 			],
 			"food": true,
 			"kela": true,
-			"address": "Yliopistonranta 1 C, B porras , Kuopio"
+			"address": "Yliopistonranta 1 C, B porras",
+			"city": "Kuopio"
 		},
 		{
 			"id": 11,
@@ -262,7 +273,8 @@
 			],
 			"food": true,
 			"kela": true,
-			"address": "Yliopistonranta 1 E , Kuopio"
+			"address": "Yliopistonranta 1 E",
+			"city": "Kuopio"
 		},
 		{
 			"id": 12,
@@ -284,7 +296,8 @@
 			],
 			"food": true,
 			"kela": true,
-			"address": "Savilahdentie 6 , Kuopio"
+			"address": "Savilahdentie 6",
+			"city": "Kuopio"
 		},
 		{
 			"id": 13,
@@ -306,7 +319,8 @@
 			],
 			"food": true,
 			"kela": true,
-			"address": "Savilahdentie 6 , Kuopio"
+			"address": "Savilahdentie 6",
+			"city": "Kuopio"
 		}
 	]
 }

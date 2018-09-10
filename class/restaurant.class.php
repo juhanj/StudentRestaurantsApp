@@ -2,30 +2,32 @@
 
 class Restaurant {
 
-    /** @var int */
+    /** @var int Database ID */
 	public $id;
-    /** @var string */
+    /** @var string Name of the restaurant */
 	public $name;
-
-    /** @var string */
-	public $menuUrl;
-    /** @var string */
-	public $menuUrl_JSON;
-
-    /** @var array[] */
-	public $normalLunchHours;
-
-    /** @var bool */
+    /** @var string Menu URL, language specific */
+	public $website_url;
+    /** @var string URL for JSON file, if available */
+	public $json_url;
+    /** @var bool Does it offer food or not */
 	public $food;
-    /** @var bool */
+    /** @var bool Is it Kela supported (student priced food) */
     public $kela;
-
-    /** @var Location */
-    public $location;
+	/** @var float Latitude in degrees */
+	public $latitude;
+	/** @var float Longitude in degrees */
+	public $longitude;
     /** @var string */
     public $address;
     /** @var string */
     public $city;
+
+	/** @var Location */
+	public $location;
+
+	/** @var array[] */
+	public $normalLunchHours;
 
     /** @var int */
     public $distance;

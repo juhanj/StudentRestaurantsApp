@@ -1,16 +1,5 @@
-<?php
-require './class/dbyhteys.class.php';
-require './class/language.class.php';
-
-session_start();
-
-if ( false and !empty($_COOKIE['food']) ) {
-	header( 'Location: index.php' );
-	exit;
-}
-
-$db = new DByhteys();
-$lang = new Language( $db );
+<?php declare(strict_types=1);
+require '_start.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,7 +36,7 @@ $lang = new Language( $db );
 	</fieldset>
 	<fieldset><legend><?= $lang->LOC_FIELDSET_LEG ?></legend>
 		<label>
-			<input type="checkbox" id="location" data-name="location">
+			<input type="checkbox" id="location" data-name="location" disabled>
 			<span><?= $lang->SETTING_4 ?><br><?= $lang->SETTING_4_INFO ?></span>
 		</label>
 	</fieldset>
@@ -74,11 +63,13 @@ $lang = new Language( $db );
 	setCookie( 'food', JSON.stringify(1), 999 );
 	setCookie( 'kela', JSON.stringify(1), 999 );
 	setCookie( 'location', JSON.stringify(0), 999 );
+	setCookie( 'lang', JSON.stringify('eng'), 999 );
 
 	document.getElementById('vegetarian').addEventListener( 'click', save_setting );
 	document.getElementById('cafes').addEventListener( 'click', save_setting );
 	document.getElementById('kela').addEventListener( 'click', save_setting );
-	document.getElementById('location').addEventListener( 'click', save_setting );
+	// document.getElementById('location').addEventListener( 'click', save_setting );
+	// document.getElementById('lagnuage').addEventListener( 'click', save_setting );
 </script>
 
 </body>

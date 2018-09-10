@@ -1,27 +1,25 @@
-<?php
-require './class/dbyhteys.class.php';
-require './class/restaurant.class.php';
-require './class/language.class.php';
+<?php declare(strict_types=1);
+require '_start.php';
 
-session_start();
-
-function fetch_restaurants( DByhteys $db, $location ) {
-	$sql = "select id, name, website_url, json_url, latitude, longitude, food, kela, address, city 
-		from restaurant";
-	$values = [];
+function fetch_restaurants( DByhteys $db, $location, string $language ) {
+	$sql = "select id, name, json_url, latitude, longitude, food, kela, address, city, 
+				m.url as website_url
+			from restaurant r
+			join menuurls m 
+				on r.id = m.restaurant_id
+				and ? = m.language";
+	$values = [$language];
 
 	if ( $location ) {
-		$sql = "select id, name, website_url, json_url, latitude, longitude, food, kela, address, city,
-				acos( 
-				      cos(radians( r.latitude ))
-				    * cos(radians( ? ))
-				    * cos(radians( r.longitude ) - radians( ? ))
-				    + sin(radians( r.latitude )) 
-				    * sin(radians( ? ))
-				) as distance 
-	        from restaurant r
-	        order by distance";
-		$values = [ $location[ 0 ] , $location[ 1 ] , $location[ 0 ] ];
+		$sql = "select id, name, json_url, latitude, longitude, food, kela, address, city,
+						geodistance( r.latitude, r.longitude, ?, ? ) as distance, 
+						m.url as website_url
+			        from restaurant r
+					join menuurls m 
+						on r.id = m.restaurant_id
+						and ? = m.language
+			        order by distance";
+		$values = [ $location[ 0 ] , $location[ 1 ], $language ];
 	}
 
 	/** @var \Restaurant[] $restaurants */
@@ -35,26 +33,14 @@ function fetch_restaurants( DByhteys $db, $location ) {
 	return $restaurants;
 }
 
-if ( empty($_COOKIE['food']) ) {
-	header( 'Location: first_setup.php' );
-	exit;
-}
-
-$food = !empty( $_COOKIE[ 'food' ] ) ? $_COOKIE[ 'food' ] : false;
-$kela = !empty( $_COOKIE[ 'kela' ] ) ? $_COOKIE[ 'kela' ] : false;
-
-$location = !empty( $_COOKIE[ 'location' ] ) ? json_decode( $_COOKIE[ 'location' ] ) : false;
-
-$db = new DByhteys();
-
-$lang = new Language( $db );
-
 $day_names = [
 	$lang->R_LIST_HOURS_1 , $lang->R_LIST_HOURS_2 , $lang->R_LIST_HOURS_3 , $lang->R_LIST_HOURS_4 ,
 	$lang->R_LIST_HOURS_5 , $lang->R_LIST_HOURS_6 , $lang->R_LIST_HOURS_7
 ];
 
-$restaurants = fetch_restaurants( $db, $location );
+$restaurants = fetch_restaurants( $db, $location, $lang->lang );
+
+print_r( $restaurants );
 ?>
 <!DOCTYPE html>
 <html>

@@ -1,13 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 class Language extends stdClass {
 
-	function __construct( DByhteys $db, string $lang = null, string $page = null ) {
+	/**
+	 * @var string $lang Three character language code ISO 639-2/T
+	 */
+	public $lang;
 
-		if ( $lang == null ) {
-			$lang = !empty( $_COOKIE[ 'lang' ] ) ? $_COOKIE[ 'lang' ] : 'eng';
-			$page = basename( $_SERVER[ 'SCRIPT_NAME' ] , '.php' );
-		}
+	function __construct( DByhteys $db, string $lang, string $page ) {
+
+		$this->lang = $lang;
 
 		$sql = "select txt_type, txt 
 				from lang

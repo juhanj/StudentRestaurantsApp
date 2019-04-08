@@ -2,11 +2,14 @@
 ;die(); // For further security
 ;/*
 
-[Tietokanta]
+[Database]
 host = "localhost"
-name = "sdstuca_database"
+name = "database"
 user = "root"
 pass = ""
+
+[Config]
+config = "config.ini"
 
 ;*/
 ;?>

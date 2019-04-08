@@ -4,9 +4,27 @@ function debugC($var,bool$var_dump=false){
 	echo"\r\nPrint_r ::\r\n";print_r($var);if($var_dump){echo"Var_dump ::\r\n";var_dump($var);echo"\r\n";};
 }
 
-require '../class/dbyhteys.class.php';
+define( 'DOC_ROOT', $_SERVER['DOCUMENT_ROOT'] );
+define( 'WEB_PATH', '/superduperstucaapp/' );
 
-$db = new DByhteys( [], "../cfg/config.ini.php");
+set_include_path(
+	get_include_path() . PATH_SEPARATOR
+	. DOC_ROOT . WEB_PATH . '/class/' . PATH_SEPARATOR
+	. DOC_ROOT . WEB_PATH . '/components/' . PATH_SEPARATOR
+	. DOC_ROOT . WEB_PATH . '/cfg/' . PATH_SEPARATOR );
+spl_autoload_extensions( '.class.php' );
+spl_autoload_register();
+
+define(
+	'INI' ,
+	parse_ini_file(
+		(parse_ini_file( 'config.ini.php' )[ 'config' ]),
+		true ,
+		INI_SCANNER_TYPED
+	)
+);
+
+$db = new DBConnection();
 
 $languages = [ 'fin' , 'eng' ];
 

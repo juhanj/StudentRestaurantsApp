@@ -1,3 +1,17 @@
+/*
+ColumnType  | Max Value (signed/unsigned)
+
+  TINYINT   |   127 / 255
+ SMALLINT   |   32767 / 65535
+MEDIUMINT   |   8388607 / 16777215
+      INT   |   2147483647 / 4294967295
+   BIGINT   |   9223372036854775807 / 18446744073709551615
+*/
+
+create database sdstuca
+	character set utf8mb4
+	collate utf8mb4_unicode_520_ci;
+
 create table if not exists restaurant (
 	id          tinyint unsigned not null auto_increment, -- PK
 	name        varchar(20)      not null, -- UK
@@ -12,8 +26,8 @@ create table if not exists restaurant (
 	primary key (id),
 	unique key (name)
 )
-	default charset = utf8
-	collate = utf8_swedish_ci
+	default charset = utf8mb4
+	collate = utf8mb4_unicode_520_ci
 	auto_increment = 1;
 
 create table if not exists openinghours (
@@ -26,19 +40,20 @@ create table if not exists openinghours (
 	primary key (restaurant_id, day_index),
 	constraint fk_normallunchhours_restaurant foreign key (restaurant_id) references restaurant (id)
 )
-	default charset = utf8
-	collate = utf8_swedish_ci
+	default charset = utf8mb4
+	collate = utf8mb4_unicode_520_ci
 	auto_increment = 1;
 
 create table if not exists menuurls (
-	restaurant_id tinyint unsigned not null, -- PK, FK
+	restaurant_id tinyint unsigned not null,                                         -- PK, FK
 	language      varchar(3)       not null comment 'Three character language code', -- PK
-	url           varchar(255)      not null comment 'url address to online menu, for given language',
-	primary key (restaurant_id, language),
-	constraint fk_menuurls_restaurant foreign key (restaurant_id) references restaurant (id)
+	url           varchar(255)     not null comment 'url to online menu, for given language',
+	json_url      varchar(255)     null comment 'url to json menu, for given language',
+	primary key ( restaurant_id, language ),
+	constraint fk_menuurls_restaurant foreign key ( restaurant_id ) references restaurant( id )
 )
-	default charset = utf8
-	collate = utf8_swedish_ci
+	default charset = utf8mb4
+	collate = utf8mb4_unicode_520_ci
 	auto_increment = 1;
 
 create table if not exists lang (
@@ -48,7 +63,7 @@ create table if not exists lang (
 	txt      varchar(255) not null,
 	primary key (lang, txt_page, txt_type)
 )
-	default charset = utf8
-	collate = utf8_swedish_ci
+	default charset = utf8mb4
+	collate = utf8mb4_unicode_520_ci
 	auto_increment = 1;
 

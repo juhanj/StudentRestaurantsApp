@@ -3,7 +3,8 @@
 		{
 			"page" : "_common",
 			"strings": {
-				"HTML_TITLE" : "SDCA"
+				"HTML_TITLE" : "SDSCA \uD83D\uDC4B \uD83C\uDF0D",
+				"HEADER_NAME" : "SuperDuperStuCaApp"
 			}
 		},
 		{

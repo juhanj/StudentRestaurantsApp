@@ -86,7 +86,7 @@ class Restaurant {
 		return "{$hours[0]} &ndash; {$hours[1]}";
 	}
 
-	public function fetchNormalLunchHours( DByhteys $db ) {
+	public function fetchNormalLunchHours( DBConnection $db ) {
 		$sql = "select restaurant_id, day_index, open, close, lunch_open, lunch_close   
 				from openinghours
 				where restaurant_id = ?";

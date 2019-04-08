@@ -1,44 +1,58 @@
 @CHARSET "UTF-8";
+/**
+ * Set margin top on all elements, except first child
+ * See: https://alistapart.com/article/axiomatic-css-and-lobotomized-owls
+ */
+* {
+	margin: 0;
+	padding: 0;
+}
+* + * {
+	margin-top: 1.25rem;
+}
+.compact * + * {
+	margin-top: 0.65rem;
+}
+.margins-off > * {
+	margin-top: 0;
+}
+
+/**
+ * Colors, and other variables used on the site;
+ */
+:root {
+	--main-color: purple;
+	--secondary-color: steelblue;
+	--font-color: black;
+	--font-color-secondary: white;
+	--site-bg-color: white;
+}
 
 html {
-    font-size: 2em;
-    font-family: Verdana, sans-serif;
+	height: 100vh;
 }
 
 body {
-    margin: 0;
+	background-color: var(--site-bg-color);
+	min-height: 100%; /* 100% of html's 100vh */
 }
 
-.header {
-    display: flex;
-    border-bottom: 1px solid black;
-    height: 5em;
+/**
+	For keyboard users, we use javascript to detect and add .keyboard-user class to body
+ */
+body:not(.keyboard-user) button:focus,
+body:not(.keyboard-user) input:focus,
+body:not(.keyboard-user) select:focus,
+body:not(.keyboard-user) textarea:focus {
+	outline: none;
 }
 
-.header * {
-    display: flex;
-    flex-grow: 1;
-    align-items: center; /* Vertical center */
-    justify-content: center; /* Horizontal center */
-}
-
-.header h1 {
-    font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
-    flex-grow: 2;
-    margin: auto;
-}
-
-.header a .material-icons {
-    font-size: 4em;
-}
-
-a, a:hover, a:focus { text-decoration: none; }
-
+/**
+ * Centering material icons a bit, they look a bit off without.
+*/
 .material-icons {
-    vertical-align: middle !important;
-    color: steelblue;
+	vertical-align: middle;
+	color: steelblue;
 }
 
 /* A better looking default horizontal rule */
@@ -47,7 +61,7 @@ hr {
 	height: 1px;
 	border: 0;
 	border-top: 1px solid #380073;
-	margin: 1em 0;
+	margin: 1rem 0;
 	padding: 0;
 }
 
@@ -60,117 +74,27 @@ hr {
 	text-shadow: none;
 }
 
-/************************************************************
-	RESTAURANT LIST (INDEX) STYLINGS
-*************************************************************/
-
-.restaurant-list,
-.opening-hours-list {
-	list-style: none;
-	padding: 0;
-}
-
-.restaurant-list .list-item summary {
-	margin: 50px 0;
-}
-
-.restaurant-list .list-item summary .list-head {
-	display: inline;
-	font-size: 1.5em;
-}
-
-.restaurant-list .list-item .list-head .restaurant-distance {
-	float: right;
-	padding-left: 1em;
-	padding-right: 2em;
-}
-
-.restaurant-list .list-item .more-info {
-	margin-left: 0.5em;
-}
-
-.restaurant-list .list-item .more-info .opening-hours-list {
-	margin-left: 1em;
-}
-
-.restaurant-list .list-item .more-info .opening-hours-list .day-name {
-	display: inline-grid;
-	width: 3em;
-}
-
-.restaurant-list .list-item .buttons {
-	display: flex;
-	background: #d7eaff;
-}
-
-.restaurant-list .list-item .buttons a {
-	display: flex;
-	flex: 1;
-	justify-content: center;
-	align-items: center;
-	border: 1px solid black;
-}
-
-.restaurant-list .list-item  .buttons a .material-icons {
-	font-size: 4em;
+/*
+	Fixes problem with possible PHP debug printing going beyond HTML-width,
+	which just looks ugly. Mostly for mobile devices.
+ */
+pre {
+	white-space: pre-wrap; /* Wraps at spaces if line too long. */
+	word-wrap: break-word; /* Should break when one word too long. */
+	overflow: auto; /* Should add a scroll bar, doesn't seem to do anything. */
 }
 
 /************************************************************
-	SETTINGS (settings / first_setup) STYLINGS
+	ACTUAL STYLINGS (ALL PAGES) AND NOT JUST RANDOM STUFF
 *************************************************************/
-
-.settings fieldset {
-	margin: 1em .5em;
-	padding: 0;
-}
-.settings fieldset legend {
-	font-size: inherit;
-}
-
-.settings fieldset :nth-child(2) {
-	margin-top: 1em;
-}
-.settings fieldset :last-child {
-	margin-bottom: 1em;
-}
-
-.settings label {
-	font-size: 2em;
-	display: block;
-	margin: 2em .5em;
-	padding: .5em;
-	vertical-align: middle;
-}
-.settings label span {
-	vertical-align: middle;
-}
-.settings input[type=checkbox] {
-	margin: 0 .5em 0 0;
-	transform: scale(4);
-	vertical-align: middle;
-}
-
-.db_update p {
-	margin-top: 1em;
-	margin-left: .5em;
-	font-size: 2em;
-}
-
-.db_update p .material-icons {
-	font-size: larger;
-}
-
-.fs_continue_btn {
-	width: 90%;
-	height: 3em;
-	margin: 0.5em auto;
+body.grid {
 	display: flex;
-	justify-content: center;
-	background-color: mediumpurple;
-	font-size: 2em;
-	border-radius: 20px;
+	flex-direction: column;
 }
 
-.fs_continue_btn a {
-	color: black;
+body.grid .main-body-container {
+	flex: 1 0 auto;
+	max-width: 50rem;
+	min-width: 20rem;
+	margin: auto;
 }

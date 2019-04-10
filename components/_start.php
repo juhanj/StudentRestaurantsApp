@@ -97,10 +97,13 @@ define(
 
 session_start();
 
+$vege = isset($_COOKIE[ 'vege' ])
+	? (bool)$_COOKIE['vege']
+	: false;
 $food = isset($_COOKIE[ 'food' ])
 	? (bool)$_COOKIE['food']
 	: false;
-$food = isset($_COOKIE[ 'kela' ])
+$kela = isset($_COOKIE[ 'kela' ])
 	? (bool)$_COOKIE['kela']
 	: false;
 

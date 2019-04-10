@@ -1,0 +1,107 @@
+/************************************************************
+	RESTAURANT LIST (INDEX) STYLINGS
+*************************************************************/
+.restaurant-list {
+	list-style: none;
+}
+
+.restaurant-list .list-item summary {
+	display: flex;
+	align-items: center;
+	padding: 1rem;
+	border: 1px solid var(--divider);
+	border-radius: 5px;
+}
+.restaurant-list .list-item details summary {
+	color: var(--secondary-text);
+}
+.restaurant-list .list-item details[open] summary {
+	color: var(--accent);
+}
+
+.restaurant-list .list-item details[open] summary ~ * {
+	animation: sweep .5s ease-in-out;
+}
+@keyframes sweep {
+	0% { opacity: 0; margin-top: -.5rem; }
+	100% { opacity: 1; margin-left: 0; }
+}
+
+.opening-hours-list {
+	list-style: none;
+	counter-reset: item;
+}
+.opening-hours-list li {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	counter-increment: item;
+}
+.opening-hours-list li * {
+	margin: 0;
+}
+.opening-hours-list li::before {
+	content: counter(item);
+	background: var(--primary-light);
+	color: var(--primary-color-text);
+	font-family: monospace;
+	font-size: smaller;
+	font-weight: bold;
+	margin-right: .5rem;
+	border-radius: 100%;
+	padding: 0 3px;
+}
+
+.opening-hours-list li .day-name {
+	font-family: monospace;
+	font-size: larger;
+	width: 3rem;
+}
+
+.opening-hours-list li .opening-hours {
+	display: flex;
+	align-items: center;
+}
+
+
+.links {
+	display: flex;
+	flex-direction: row;
+}
+.links .button {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	font-size: larger;
+	padding: 0.7em;
+	text-decoration: none;
+}
+.links .button .material-icons {
+	font-size: 2rem;
+}
+
+
+.restaurant-list-grid {
+	display: grid;
+	grid-template-rows: auto auto;
+	grid-template-columns: auto auto;
+
+	grid-template-areas:
+			"details menu"
+			"links menu";
+}
+.restaurant-details {
+	grid-area: details;
+}
+.quick-menu {
+	grid-area: menu;
+	overflow: auto;
+	padding: 10px;
+}
+.day-menu {
+	list-style: none;
+}
+.links {
+	grid-area: links;
+}

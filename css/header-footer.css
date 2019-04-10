@@ -6,8 +6,8 @@
 	Display: flex for centering elements
  */
 header.page {
-	background: var(--main-color); /* Set in main.css */
-	color: var(--font-color-secondary); /* Set in main.css */
+	background: var(--primary);
+	color: var(--primary-color-text);
 	display: flex;
 	height: 3em;
 }
@@ -53,8 +53,8 @@ footer.page {
 	width: 100%;
 	height: 2em;
 
-	background: var(--main-color);
-	color: var(--font-color-secondary);
+	background: var(--primary);
+	color: var(--primary-color-text);
 
 	justify-content: space-between;
 	align-items: center;

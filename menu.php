@@ -34,7 +34,7 @@ $vege = !empty($_COOKIE['vege']) ? $_COOKIE['vege'] : false;
 <head>
     <meta charset="UTF-8">
     <title>SDSCA - Menu</title>
-    <link rel="icon" href="favicon-anim.gif" type="image/gif">
+    <link rel="icon" href="img/favicon-anim.gif" type="image/gif">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/main.css">
     <style>

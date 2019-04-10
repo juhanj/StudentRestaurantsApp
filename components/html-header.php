@@ -8,6 +8,6 @@
 		<h1 class="page-title"><?= $lang->HEADER_NAME ?></h1>
 	</div>
 	<div class="right">
-		<a href="<?= WEB_PATH ?>/settings.php">Settings</a>
+		<a href="<?= WEB_PATH ?>/settings.php">⚙️</a>
 	</div>
 </header>

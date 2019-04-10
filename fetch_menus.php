@@ -18,7 +18,7 @@ function debug($var, $var_dump = false)
     };
 }
 
-$db = new DByhteys();
+$db = new DBConnection();
 
 $sql = "SELECT id, json_url FROM restaurants WHERE json_url IS NOT NULL AND food is true";
 

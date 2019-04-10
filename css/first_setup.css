@@ -1,0 +1,19 @@
+/************************************************************
+	FIRST_SETUP PAGE STYLINGS
+*************************************************************/
+.settings {
+	border: 1px var(--secondary-color) solid;
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.settings > * {
+	flex: 1;
+}
+
+label {
+	padding: 1rem;
+	border: 1px var(--secondary-color-light) dashed;
+	border-radius: 5px;
+}

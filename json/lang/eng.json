@@ -10,8 +10,8 @@
 		{
 			"page" : "index",
 			"strings": {
-				"HTML_TITLE" : "SDCA - List",
-				"HEADER_H1" : "Restaurants",
+				"HTML_TITLE" : "SDSCA - List",
+				"HEADER_NAME" : "Restaurants",
 				"R_LIST_HOURS_HEAD" : "Normal opening hours",
 				"R_LIST_HOURS_1": "Mon",
 				"R_LIST_HOURS_2": "Tue",
@@ -26,8 +26,8 @@
 		{
 			"page" : "settings",
 			"strings": {
-				"HTML_TITLE" : "SDCA - Settings",
-				"HEADER_H1": "Settings",
+				"HTML_TITLE" : "SDSCA - Settings",
+				"HEADER_NAME": "Settings",
 				"SETTING_1": "Vegetarian food only",
 				"SETTING_2": "Don't include cafeterias",
 				"SETTING_3": "Kela supported only",
@@ -40,8 +40,8 @@
 		{
 			"page" : "first_setup",
 			"strings": {
-				"HTML_TITLE" : "SDCA - setup",
-				"HEADER_H1": "First time setup",
+				"HTML_TITLE" : "SDSCA - setup",
+				"HEADER_NAME": "First time setup",
 				"SETTING_1": "Vegetarian food only",
 				"SETTING_2": "Don't include cafeterias",
 				"SETTING_3": "Kela supported only",
@@ -54,8 +54,8 @@
 		{
 			"page" : "menu",
 			"strings": {
-				"HTML_TITLE" : "SDCA - menu",
-				"HEADER_H1": "First time setup",
+				"HTML_TITLE" : "SDSCA - menu",
+				"HEADER_NAME": "First time setup",
 				"SETTING_1": "Vegetarian food only",
 				"SETTING_2": "Don't include cafeterias",
 				"SETTING_3": "Kela supported only",

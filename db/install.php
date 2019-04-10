@@ -53,7 +53,7 @@ foreach ( $query_array as $sql_query ) {
  */
 
 /** @var Restaurant[] $json */
-$json = json_decode(file_get_contents( '../json/restaurants-new.json' ) )->restaurants;
+$json = json_decode(file_get_contents( '../json/restaurants.json' ) )->restaurants;
 
 /** @var string $sql_query For basic restaurant information */
 $sql_query = "insert into restaurant (name, latitude, longitude, food, kela, address, city) 

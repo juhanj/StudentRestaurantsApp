@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class Restaurant {
 
@@ -32,18 +32,16 @@ class Restaurant {
     /** @var int */
     public $distance;
 
-	private function ceiling( $number, $significance = 1 ) {
+	private function ceiling( $number, $significance = 1 ) : ?float {
 		return ( is_numeric($number) && is_numeric($significance) )
 			? (ceil($number/$significance)*$significance)
-			: false;
+			: null;
 	}
 
-	public function print_distance() {
+	public function printDistance() : string {
 		if (!$this->distance) {
 			return '';
 		}
-
-		$unit = "m";
 
 		$dist = $this->distance;
 
@@ -60,34 +58,35 @@ class Restaurant {
 		}
 
 		if ($dist >= 1000) {
-			$dist = $dist / 1000;
 			$unit = "km";
-		}
-
-		$dist = number_format($dist, 0, ",", " ");
-
-		return "({$dist} {$unit})";
-	}
-
-	public function print_menu_link() {
-		if ( !empty( $this->menuUrl_JSON ) ) {
-			return "<a href='menu.php?id={$this->id}'><i class='material-icons'>restaurant_menu</i></a>";
+			$dist = $dist / 1000;
+			$dist = fNumber( $dist, ($dist >= 5 ? 1 : 0) );
 		}
 		else {
-			return "<a href='{$this->menuUrl}'><i class='material-icons'>link</i></a>";
+			$unit = "m";
+			$dist = fNumber($dist, 0);
 		}
+
+
+		return "({$dist}&nbsp;{$unit})";
 	}
 
-	public function print_hours( array $hours, stdClass $lang ) {
+	public function printMenuLink() : string {
+		return ( !empty( $this->json_url ) )
+			? "<a href='menu.php?id={$this->id}' class='button'><i class='material-icons'>restaurant_menu</i></a>"
+			: "<a href='{$this->website_url}' class='button'><i class='material-icons'>link</i></a>";
+	}
+
+	public function printHours( stdClass $hours, stdClass $lang ) : string {
 		if ( empty( $hours ) ) {
 			return "<i class='material-icons' style='color: firebrick;'>close</i>{$lang->R_LIST_HOURS_CLOSED}";
 		}
 
-		return "{$hours[0]} &ndash; {$hours[1]}";
+		return "{$hours->lunch_open} &ndash; {$hours->lunch_close}";
 	}
 
 	public function fetchNormalLunchHours( DBConnection $db ) {
-		$sql = "select restaurant_id, day_index, open, close, lunch_open, lunch_close   
+		$sql = "select day_index, open, close, lunch_open, lunch_close   
 				from openinghours
 				where restaurant_id = ?";
 

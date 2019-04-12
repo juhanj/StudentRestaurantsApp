@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
-require $_SERVER['DOCUMENT_ROOT'] . '/superduperstucaapp/components/_start.php';
+require $_SERVER[ 'DOCUMENT_ROOT' ] . '/superduperstucaapp/components/_start.php';
+
+$first_setup = isset($_GET['first_setup']);
 ?>
 <!DOCTYPE html>
 <html lang="<?= $lang->lang ?>">
@@ -15,7 +17,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/superduperstucaapp/components/_start.php';
 	<div class="settings">
 		<label>
 			<input type="checkbox" id="vegetarian" data-name="vege"
-			       <?= $vege ? 'checked' : '' ?>>
+				<?= $vege ? 'checked' : '' ?>>
 			<span>
 				<?= $lang->SETTING_1 ?><br>
 				<?= $lang->SETTING_1_INFO ?>
@@ -53,15 +55,15 @@ require $_SERVER['DOCUMENT_ROOT'] . '/superduperstucaapp/components/_start.php';
 	</div>
 
 	<div class="settings">
-		<p>
-			<a href="fetch_menus.php">
-				<span>
-					<?= $lang->SETTING_DB_UPDATE ?>
-					<i class="material-icons">refresh</i>
-				</span><br>
-				<span><?= $lang->SETTING_DB_UPDATE ?></span>
-			</a>
-		</p>
+		<a href="fetch_menus.php" class="button">
+			<span>
+				<?= $lang->SETTING_DB_UPDATE ?>
+				<i class="material-icons">refresh</i>
+			</span><br>
+			<span><?= $lang->SETTING_DB_UPDATE_INFO ?></span>
+			<p><?= $lang->SETTING_DB_UPDATE_LAST_DATE ?>:
+				<?= $settings->printLastMenuUpdatedDate() ?></p>
+		</a>
 	</div>
 
 </main>
@@ -69,23 +71,23 @@ require $_SERVER['DOCUMENT_ROOT'] . '/superduperstucaapp/components/_start.php';
 <?php require 'html-footer.php'; ?>
 
 <script>
-    function save_setting(element) {
-	    setCookie(element.target.dataset.name, JSON.stringify(Number(element.target.checked)), 999);
-    }
+	function save_setting(element) {
+		setCookie(element.target.dataset.name, JSON.stringify(Number(element.target.checked)), 999);
+	}
 
-    /**
-     * Need setCookie from main.js file (in header, deferred)
-     */
-    window.onload = () => {
-    	// Loop through all input[type=checkbox] elements
-	    // So easy, gotta love not having to support IE
-    	document.querySelectorAll("input[type=checkbox]").forEach( (input) => {
-    		// Save cookie from currently set value
-		    setCookie( input.dataset.name, JSON.stringify(input.checked), 999 );
-		    // Add a listener for user made changes
-		    input.addEventListener('click', save_setting);
-	    });
-    }
+	/**
+	 * Need setCookie from main.js file (in header, deferred)
+	 */
+	window.onload = () => {
+		// Loop through all input[type=checkbox] elements
+		// So easy, gotta love not having to support IE
+		document.querySelectorAll("input[type=checkbox]").forEach((input) => {
+			// Save cookie from currently set value
+			setCookie(input.dataset.name, JSON.stringify(input.checked), 999);
+			// Add a listener for user made changes
+			input.addEventListener('click', save_setting);
+		});
+	}
 </script>
 
 </body>

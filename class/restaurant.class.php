@@ -8,7 +8,7 @@ class Restaurant {
 	public $name;
     /** @var string Menu URL, language specific */
 	public $website_url;
-    /** @var string URL for JSON file, if available */
+    /** @var string URL for JSON file, if available. Language specific. */
 	public $json_url;
     /** @var bool Does it offer food or not */
 	public $food;
@@ -23,10 +23,13 @@ class Restaurant {
     /** @var string */
     public $city;
 
-	/** @var Location */
-	public $location;
+    /** @var \stdClass */
+    public $location;
 
-	/** @var array[] */
+    /* @var \stdClass */
+    public $quickMenu;
+
+	/** @var \stdClass */
 	public $normalLunchHours;
 
     /** @var int */
@@ -91,5 +94,45 @@ class Restaurant {
 				where restaurant_id = ?";
 
 		$this->normalLunchHours = $db->query( $sql, [ $this->id ], FETCH_ALL );
+	}
+
+	/**
+	 * @param string $lang From browser cookies
+	 */
+	public function fetchQuickMenu ( string $lang ) {
+		if ( !$this->food ) { return; }
+		if ( !$this->json_url and $this->name != 'Louhi' ) { return; }
+
+		// Get currentDay as number. Sunday == 0.
+		$currentDay = idate( 'w' );
+
+		$string = file_get_contents(
+			"menus/menu-{$this->id}-{$lang}.json",
+			true
+		);
+		$json = json_decode( $string );
+
+		foreach ( $json->week as $day ) {
+			if ( $day->index == $currentDay ) {
+				$this->quickMenu = $day;
+			}
+		}
+	}
+
+	public function prettyPrintQuickMenu () {
+		$returnString = '<ul class="day-menu">';
+
+		foreach ( $this->quickMenu->menu as $food ) {
+			$foodTitle = !empty($food->name)
+				? "<span style='font-weight: bold;'>{$food->name}</span>"
+				: '';
+			$components = implode('<br>', $food->components);
+			$returnString .=
+				"<li class='menu-item'>
+					{$foodTitle}<br>{$components}
+				</li>";
+		}
+
+		return $returnString;
 	}
 }

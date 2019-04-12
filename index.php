@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 require $_SERVER['DOCUMENT_ROOT'] . '/superduperstucaapp/components/_start.php';
 
-function fetch_restaurants( DBConnection $db, $location, string $language ) {
+function fetch_restaurants( DBConnection $db, $location, string $language, Settings $settings ) {
 	$sql = "select id, name, latitude, longitude, food, kela, address, city,
-				m.url as website_url, m.json_url as json_url
+				m.website_url as website_url, m.json_url as json_url
 			from restaurant r
 			join menuurls m
 				on r.id = m.restaurant_id
@@ -12,7 +12,7 @@ function fetch_restaurants( DBConnection $db, $location, string $language ) {
 
 	if ( $location ) {
 		$sql = "select id, name, latitude, longitude, food, kela, address, city,
-					m.url as website_url, m.json_url as json_url,
+					m.website_url as website_url, m.json_url as json_url,
 					geodistance( r.latitude, r.longitude, ?, ? ) as distance
 		        from restaurant r
 				join menuurls m
@@ -28,6 +28,10 @@ function fetch_restaurants( DBConnection $db, $location, string $language ) {
 	foreach ( $restaurants as $r ) {
 		$r->fetchNormalLunchHours( $db );
 		$_SESSION[ 'times' ][ $r->id ] = $r->normalLunchHours;
+
+		if ( $settings->hasMenusBeenUpdatedThisWeek() ) {
+			$r->fetchQuickMenu( $language );
+		}
 	}
 
 	return $restaurants;
@@ -38,7 +42,7 @@ $day_names = [
 	$lang->R_LIST_HOURS_5 , $lang->R_LIST_HOURS_6 , $lang->R_LIST_HOURS_7
 ];
 
-$restaurants = fetch_restaurants( $db, $location, $lang->lang );
+$restaurants = fetch_restaurants( $db, $location, $lang->lang, $settings );
 ?>
 <!DOCTYPE html>
 <html lang="<?= $lang->lang ?>">
@@ -78,46 +82,16 @@ $restaurants = fetch_restaurants( $db, $location, $lang->lang );
 								</li>
 							<?php endforeach; ?>
 						</ol>
+						<a href="<?= $r->website_url ?>">Link to website</a>
 					</div>
 				</details>
 
-				<div class="quick-menu">
-					<?php if ( false ) : ?>
-						<ul class="day-menu">
-							<li class="menu-item">
-							</li>
-						</ul>
-					<?php elseif ( true ) : ?>
-						<ul class="day-menu">
-							<li class="menu-item">
-								<span style="font-weight: bold;">Kasvislounas</span><br>
-								Feta-pinaattipihvejä<br>
-								Tzatsikia<br>
-								Keitettyjä perunoita
-							</li>
-							<li class="menu-item">
-								<span style="font-weight: bold;">Kasviskeitto</span><br>
-								Tomaattikeittoa ja fetajuustoa
-							</li>
-							<li class="menu-item">
-								<span style="font-weight: bold;">Lounas</span><br>
-								Jauhelihalasagnettea
-							</li>
-							<li class="menu-item">
-								<span style="font-weight: bold;">Salaattilounas</span><br>
-								Paahtopaistisalaatti
-							</li>
-							<li class="menu-item">
-								<span style="font-weight: bold;">Annosruoka</span><br>
-								Maissipaneroitua broileria<br>
-								Chilikermaviilikastiketta<br>
-								Pähkinämaustettua paistettua riisiä
-							</li>
-						</ul>
-					<?php else : ?>
-						<p>No menu available. (YET!)</p>
-					<?php endif; ?>
-				</div>
+				<?php if ( !empty($r->quickMenu->menu) ) : ?>
+					<details class="quick-menu">
+						<summary>Quick menu</summary>
+						<?= $r->prettyPrintQuickMenu() ?>
+					</details>
+				<?php endif; ?>
 
 				<div class="links">
 					<a href="map.php?id=<?= $r->id ?>" class="button">

@@ -21,7 +21,7 @@ function print_hour( $lunchHour, $normalLunchHour ) {
 
 $id = $_GET['id'];
 
-/** @var MenuJSON $restaurant */
+/** @var JSONMenuFormatter $restaurant */
 $restaurant = json_decode(file_get_contents("./menus/menu-{$id}.json"));
 if ( $restaurant ) {
     $week = $restaurant->week;

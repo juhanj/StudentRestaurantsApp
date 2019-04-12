@@ -8,15 +8,15 @@ MEDIUMINT   |   8388607 / 16777215
    BIGINT   |   9223372036854775807 / 18446744073709551615
 */
 
+/*
 create database sdstuca
-	character set utf8mb4
-	collate utf8mb4_unicode_520_ci;
+ 	character set utf8mb4
+ 	collate utf8mb4_unicode_520_ci
+*/
 
 create table if not exists restaurant (
 	id          tinyint unsigned not null auto_increment, -- PK
 	name        varchar(20)      not null, -- UK
-	website_url varchar(50)      null,
-	json_url    varchar(255),
 	food        boolean          not null,
 	kela        boolean          not null,
 	latitude    decimal(10, 7)   not null comment 'in degrees',
@@ -47,7 +47,7 @@ create table if not exists openinghours (
 create table if not exists menuurls (
 	restaurant_id tinyint unsigned not null,                                         -- PK, FK
 	language      varchar(3)       not null comment 'Three character language code', -- PK
-	url           varchar(255)     not null comment 'url to online menu, for given language',
+	website_url           varchar(255)     not null comment 'url to online menu, for given language',
 	json_url      varchar(255)     null comment 'url to json menu, for given language',
 	primary key ( restaurant_id, language ),
 	constraint fk_menuurls_restaurant foreign key ( restaurant_id ) references restaurant( id )

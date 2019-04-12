@@ -29,7 +29,7 @@ define(
 );
 
 $db = new DBConnection();
-/*
+
 $file_handle = file( './database.sql', FILE_IGNORE_NEW_LINES);
 
 // Removing comments from sql-file
@@ -43,10 +43,10 @@ foreach ( $file_handle as $key => $line ) {
 $query_array = explode( ";", implode( "", $file_handle) );
 foreach ( $query_array as $sql_query ) {
 	if ( !empty($sql_query) && strlen( $sql_query) > 5 ) {
-		$db->query( $sql_query );
+		debug( $db->query( $sql_query, [], true ) );
 	}
 }
-*/
+
 /*
  * Fill in said tables with rows.
  * Restaurant info from restaurants.json file.
@@ -63,7 +63,7 @@ $sql_query = "insert into restaurant (name, latitude, longitude, food, kela, add
 $sql_hours = "insert into openinghours (restaurant_id, day_index, lunch_open, lunch_close) values (?,?,?,?)";
 
 /** @var string $sql_hours Opening lunch hours for each day */
-$sql_siteurls = "insert into menuurls (restaurant_id, language, url, json_url) values (?,?,?,?)";
+$sql_siteurls = "insert into menuurls (restaurant_id, language, website_url, json_url) values (?,?,?,?)";
 
 foreach ( $json as $index => $r ) {
 	debug( $r );
@@ -85,10 +85,10 @@ foreach ( $json as $index => $r ) {
 	}
 
 	// Menu URLs for different languages
-	foreach ( $r->menuUrl as $lang => $url ) {
+	foreach ( $r->website_url as $lang => $url ) {
 		$db->query(
 			$sql_siteurls,
-			[ $index , $lang , $url , ($r->menuUrl_JSON->$lang ?? null) ]
+			[ $index , $lang , $url , ($r->json_url->$lang ?? null) ]
 		);
 	}
 }

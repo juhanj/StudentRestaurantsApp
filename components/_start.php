@@ -55,11 +55,13 @@ define(
 	basename( $_SERVER[ 'SCRIPT_NAME' ] , '.php' )
 );
 
-if ( CURRENT_PAGE != 'first_setup' and
+if ( CURRENT_PAGE != 'settings' and
 	(  !isset($_COOKIE['food'])	or !isset($_COOKIE['kela'])
 	or !isset($_COOKIE['vege'])	or !isset($_COOKIE['location'])
 	or !isset($_COOKIE['lang']) ) ) {
-	header( "Location: http://{$_SERVER['HTTP_HOST']}/superduperstucaapp/first_setup.php?need_cookies" );
+	header( "Location: http://{$_SERVER['HTTP_HOST']}/superduperstucaapp/settings.php?first_setup" );
+	$_SESSION['feedback'] = "<p class='info'>First time user detected. Please see options.
+		<br>Site uses browser cookies to save these options.</p>";
 	exit;
 }
 
@@ -69,8 +71,9 @@ if ( CURRENT_PAGE != 'first_setup' and
  */
 set_include_path(
 	get_include_path() . PATH_SEPARATOR
-	. DOC_ROOT . WEB_PATH . '/class/' . PATH_SEPARATOR
 	. DOC_ROOT . WEB_PATH . '/components/' . PATH_SEPARATOR
+	. DOC_ROOT . WEB_PATH . '/class/' . PATH_SEPARATOR
+	. DOC_ROOT . WEB_PATH . '/json/' . PATH_SEPARATOR
 	. DOC_ROOT . WEB_PATH . '/cfg/' . PATH_SEPARATOR );
 spl_autoload_extensions( '.class.php' );
 spl_autoload_register();
@@ -120,3 +123,5 @@ $lang = !empty( $_COOKIE[ 'lang' ] )
  */
 $db = new DBConnection();
 $lang = new Language( $db, $lang );
+$settings = new Settings();
+

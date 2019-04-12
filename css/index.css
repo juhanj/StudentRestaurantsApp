@@ -63,6 +63,14 @@
 	align-items: center;
 }
 
+.quick-menu {
+	grid-area: menu;
+	overflow: auto;
+	padding: 10px;
+}
+.day-menu {
+	list-style: none;
+}
 
 .links {
 	display: flex;
@@ -81,27 +89,43 @@
 	font-size: 2rem;
 }
 
+@supports (grid-area: auto) {
+	.restaurant-list-grid {
+		display: grid;
+		grid-template-rows: auto auto auto;
+		grid-template-columns: auto;
 
-.restaurant-list-grid {
-	display: grid;
-	grid-template-rows: auto auto;
-	grid-template-columns: auto auto;
+		grid-template-areas:
+			"details"
+			"quickmenu"
+			"links";
+	}
+	.restaurant-details {
+		grid-area: details;
+	}
+	.quick-menu {
+		grid-area: quickmenu;
+	}
+	.links {
+		grid-area: links;
+	}
+	@media screen and (min-width: 50em) {
+		.restaurant-list-grid {
+			grid-template-rows: auto auto;
+			grid-template-columns: auto auto;
 
-	grid-template-areas:
-			"details menu"
-			"links menu";
-}
-.restaurant-details {
-	grid-area: details;
-}
-.quick-menu {
-	grid-area: menu;
-	overflow: auto;
-	padding: 10px;
-}
-.day-menu {
-	list-style: none;
-}
-.links {
-	grid-area: links;
+			grid-template-areas:
+					"details quickmenu"
+					"links quickmenu";
+		}
+		.restaurant-details {
+			grid-area: details;
+		}
+		.quick-menu {
+			grid-area: quickmenu;
+		}
+		.links {
+			grid-area: links;
+		}
+	}
 }

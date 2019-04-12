@@ -42,6 +42,7 @@ header.page .center {
  */
 header.page h1.page-title {
 	font-weight: lighter;
+	margin: auto;
 }
 
 /************************************************************

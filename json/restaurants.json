@@ -1,38 +1,13 @@
 {
 	"restaurants": [
 		{
-			"id": 0,
-			"name": "Louhi",
-			"menuUrl": {
-				"fin": "http://mehtimakiravintolat.fi/ravintola-louhi/"
-			},
-			"menuUrl_JSON": null,
-			"location": {
-				"lat": 62.59794,
-				"long": 29.74377
-			},
-			"normalLunchHours": [
-				["10:30","14:30"],
-				["10:30","14:30"],
-				["10:30","14:30"],
-				["10:30","14:30"],
-				["10:30","14:30"],
-				null,
-				null
-			],
-			"food": true,
-			"kela": true,
-			"address": "Tiedepuisto, Länsikatu 15",
-			"city": "Joensuu"
-		},
-		{
 			"id": 1,
 			"name": "Carelia",
-			"menuUrl": {
+			"website_url": {
 				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/student-restaurant-carelia/",
 				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/opiskelijaravintola-carelia/"
 			},
-			"menuUrl_JSON": {
+			"json_url": {
 				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0417&language=en",
 				"fin": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0417&language=fi"
 			},
@@ -57,11 +32,11 @@
 		{
 			"id": 2,
 			"name": "Aura",
-			"menuUrl": {
+			"website_url": {
 				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/aura/",
 				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/aura/"
 			},
-			"menuUrl_JSON": {
+			"json_url": {
 				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0413&language=en",
 				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0413&language=fi"
 			},
@@ -86,11 +61,11 @@
 		{
 			"id": 3,
 			"name": "Futura",
-			"menuUrl": {
+			"website_url": {
 				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/futura/",
 				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/futura/"
 			},
-			"menuUrl_JSON": {
+			"json_url": {
 				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041702&language=en",
 				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041702&language=fi"
 			},
@@ -115,13 +90,13 @@
 		{
 			"id": 4,
 			"name": "Natura",
-			"menuUrl": {
-				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/futura/",
-				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/futura/"
+			"website_url": {
+				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/natura-and-borealis/",
+				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/natura/"
 			},
-			"menuUrl_JSON": {
-				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041702&language=en",
-				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041702&language=fi"
+			"json_url": {
+				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041704&language=en",
+				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041704&language=fi"
 			},
 			"location": {
 				"lat": 62.60368,
@@ -144,13 +119,13 @@
 		{
 			"id": 5,
 			"name": "Borealis",
-			"menuUrl": {
-				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/futura/",
-				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/futura/"
+			"website_url": {
+				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/natura-and-borealis/",
+				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/natura/"
 			},
-			"menuUrl_JSON": {
-				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041702&language=en",
-				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041702&language=fi"
+			"json_url": {
+				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041704&language=en",
+				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041704&language=fi"
 			},
 			"location": {
 				"lat": 62.60540,
@@ -173,13 +148,13 @@
 		{
 			"id": 6,
 			"name": "Metria",
-			"menuUrl": {
-				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/futura/",
-				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/futura/"
+			"website_url": {
+				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/cafe-metria/",
+				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/cafe-metria/"
 			},
-			"menuUrl_JSON": {
-				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041702&language=en",
-				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041702&language=fi"
+			"json_url": {
+				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041703&language=en",
+				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=041703&language=fi"
 			},
 			"location": {
 				"lat": 62.60467,
@@ -194,20 +169,20 @@
 				null,
 				null
 			],
-			"food": true,
-			"kela": true,
+			"food": false,
+			"kela": false,
 			"address": "Yliopistokatu 7",
 			"city": "Joensuu"
 		},
 		{
 			"id": 7,
 			"name": "Tori36",
-			"menuUrl": {
+			"website_url": {
 				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/tori36/",
 				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/tori36/"
 			},
-			"menuUrl_JSON": {
-				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0401&language=en",
+			"json_url": {
+				"eng":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0401&language=en",
 				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0401&language=fi"
 			},
 			"location": {
@@ -230,11 +205,36 @@
 		},
 		{
 			"id": 8,
+			"name": "Louhi",
+			"website_url": {
+				"fin": "http://mehtimakiravintolat.fi/ravintola-louhi/"
+			},
+			"json_url": null,
+			"location": {
+				"lat": 62.59794,
+				"long": 29.74377
+			},
+			"normalLunchHours": [
+				["10:30","14:30"],
+				["10:30","14:30"],
+				["10:30","14:30"],
+				["10:30","14:30"],
+				["10:30","14:30"],
+				null,
+				null
+			],
+			"food": true,
+			"kela": true,
+			"address": "Tiedepuisto, Länsikatu 15",
+			"city": "Joensuu"
+		},
+		{
+			"id": 9,
 			"name": "Ravintola Puisto",
-			"menuUrl": {
+			"website_url": {
 				"fin":"http://mehtimakiravintolat.fi/ravintola-puisto/"
 			},
-			"menuUrl_JSON": null,
+			"json_url": null,
 			"location": {
 				"lat": 62.598636,
 				"long": 29.743620
@@ -254,12 +254,12 @@
 			"city": "Joensuu"
 		},
 		{
-			"id": 9,
+			"id": 10,
 			"name": "Kahvila Forum",
-			"menuUrl": {
+			"website_url": {
 				"fin":"http://mehtimakiravintolat.fi/kahvila-forum/"
 			},
-			"menuUrl_JSON": null,
+			"json_url": null,
 			"location": {
 				"lat": 62.597989,
 				"long": 29.741467
@@ -279,38 +279,15 @@
 			"city": "Joensuu"
 		},
 		{
-			"id": 10,
-			"name": "Metla",
-			"menuUrl": {
-				"fin":"https://www.visiitti.fi/lounasravintolat/"
-			},
-			"menuUrl_JSON": null,
-			"location": {
-				"lat": 62.605359,
-				"long": 29.741623
-			},
-			"normalLunchHours": [
-				["10:30","13:00"],
-				["10:30","13:00"],
-				["10:30","13:00"],
-				["10:30","13:00"],
-				["10:30","13:00"],
-				null,
-				null
-			],
-			"food": true,
-			"kela": false,
-			"address": "Yliopistokatu 6",
-			"city": "Joensuu"
-		},
-		{
 			"id": 11,
 			"name": "Canthia",
-			"menuUrl": {
-				"fin":"http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/kuopio/ita-suomen-yliopistocanthia/"
+			"website_url": {
+				"fin":"https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/kuopio/ita-suomen-yliopistocanthia/",
+				"eng":"https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/kuopio/ita-suomen-yliopistocanthia/"
 			},
-			"menuUrl_JSON": {
-				"fin":"http://www.amica.fi/modules/json/json/Index?costNumber=0436&language=fi"
+			"json_url": {
+				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0436&language=fi",
+				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0436&language=en"
 			},
 			"location": {
 				"lat": 62.895777,
@@ -333,11 +310,13 @@
 		{
 			"id": 12,
 			"name": "Snellmania",
-			"menuUrl": {
-				"fin":"http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/kuopio/ita-suomen-yliopisto--snellmania/"
+			"website_url": {
+				"fin":"https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/kuopio/ita-suomen-yliopisto--snellmania/",
+				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/kuopio/ita-suomen-yliopisto--snellmania/"
 			},
-			"menuUrl_JSON": {
-				"fin":"http://www.amica.fi/modules/json/json/Index?costNumber=0437&language=fi"
+			"json_url": {
+				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0437&language=fi",
+				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0437&language=en"
 			},
 			"location": {
 				"lat": 62.892549,
@@ -360,11 +339,13 @@
 		{
 			"id": 13,
 			"name": "Tietoteknia",
-			"menuUrl": {
-				"fin":"http://www.amica.fi/tietoteknia"
+			"website_url": {
+				"fin":"https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/kuopio/ita-suomen-yliopistotietoteknia/",
+				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/kuopio/ita-suomen-yliopistotietoteknia/"
 			},
-			"menuUrl_JSON": {
-				"fin":"http://www.amica.fi/modules/json/json/Index?costNumber=0439&language=fi"
+			"json_url": {
+				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0439&language=fi",
+				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0439&language=en"
 			},
 			"location": {
 				"lat": 62.890926,
@@ -387,11 +368,13 @@
 		{
 			"id": 14,
 			"name": "Mediteknia",
-			"menuUrl": {
-				"fin":"http://www.amica.fi/en/restaurants/ravintolat-kaupungeittain/kuopio/ita-suomen-yliopisto--mediteknia/"
+			"website_url": {
+				"fin":"https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/kuopio/ita-suomen-yliopisto--mediteknia/",
+				"eng": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/kuopio/ita-suomen-yliopisto--mediteknia/"
 			},
-			"menuUrl_JSON": {
-				"fin":"http://www.amica.fi/modules/json/json/Index?costNumber=0442&language=fi"
+			"json_url": {
+				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0442&language=fi",
+				"eng": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0442&language=en"
 			},
 			"location": {
 				"lat": 62.895951,
@@ -410,6 +393,31 @@
 			"kela": true,
 			"address": "Savilahdentie 6",
 			"city": "Kuopio"
+		},
+		{
+			"id": 15,
+			"name": "Metla",
+			"website_url": {
+				"fin":"https://oivalounasravintola.fi/ravintola-metla/"
+			},
+			"json_url": null,
+			"location": {
+				"lat": 62.605359,
+				"long": 29.741623
+			},
+			"normalLunchHours": [
+				["10:30","13:00"],
+				["10:30","13:00"],
+				["10:30","13:00"],
+				["10:30","13:00"],
+				["10:30","13:00"],
+				null,
+				null
+			],
+			"food": true,
+			"kela": false,
+			"address": "Yliopistokatu 6",
+			"city": "Joensuu"
 		}
 	]
 }

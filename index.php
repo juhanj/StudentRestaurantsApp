@@ -1,62 +1,112 @@
-<?php
-session_start();
+<?php declare(strict_types=1);
+require $_SERVER['DOCUMENT_ROOT'] . '/superduperstucaapp/components/_start.php';
 
-function debug($var, $var_dump = false)
-{
-    echo "<br>\r\n<pre>Print_r ::<br>\r\n";
-    print_r($var);
-    echo "</pre>";
-    if ($var_dump) {
-        echo "<br><pre>Var_dump ::<br>\r\n";
-        var_dump($var);
-        echo "</pre><br>\r\n";
-    };
+function fetch_restaurants( DBConnection $db, $location, string $language, Settings $settings ) {
+	$sql = "select id, name, latitude, longitude, food, kela, address, city,
+				m.website_url as website_url, m.json_url as json_url
+			from restaurant r
+			join menuurls m
+				on r.id = m.restaurant_id
+				and ? = m.language";
+	$values = [$language];
+
+	if ( $location ) {
+		$sql = "select id, name, latitude, longitude, food, kela, address, city,
+					m.website_url as website_url, m.json_url as json_url,
+					geodistance( r.latitude, r.longitude, ?, ? ) as distance
+		        from restaurant r
+				join menuurls m
+					on r.id = m.restaurant_id
+					and ? = m.language
+		        order by distance";
+		$values = [ $location[ 0 ] , $location[ 1 ], $language ];
+	}
+
+	/** @var \Restaurant[] $restaurants */
+	$restaurants = $db->query( $sql , $values , FETCH_ALL, 'Restaurant' );
+
+	foreach ( $restaurants as $r ) {
+		$r->fetchNormalLunchHours( $db );
+		$_SESSION[ 'times' ][ $r->id ] = $r->normalLunchHours;
+
+		if ( $settings->hasMenusBeenUpdatedThisWeek() ) {
+			$r->fetchQuickMenu( $language );
+		}
+	}
+
+	return $restaurants;
 }
 
-$date = new DateTime('now');
-$_SESSION['current_day'] = $date->format('N')-1;
+$day_names = [
+	$lang->R_LIST_HOURS_1 , $lang->R_LIST_HOURS_2 , $lang->R_LIST_HOURS_3 , $lang->R_LIST_HOURS_4 ,
+	$lang->R_LIST_HOURS_5 , $lang->R_LIST_HOURS_6 , $lang->R_LIST_HOURS_7
+];
+
+$restaurants = fetch_restaurants( $db, $location, $lang->lang, $settings );
 ?>
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>SDSCA</title>
-    <link rel="icon" href="favicon-anim.gif" type="image/gif">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="css/main.css">
-    <script src="./js/main.js"></script>
-    <style>
-        .buttons {
-            display: flex;
-        }
+<html lang="<?= $lang->lang ?>">
 
-        .buttons a {
-            height: 75vh;
-            display: flex;
-            flex: 1;
-            justify-content: center;
-            align-items: center;
-        }
+<?php require 'html-head.php'; ?>
 
-        .large {
-            font-size: 10em;
-        }
-    </style>
-</head>
-<body>
+<body class="grid">
 
-<div class="header">
-    <h1>SuperDuperStuCaApp</h1>
-</div>
+<?php require 'html-header.php'; ?>
 
-<div class="buttons">
-    <a href="map.php"><i class="material-icons large">map</i></a>
-    <a href="list.php"><i class="material-icons large">menu</i></a>
-</div>
+<main class="main-body-container">
+	<ol class="restaurant-list">
+		<?php foreach ( $restaurants as $r ) : ?>
+			<?php if ( (!$food or $r->food) and (!$kela or $r->kela) ) : ?>
 
-<script>
-    getLocation();
-</script>
+			<li class="list-item restaurant-list-grid margins-off">
+				<details class="restaurant-details">
+					<summary>
+						<h2 class="list-item-head">
+							<?= $r->name ?>
+							<span class="restaurant-distance"><?= $r->printDistance() ?></span>
+						</h2>
+					</summary>
+
+					<div class="more-info">
+						<p class="address"><?= $r->address ?></p>
+						<span><?= $lang->R_LIST_HOURS_HEAD ?>:</span>
+						<ol class="opening-hours-list compact">
+							<?php $i = 0;
+							foreach ( $r->normalLunchHours as $hours ) : ?>
+								<li>
+									<p class="opening-hours">
+										<span class="day-name"><?= $day_names[ $i++ ] ?></span>
+										<span class="opening-hours">
+											<?= $r->printHours( $hours , $lang ) ?></span>
+									</p>
+								</li>
+							<?php endforeach; ?>
+						</ol>
+						<a href="<?= $r->website_url ?>">Link to website</a>
+					</div>
+				</details>
+
+				<?php if ( !empty($r->quickMenu->menu) ) : ?>
+					<details class="quick-menu">
+						<summary>Quick menu</summary>
+						<?= $r->prettyPrintQuickMenu() ?>
+					</details>
+				<?php endif; ?>
+
+				<div class="links">
+					<a href="map.php?id=<?= $r->id ?>" class="button">
+						<i class="material-icons">directions</i>
+					</a>
+					<?= $r->printMenuLink() ?>
+				</div>
+			</li>
+
+			<?php endif; ?>
+		<?php endforeach; ?>
+	</ol>
+</main>
+
+<?php require 'html-footer.php'; ?>
 
 </body>
 </html>

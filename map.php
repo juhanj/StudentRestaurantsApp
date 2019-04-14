@@ -8,7 +8,7 @@ $restaurants = file_get_contents('restaurants.json');
     <meta charset="UTF-8">
     <title>SDSCA - Map</title>
     <meta name="viewport" content="width=device-width">
-    <link rel="icon" href="favicon-anim.gif" type="image/gif">
+    <link rel="icon" href="img/favicon-anim.gif" type="image/gif">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/main.css">
     <script src="./js/main.js"></script>
@@ -199,7 +199,7 @@ $restaurants = file_get_contents('restaurants.json');
 
         checkClosestRestaurant();
     }
-    
+
     function error(err) {
         alert('ERROR(' + err.code + '): ' + err.message);
     }

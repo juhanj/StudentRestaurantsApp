@@ -110,6 +110,7 @@ pre {
 
 /************************************************************
 	USEFUL ELEMENTS
+	SEEMS TO BE MOSTLY BUTTONS FOR NOW...
 *************************************************************/
 input[type=submit],
 button,
@@ -127,33 +128,22 @@ button,
 	text-decoration: none;
 }
 
-input[type=submit],
-button,
-.button{
-	color: var(--primary-color-text);
-	background-color: var(--accent);
-	border-color:var(--accent);
+/* Normal button */
+input[type=submit], button, .button{
+	color: var(--primary-color-text); background-color: var(--accent); border-color:var(--accent);
 }
-input[type=submit]:hover,
-button:hover,
-.button:hover {
-	color: var(--primary-color-text);
-	background-color: var(--accent-dark);
-	border-color:var(--accent-dark);
+/* Normal button :hover */
+input[type=submit]:hover, button:hover, .button:hover {
+	color: var(--primary-color-text); background-color: var(--accent-dark); border-color:var(--accent-dark);
 }
-input[type=submit]:focus,
-button:focus,
-.button:focus {
-	color: var(--primary-text);
-	background-color: var(--accent-light);
-	border-color:var(--accent-light);
+/* Normal button :focus (mousedown event basically) */
+input[type=submit]:focus, button:focus, .button:focus {
+	color: var(--primary-text); background-color: var(--accent-light); border-color:var(--accent-light);
 }
-input[type=submit]:disabled,
-button:disabled,
-.button:disabled {
-	color:dimgrey;
-	background-color: darkgrey;
-	border-color:#212121;
+
+/* Normal button :disabled */
+input[type=submit]:disabled, button:disabled, .button:disabled {
+	color:dimgrey; background-color: darkgrey; border-color:#212121;
 }
 
 /************************************************************
@@ -164,7 +154,7 @@ body.grid {
 	flex-direction: column;
 }
 
-body.grid .main-body-container {
+.main-body-container {
 	flex: 1 0 auto;
 	max-width: 50rem;
 	min-width: 20rem;

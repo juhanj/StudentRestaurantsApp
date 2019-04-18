@@ -5,7 +5,7 @@
 		<span class="joke" title="Hello World">👋 🌍</span>
 	</div>
 	<div class="center">
-		<h1 class="page-title"><?= $lang->HEADER_NAME ?></h1>
+		<h1 class="page-title"><?= $lang->HEADER_TITLE ?></h1>
 	</div>
 	<div class="right">
 		<a href="<?= WEB_PATH ?>/settings.php">⚙️</a>

@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
-require $_SERVER[ 'DOCUMENT_ROOT' ] . '/superduperstucaapp/components/_start.php';
-
-$first_setup = isset($_GET['first_setup']);
+require __DIR__ . '/components/_start.php';
 ?>
 <!DOCTYPE html>
 <html lang="<?= $lang->lang ?>">
@@ -14,54 +12,75 @@ $first_setup = isset($_GET['first_setup']);
 
 <main class="main-body-container">
 
+	<div class="feedback" id="feedback"><?= check_feedback_POST() ?></div>
+
+	<a href="index.php" class="button return"><?= $lang->RETURN_INDEX ?></a>
+
 	<div class="settings">
 		<label>
-			<input type="checkbox" id="vegetarian" data-name="vege"
-				<?= $vege ? 'checked' : '' ?>>
+			<input type="checkbox" id="vegetarian" name="vege"
+				<?= $settings->vege ? 'checked' : '' ?>>
 			<span>
-				<?= $lang->SETTING_1 ?><br>
-				<?= $lang->SETTING_1_INFO ?>
+				<?= $lang->SETT_VEGE ?><br>
+				<?= $lang->SETT_VEGE_INFO ?>
 			</span>
 		</label>
 
 		<label>
-			<input type="checkbox" id="cafes" data-name="food"
-				<?= $food ? 'checked' : '' ?>>
+			<input type="checkbox" id="cafes" name="food"
+				<?= $settings->food ? 'checked' : '' ?>>
 			<span>
-				<?= $lang->SETTING_2 ?><br>
-				<?= $lang->SETTING_2_INFO ?>
+				<?= $lang->SETT_FOOD ?><br>
+				<?= $lang->SETT_FOOD_INFO ?>
 			</span>
 		</label>
 
 		<label>
-			<input type="checkbox" id="kela" data-name="kela"
-				<?= $kela ? 'checked' : '' ?>>
+			<input type="checkbox" id="kela" name="kela"
+				<?= $settings->kela ? 'checked' : '' ?>>
 			<span>
-				<?= $lang->SETTING_3 ?><br>
-				<?= $lang->SETTING_3_INFO ?>
+				<?= $lang->SETT_KELA ?><br>
+				<?= $lang->SETT_KELA_INFO ?>
 			</span>
 		</label>
 	</div>
 
-	<div class="settings">
+	<div class="settings" id="location">
 		<label>
-			<input type="checkbox" id="location" data-name="location"
-				<?= (bool)$location ? 'checked' : '' ?>>
+			<input type="checkbox" id="location" name="location"
+				<?= $settings->location ? 'checked' : '' ?>>
 			<span>
-				<?= $lang->SETTING_4 ?><br>
-				<?= $lang->SETTING_4_INFO ?>
+				<?= $lang->SETT_LOC ?><br>
+				<?= $lang->SETT_LOC_INFO ?>
 			</span>
+		</label>
+	</div>
+
+	<div class="settings" id="languages">
+		<h2 class="settings-head"><?= $lang->SETT_LANG_HEAD ?></h2>
+		<p><?= $lang->SETT_LANG_INFO ?></p>
+
+		<label for="english">
+			<input type="radio" id="english" name="lang" value="eng"
+				<?= $settings->lang == 'eng' ? 'checked' : '' ?>>
+			<?= $lang->SETT_LANG_ENG ?>
+		</label>
+
+		<label for="finnish">
+			<input type="radio" id="finnish" name="lang" value="fin"
+				<?= $settings->lang == 'fin' ? 'checked' : '' ?>>
+			<?= $lang->SETT_LANG_FIN ?>
 		</label>
 	</div>
 
 	<div class="settings">
 		<a href="fetch_menus.php" class="button">
 			<span>
-				<?= $lang->SETTING_DB_UPDATE ?>
+				<?= $lang->SETT_DB_UPDATE ?>
 				<i class="material-icons">refresh</i>
 			</span><br>
-			<span><?= $lang->SETTING_DB_UPDATE_INFO ?></span>
-			<p><?= $lang->SETTING_DB_UPDATE_LAST_DATE ?>:
+			<span><?= $lang->SETT_DB_UPDATE_INFO ?></span>
+			<p><?= $lang->SETT_DB_UPDATE_LAST_DATE ?>:
 				<?= $settings->printLastMenuUpdatedDate() ?></p>
 		</a>
 	</div>
@@ -71,22 +90,59 @@ $first_setup = isset($_GET['first_setup']);
 <?php require 'html-footer.php'; ?>
 
 <script>
-	function save_setting(element) {
-		setCookie(element.target.dataset.name, JSON.stringify(Number(element.target.checked)), 999);
+	/**
+	 * Save boolean value of a setting
+	 */
+	function saveSetting(element) {
+		setCookie(
+			element.target.name,
+			JSON.stringify(Number(element.target.checked)),
+			999
+		);
+	}
+	/**
+	 * Save value value of the chosen language radio button
+	 **/
+	function saveLanguage(element) {
+		setCookie(
+			element.target.name,
+			JSON.stringify(element.target.value),
+			999
+		);
+	}
+	/**
+	 * When user clicks on the checkbox for location,
+	 * ask for permission, and getLocation.
+	 **/
+	function getLocation(element) {
+		//TODO: do location stuff here.
 	}
 
 	/**
-	 * Need setCookie from main.js file (in header, deferred)
+	 * Needs setCookie from main.js file (in header, deferred)
+	 * And getLocation (assuming I have implemented it)
 	 */
 	window.onload = () => {
-		// Loop through all input[type=checkbox] elements
-		// So easy, gotta love not having to support IE
-		document.querySelectorAll("input[type=checkbox]").forEach((input) => {
+
+		// Loop through all `input[type=checkbox]:not(#location)` elements.
+		// Not location, because it works a bit differently.
+		// So easy, gotta love not having to support IE.
+		document.querySelectorAll("input[type=checkbox]:not(#location)").forEach((input) => {
 			// Save cookie from currently set value
-			setCookie(input.dataset.name, JSON.stringify(input.checked), 999);
+			setCookie(input.dataset.name, JSON.stringify(Number(input.checked)), 999);
 			// Add a listener for user made changes
-			input.addEventListener('click', save_setting);
+			input.addEventListener('click', saveSetting);
 		});
+
+		let currentLanguage = document.querySelector("input[name='lang']:checked");
+		setCookie( currentLanguage.dataset.name, JSON.stringify(currentLanguage.checked), 999 );
+
+		document.querySelectorAll("input[name='lang']").forEach((input) => {
+			// Add a listener for user made changes
+			input.addEventListener('click', saveLanguage);
+		});
+
+		setCookie( 'location', 0 )
 	}
 </script>
 

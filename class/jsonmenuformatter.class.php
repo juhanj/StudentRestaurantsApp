@@ -11,6 +11,11 @@ class JSONMenuFormatter {
     /** @var array */
     public $week = array();
 
+	/**
+	 * JSONMenuFormatter constructor.
+	 * @param $res \Restaurant
+	 * @param $json \stdClass
+	 */
     function __construct ( $res, $json ) {
         $this->id = $res->id;
         $this->name = $json->RestaurantName;

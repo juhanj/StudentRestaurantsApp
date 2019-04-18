@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
-$path = DOC_ROOT . WEB_PATH . '/css/';
-$main_css_version = filemtime( $path . 'main.css' );
-$headfoot_css_version = filemtime( $path . 'header-footer.css' );
-$page_css_version = filemtime( $path . CURRENT_PAGE . '.css' );
+$main_css_version = filemtime( './css/main.css' );
+$headfoot_css_version = filemtime( './css/header-footer.css' );
+$page_css_version = filemtime( './css/' . CURRENT_PAGE . '.css' );
 ?>
 
 <head>

@@ -182,7 +182,6 @@
 				"fin": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/tori36/"
 			},
 			"json_url": {
-				"eng":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0401&language=en",
 				"fin":"https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0401&language=fi"
 			},
 			"location": {

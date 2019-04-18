@@ -1,11 +1,16 @@
 <?php declare(strict_types=1);
-require $_SERVER[ 'DOCUMENT_ROOT' ] . '/superduperstucaapp/components/_start.php';
+require __DIR__ . '/components/_start.php';
 
-function createNewJson ( $r ) {
+/**
+ * @param $r \Restaurant
+ * @param $url string
+ * @param $lang string
+ */
+function createNewJsonMenu ( $r, $url, $lang ) {
 	// Fetch weekly menu as JSON from Fazer servers:
-	$json_string = file_get_contents($r->json_url);
-	// Save the original, For testing purposes
-	file_put_contents("./json/menus/menu-orig-{$r->id}-{$r->language}.json", $json_string );
+	$json_string = file_get_contents( $url );
+	// Save the original, for testing purposes
+	file_put_contents("./json/menus/menu-orig-{$r->id}-{$lang}.json", $json_string );
 
 	// Formatting the JSON a bit to be more useful and easy to use for me.
 	$menu_json = new JSONMenuFormatter( $r, json_decode( $json_string ) );
@@ -13,7 +18,7 @@ function createNewJson ( $r ) {
 	// Save the modified, cleaned format JSON
 	// This one is used on the site to show menus to user
 	file_put_contents(
-		"./json/menus/menu-{$r->id}-{$r->language}.json",
+		"./json/menus/menu-{$r->id}-{$lang}.json",
 		json_encode(
 			$menu_json,
 			JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK
@@ -21,8 +26,14 @@ function createNewJson ( $r ) {
 	);
 }
 
-function fetchLouhiMenu ( $r ) {
-	$html_string = file_get_contents( $r->website_url );
+/**
+ * Since Louhi doesn't have a JSON file to download, I have to manually parse the menu from the HTML.
+ * Well, I don't *have to*. I could just say "No menu". But where's the fun in that?
+ * @param $r \Restaurant
+ * @param $url string
+ */
+function fetchLouhiMenu ( $r, $url ) {
+	$html_string = file_get_contents( $url );
 
 	// Native PHP class for handling HTML DOM.
 	$dom = new DOMDocument;
@@ -36,6 +47,7 @@ function fetchLouhiMenu ( $r ) {
 	$content_div = $dom->getElementById( 'content' )->getElementsByTagName('p');
 
 	// For finding the correct <p> tags
+	// Starting the array at 1, because makes more sense for weekdays (I use the index later on).
 	$weekdays = [ 1=>'maanantai', 'tiistai', 'keskiviikko', 'torstai', 'perjantai' ];
 	$arr = array();
 
@@ -43,7 +55,7 @@ function fetchLouhiMenu ( $r ) {
 	 * We go through all <p> tags found, and try to match the ones that are in the $weekdays-array above.
 	 * The website menu uses Finnish weekdays as header for each day.
 	 * For comparison we use trim() and strtolower().
-	 * We first have to replace any &nbsp; characters, for trim() to work. For some reason, some days may have them.
+	 * We first have to replace any &nbsp; characters, for trim() to work. For some reason, some tags may have them.
 	 */
 	foreach ( $content_div as $key => $node ) {
 
@@ -86,14 +98,14 @@ function fetchLouhiMenu ( $r ) {
 	$louhi = [
 		'id' => $r->id,
 		'name' => "Ravintola Louhi",
-		'url' => $r->website_url,
+		'url' => $r->website_url->fin,
 		'week' => $week
 	];
 
 	// Save the modified, cleaned format JSON
 	// This one is used on the site to show menus to user
 	file_put_contents(
-		"./json/menus/menu-{$r->id}-{$r->language}.json",
+		"./json/menus/menu-{$r->id}-fin.json",
 		json_encode(
 			$louhi,
 			JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK
@@ -101,32 +113,33 @@ function fetchLouhiMenu ( $r ) {
 	);
 }
 
-$sql = "select restaurant_id as id, website_url, m.json_url, language 
-		from menuurls m
-		inner join
-		    restaurant r on m.restaurant_id = r.id
-		where m.json_url is not null 
-			and food is true";
+$json = json_decode(
+	file_get_contents( "restaurants.json", true )
+);
 
-$restaurants = $db->query( $sql, [], FETCH_ALL );
+$restaurants = [];
+foreach ( $json->restaurants as $obj ) {
+	$rest = new Restaurant( $obj );
 
+	// Go through all JSON-URLs.
+	// In most cases this means finnish and english JSON files.
+	if ( $rest->json_url ) {
+		foreach ( $rest->json_url as $lang => $url ) {
+			createNewJsonMenu( $rest , $url , $lang );
+		}
+	}
 
-foreach ($restaurants as $r) {
-	createNewJson( $r );
+	// Custom HTML-scraping for Louhi, because they don't have a JSON file. But as an exercise in HTML-scraping
+	// and PHP DOM-manipulation, I do it anyways.
+	// ... because I can!
+	if ( $rest->name == 'Louhi' ) {
+		fetchLouhiMenu($rest, $rest->website_url->fin);
+	}
 }
 
-// Lastly, custom HTML scraping for Louhi...
-$sql = "select id, website_url, language 
-		from restaurant r 
-	    inner join menuurls m on r.id = m.restaurant_id
-	    where id = 8 and name = 'Louhi'";
+$settings->updateMenusLastUpdatedDateAndSave();
 
-$louhi = $db->query( $sql );
-fetchLouhiMenu( $louhi );
-
-$settings->updateMenusLastUpdatedDate();
-
-//header( "Location: http://{$_SERVER['HTTP_HOST']}/superduperstucaapp/settings.php?db_updated" );
+//header( "Location: https://{$_SERVER['HTTP_HOST']}/". WEB_PATH ."/settings.php?db_updated" );
 //$_SESSION['feedback'] = "<p class='info'>All menus fetched. You should now see what there is to eat this week.</p>";
 //exit;
 

@@ -1,4 +1,11 @@
 "use strict";
+
+/**
+ *
+ * @param {string} name
+ * @param value
+ * @param {int} days
+ */
 function setCookie(name, value, days) {
 	let expires = "";
 	let date;

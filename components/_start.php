@@ -25,7 +25,7 @@ function fNumber( $number, int $dec_count = 2 ) : string {
  * Check feedback variable, and prevent resending form on page refresh or back button.
  * @return string $feedback
  */
-function check_feedback_POST() {
+function check_feedback_POST() : string {
 	// Stop form resending
 	if ( !empty($_POST) or !empty($_FILES) ){
 		header("Location: " . $_SERVER['REQUEST_URI']);
@@ -41,87 +41,53 @@ function check_feedback_POST() {
 /**
  * For easier access. This way any includes/requires and such can be written shorter,
  * and not be dependant on location.
+ *
+ * `$_SERVER['DOCUMENT_ROOT']` points to the wrong location for this situation.
  */
 define(
-	'DOC_ROOT',
-	$_SERVER['DOCUMENT_ROOT']
-);
-define(
 	'WEB_PATH',
-	'/superduperstucaapp/'
+	//'/~juhanj/studentrestaurantsapp/'
+	'/studentrestaurantsapp/'
 );
 define(
 	'CURRENT_PAGE',
 	basename( $_SERVER[ 'SCRIPT_NAME' ] , '.php' )
 );
 
-if ( CURRENT_PAGE != 'settings' and
+/*
+ * If user is missing any cookies used on the site, send them to settings page.
+ * Unless they are already there, in which case the problem is solved.
+ * Unless the user is in the `test/`-dir, in which case I'm probably testing something,
+ * and this was annoying me.
+ */
+if ( (CURRENT_PAGE != 'settings') and
 	(  !isset($_COOKIE['food'])	or !isset($_COOKIE['kela'])
 	or !isset($_COOKIE['vege'])	or !isset($_COOKIE['location'])
 	or !isset($_COOKIE['lang']) ) ) {
-	header( "Location: http://{$_SERVER['HTTP_HOST']}/superduperstucaapp/settings.php?first_setup" );
 	$_SESSION['feedback'] = "<p class='info'>First time user detected. Please see options.
 		<br>Site uses browser cookies to save these options.</p>";
+	header( "Location: ./settings.php?need_cookies" );
 	exit;
 }
 
 /*
  * Automatic class loading
  * Set folders for all possible folders where includes/requires might happen.
+ * Relative paths due to server situation.
  */
 set_include_path(
 	get_include_path() . PATH_SEPARATOR
-	. DOC_ROOT . WEB_PATH . '/components/' . PATH_SEPARATOR
-	. DOC_ROOT . WEB_PATH . '/class/' . PATH_SEPARATOR
-	. DOC_ROOT . WEB_PATH . '/json/' . PATH_SEPARATOR
-	. DOC_ROOT . WEB_PATH . '/cfg/' . PATH_SEPARATOR );
+	. './components/' . PATH_SEPARATOR
+	. './class/' . PATH_SEPARATOR
+	. './json/' . PATH_SEPARATOR );
 spl_autoload_extensions( '.class.php' );
 spl_autoload_register();
 
-/**
- * Named constant for INI-settings.
- * <code>
- * Array(
- *  ['Database'],
- *  ['Admin'],
- *  ['Misc'],
- *  ['Testing']
- * )
- * </code>
- */
-define(
-	'INI' ,
-	parse_ini_file(
-		(parse_ini_file( 'config.ini.php' )[ 'config' ]),
-		true ,
-		INI_SCANNER_TYPED
-	)
-);
-
 session_start();
-
-$vege = isset($_COOKIE[ 'vege' ])
-	? (bool)$_COOKIE['vege']
-	: false;
-$food = isset($_COOKIE[ 'food' ])
-	? (bool)$_COOKIE['food']
-	: false;
-$kela = isset($_COOKIE[ 'kela' ])
-	? (bool)$_COOKIE['kela']
-	: false;
-
-$location = !empty( $_COOKIE[ 'location' ] )
-	? json_decode( $_COOKIE[ 'location' ] )
-	: false;
-
-$lang = !empty( $_COOKIE[ 'lang' ] )
-	? json_decode( $_COOKIE[ 'lang' ] )
-	: 'eng';
 
 /*
  * Creating necessary objects
  */
-$db = new DBConnection();
-$lang = new Language( $db, $lang );
-$settings = new Settings();
+$settings = new Settings( $_COOKIE );
+$lang = new Language( $settings->lang );
 

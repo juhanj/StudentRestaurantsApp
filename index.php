@@ -1,37 +1,26 @@
 <?php declare(strict_types=1);
-require $_SERVER['DOCUMENT_ROOT'] . '/superduperstucaapp/components/_start.php';
+require __DIR__ . '/components/_start.php';
 
-function fetch_restaurants( DBConnection $db, $location, string $language, Settings $settings ) {
-	$sql = "select id, name, latitude, longitude, food, kela, address, city,
-				m.website_url as website_url, m.json_url as json_url
-			from restaurant r
-			join menuurls m
-				on r.id = m.restaurant_id
-				and ? = m.language";
-	$values = [$language];
+/**
+ * @param \Settings $settings Used for checking if the menu has been updated this week, for quick-menu.
+ * @param \Language $language Quick-menu language
+ * @return \Restaurant[]
+ */
+function fetch_restaurants( Settings $settings, Language $language ) {
 
-	if ( $location ) {
-		$sql = "select id, name, latitude, longitude, food, kela, address, city,
-					m.website_url as website_url, m.json_url as json_url,
-					geodistance( r.latitude, r.longitude, ?, ? ) as distance
-		        from restaurant r
-				join menuurls m
-					on r.id = m.restaurant_id
-					and ? = m.language
-		        order by distance";
-		$values = [ $location[ 0 ] , $location[ 1 ], $language ];
-	}
+	$json = json_decode(
+		file_get_contents( "restaurants.json", true )
+	);
 
-	/** @var \Restaurant[] $restaurants */
-	$restaurants = $db->query( $sql , $values , FETCH_ALL, 'Restaurant' );
+	$restaurants = [];
+	foreach ( $json->restaurants as $obj ) {
+		$temp_var =  new Restaurant( $obj );
 
-	foreach ( $restaurants as $r ) {
-		$r->fetchNormalLunchHours( $db );
-		$_SESSION[ 'times' ][ $r->id ] = $r->normalLunchHours;
-
-		if ( $settings->hasMenusBeenUpdatedThisWeek() ) {
-			$r->fetchQuickMenu( $language );
+		if ( $settings->haveMenusBeenUpdatedThisWeek() ) {
+			$temp_var->fetchQuickMenu( $language->lang );
 		}
+
+		$restaurants[] = $temp_var;
 	}
 
 	return $restaurants;
@@ -42,7 +31,7 @@ $day_names = [
 	$lang->R_LIST_HOURS_5 , $lang->R_LIST_HOURS_6 , $lang->R_LIST_HOURS_7
 ];
 
-$restaurants = fetch_restaurants( $db, $location, $lang->lang, $settings );
+$restaurants = fetch_restaurants( $settings, $lang );
 ?>
 <!DOCTYPE html>
 <html lang="<?= $lang->lang ?>">
@@ -56,9 +45,12 @@ $restaurants = fetch_restaurants( $db, $location, $lang->lang, $settings );
 <main class="main-body-container">
 	<ol class="restaurant-list">
 		<?php foreach ( $restaurants as $r ) : ?>
-			<?php if ( (!$food or $r->food) and (!$kela or $r->kela) ) : ?>
+			<?php
+			if ( ($settings->food and !$r->food) ) { continue; }
+			if ( ($settings->kela and !$r->kela) ) { continue; }
+			?>
 
-			<li class="list-item restaurant-list-grid margins-off">
+			<li class="list-item restaurant-list-grid margins-off" data-id="<?= $r->id ?>">
 				<details class="restaurant-details">
 					<summary>
 						<h2 class="list-item-head">
@@ -71,22 +63,27 @@ $restaurants = fetch_restaurants( $db, $location, $lang->lang, $settings );
 						<p class="address"><?= $r->address ?></p>
 						<span><?= $lang->R_LIST_HOURS_HEAD ?>:</span>
 						<ol class="opening-hours-list compact">
-							<?php $i = 0;
-							foreach ( $r->normalLunchHours as $hours ) : ?>
+							<?php foreach ( $r->normalLunchHours as $index => $hours ) : ?>
 								<li>
 									<p class="opening-hours">
-										<span class="day-name"><?= $day_names[ $i++ ] ?></span>
+										<span class="day-name"><?= $day_names[ $index ] ?></span>
 										<span class="opening-hours">
-											<?= $r->printHours( $hours , $lang ) ?></span>
+											<?= $r->printHours( $index , $lang ) ?>
+										</span>
 									</p>
 								</li>
 							<?php endforeach; ?>
 						</ol>
-						<a href="<?= $r->website_url ?>">Link to website</a>
+						<p>
+							<a href="map.php?id=<?= $r->id ?>" class="button">
+								<?= $lang->R_LIST_DIRECTIONS ?>
+								<i class="material-icons">directions</i>
+							</a>
+						</p>
 					</div>
 				</details>
 
-				<?php if ( !empty($r->quickMenu->menu) ) : ?>
+				<?php if ( !empty($r->quickMenu) ) : ?>
 					<details class="quick-menu">
 						<summary>Quick menu</summary>
 						<?= $r->prettyPrintQuickMenu() ?>
@@ -94,14 +91,10 @@ $restaurants = fetch_restaurants( $db, $location, $lang->lang, $settings );
 				<?php endif; ?>
 
 				<div class="links">
-					<a href="map.php?id=<?= $r->id ?>" class="button">
-						<i class="material-icons">directions</i>
-					</a>
-					<?= $r->printMenuLink() ?>
+					<?= $r->printListLinks( $lang ) ?>
 				</div>
 			</li>
 
-			<?php endif; ?>
 		<?php endforeach; ?>
 	</ol>
 </main>

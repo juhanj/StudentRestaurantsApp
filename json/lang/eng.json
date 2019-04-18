@@ -4,14 +4,14 @@
 			"page" : "_common",
 			"strings": {
 				"HTML_TITLE" : "SDSCA \uD83D\uDC4B \uD83C\uDF0D",
-				"HEADER_NAME" : "SuperDuperStuCaApp"
+				"HEADER_TITLE" : "SuperDuperStuCaApp"
 			}
 		},
 		{
 			"page" : "index",
 			"strings": {
 				"HTML_TITLE" : "SDSCA - List",
-				"HEADER_NAME" : "Restaurants",
+				"HEADER_TITLE" : "Restaurants",
 				"R_LIST_HOURS_HEAD" : "Normal opening hours",
 				"R_LIST_HOURS_1": "Mon",
 				"R_LIST_HOURS_2": "Tue",
@@ -27,40 +27,27 @@
 			"page" : "settings",
 			"strings": {
 				"HTML_TITLE" : "SDSCA - Settings",
-				"HEADER_NAME": "Settings",
-				"SETTING_1": "Vegetarian food only",
-				"SETTING_2": "Don't include cafeterias",
-				"SETTING_3": "Kela supported only",
-				"SETTING_3_INFO": "Overrules the cafe option above.",
-				"SETTING_4": "Allow location",
-				"SETTING_4_INFO": "Enables ordering restaurants according to distance.",
-				"SETTING_DB_UPDATE": "Update database"
-			}
-		},
-		{
-			"page" : "first_setup",
-			"strings": {
-				"HTML_TITLE" : "SDSCA - setup",
-				"HEADER_NAME": "First time setup",
-				"SETTING_1": "Vegetarian food only",
-				"SETTING_2": "Don't include cafeterias",
-				"SETTING_3": "Kela supported only",
-				"SETTING_3_INFO": "Overrules the cafe option above",
-				"SETTING_4": "Allow location",
-				"SETTING_4_INFO": "Enables ordering restaurants according to distance.",
-				"SETTING_DB_UPDATE": "Update database"
+				"HEADER_TITLE": "Settings",
+				"SETT_VEGE": "Vegetarian food only",
+				"SETT_VEGE_INFO": "Vegetarian food only",
+				"SETT_FOOD": "Don't include cafeterias",
+				"SETT_FOOD_INFO": "Don't include cafeterias",
+				"SETT_KELA": "Kela supported only",
+				"SETT_KELA_INFO": "Overrules the cafe option above.",
+				"SETT_LOC": "Allow location",
+				"SETT_LOC_INFO": "Enables ordering restaurants according to distance.",
+				"SETT_LANG_HEAD": "Select language",
+				"SETT_LANG_INFO": "Affects UI and menus. Some restaurant menus might not be available in all languages, or they might have differences (in general, menus are better in Finnish.) Change is loaded on page refresh.",
+				"SETT_DB_UPDATE": "Update database",
+				"SETT_DB_UPDATE_INFO": "Menus (both quick and normal) are only available after updating. Database can only be updated once an hour.",
+				"SETT_DB_UPDATE_LAST_DATE": "Last updated"
 			}
 		},
 		{
 			"page" : "menu",
 			"strings": {
 				"HTML_TITLE" : "SDSCA - menu",
-				"HEADER_NAME": "First time setup",
-				"SETTING_1": "Vegetarian food only",
-				"SETTING_2": "Don't include cafeterias",
-				"SETTING_3": "Kela supported only",
-				"SETTING_3_INFO": "Overrules the cafe option above",
-				"SETTING_DB_UPDATE": "Update database"
+				"HEADER_TITLE": "Menu"
 			}
 		}
 	]

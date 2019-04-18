@@ -27,6 +27,10 @@
 	100% { opacity: 1; margin-left: 0; }
 }
 
+.restaurant-list .restaurant-details .more-info {
+	padding: 5px;
+}
+
 .opening-hours-list {
 	list-style: none;
 	counter-reset: item;

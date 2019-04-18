@@ -1,9 +1,16 @@
 {
 	"pages": [
 		{
+			"page" : "_common",
+			"strings": {
+				"HTML_TITLE" : "SDSCA \uD83D\uDC4B \uD83C\uDF0D",
+				"HEADER_TITLE" : "SuperDuperStuCaApp"
+			}
+		},
+		{
 			"page" : "index",
 			"strings": {
-				"HEADER_NAME": "Ravintolat",
+				"HEADER_TITLE": "Ravintolat",
 				"R_LIST_HOURS_HEAD" : "Normaalit lounasaukioloajat",
 				"R_LIST_HOURS_1": "Maa",
 				"R_LIST_HOURS_2": "Tii",
@@ -16,14 +23,30 @@
 			}
 		},
 		{
-			"page" : "index",
+			"page" : "settings",
 			"strings": {
-				"HEADER_NAME": "Asetukset",
-				"SETTING_1": "Vain vegetaariset ruoat",
-				"SETTING_2": "Älä näytä kahviloita",
-				"SETTING_3": "Vain kela tuetut-ravintolat",
-				"SETTING_3_INFO": "Ohittaa ylläolevan kahvila-asetuksen",
-				"SETTING_DB_UPDATE": "Päivitä tietokanta"
+				"HTML_TITLE" : "SDSCA - Asetukset",
+				"HEADER_TITLE": "Asetukset",
+				"SETT_VEGE": "Vain vegetaariset ruoat",
+				"SETT_VEGE_INFO": "Vain vegetariaaset ruoat näytetään pika-menussa, ja menu-sivulla.",
+				"SETT_FOOD": "Älä näytä kahviloita",
+				"SETT_FOOD_INFO": "Ravintolat-sivulla näytetään vian paikat, joissa tarjotaan ruokaa.",
+				"SETT_KELA": "Vain kela-tuetut ravintolat",
+				"SETT_KELA_INFO": "Ohittaa ylläolevan kahvila-asetuksen.",
+				"SETT_LOC": "Salli henkilökohtaisen sijainnin haku.",
+				"SETT_LOC_INFO": "Sallii ravintoloiden järjestämisen etäisyyden mukaan.",
+				"SETT_LANG_HEAD": "Valitse kieli",
+				"SETT_LANG_INFO": "Affects UI and menus. Some restaurant menus might not be available in all languages, or they might have differences (in general, menus are better in Finnish.) Change is loaded on page refresh.",
+				"SETT_DB_UPDATE": "Päivitä menut",
+				"SETT_DB_UPDATE_INFO": "Päivittää menut. Päivittäminen rajoitettu kerran tunnissa.",
+				"SETT_DB_UPDATE_LAST_DATE": "Viimeksi päivitetty"
+			}
+		},
+		{
+			"page" : "menu",
+			"strings": {
+				"HTML_TITLE" : "SDSCA - menu",
+				"HEADER_TITLE": "Menu"
 			}
 		}
 	]

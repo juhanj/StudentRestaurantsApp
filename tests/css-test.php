@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-require $_SERVER['DOCUMENT_ROOT'] . '/superduperstucaapp/components/_start.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_start.php';
 ?>
 
 <!DOCTYPE html>

@@ -1,5 +1,10 @@
 <?php declare(strict_types=1);
 
+/**
+ * Class Language
+ * Extends stdClass because we want it's functionality regarding dynamic variables
+ * (I think that refers only to the IDE warnings.)
+ */
 class Language extends stdClass {
 
 	/**
@@ -8,23 +13,45 @@ class Language extends stdClass {
 	public $lang;
 	public $page;
 
-	function __construct( DBConnection $db, string $lang = 'eng', string $page = CURRENT_PAGE ) {
+	/**
+	 * Language constructor.
+	 * @param string $lang From PHP $_COOKIES, Three character language code ISO 639-2/T
+	 * @param string $page Current page
+	 */
+	function __construct( string $lang = 'eng', string $page = CURRENT_PAGE ) {
 
 		$this->lang = $lang;
 		$this->page = $page;
 
-		$sql = "select txt_type, txt 
-				from lang
-				where lang = ? 
-				  and (txt_page = ? or txt_page = '_common')";
-		$rows = $db->query( $sql, [ $lang, $page ], FETCH_ALL );
+		/*
+		 * Load the whole JSON file for one language, which is a bit
+		 * different from the SQL-version where we only load needed strings
+		 * from the database
+		 */
+		$json = json_decode(
+			file_get_contents( "lang/{$lang}.json", true )
+		);
 
-		foreach ( $rows as $row ) {
-			$this->{$row->txt_type} = $row->txt;
+		/**
+		 * This would be a bit cleaner with a database,
+		 * but with a small enough JSON file probably won't matter.
+		 */
+		foreach ( $json->pages as $jsonPage ) {
+			if ( $jsonPage->page === '_common' or $jsonPage->page === $page ) {
+
+				foreach ( $jsonPage->strings as $type => $str ) {
+					$this->{$type} = $str;
+				}
+
+			}
 		}
-
 	}
 
+	/**
+	 * Custom _GET for printing custom backup string, in case something is missing.
+	 * @param string $name The title, or type, or header of the wanted string.
+	 * @return string Either the correct string or "UNDEFINED {$str}"
+	 */
 	function __get( $name ) {
 		if ( !isset($this->{$name}) ) {
 			return "UNDEFINED {$name}";

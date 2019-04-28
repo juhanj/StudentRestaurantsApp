@@ -62,8 +62,7 @@ define(
  */
 if ( (CURRENT_PAGE != 'settings') and
 	(  !isset($_COOKIE['food'])	or !isset($_COOKIE['kela'])
-	or !isset($_COOKIE['vege'])	or !isset($_COOKIE['location'])
-	or !isset($_COOKIE['lang']) ) ) {
+	or !isset($_COOKIE['lang'])	or !isset($_COOKIE['location']) ) ) {
 	$_SESSION['feedback'] = "<p class='info'>First time user detected. Please see options.
 		<br>Site uses browser cookies to save these options.</p>";
 	header( "Location: ./settings.php?need_cookies" );

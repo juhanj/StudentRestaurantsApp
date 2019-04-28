@@ -80,12 +80,6 @@ class JSONMenuFormatter {
 		return [
 			'name' => $ogMenu->Name,
 			'prices' => $ogMenu->Price,
-	        'vegetarian' => (
-	        	strcasecmp($this->name,"kasvislounas")==0 or
-		        strcasecmp($this->name,"kasviskeitto")==0 or
-		        strcasecmp($this->name,"vegetarian dish")==0 or
-		        strcasecmp($this->name,"Vegetarian soup")==0
-	        ),
 	        'components' => $ogMenu->Components,
 		];
     }

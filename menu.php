@@ -1,97 +1,73 @@
-<?php
-session_start();
+<?php declare(strict_types=1);
+require __DIR__ . '/components/_start.php';
 
-function debug($var, $var_dump = false)
-{
-    echo "<br>\r\n<pre>Print_r ::<br>\r\n";
-    print_r($var);
-    echo "</pre>";
-    if ($var_dump) {
-        echo "<br><pre>Var_dump ::<br>\r\n";
-        var_dump($var);
-        echo "</pre><br>\r\n";
-    };
+function print_hour ( $lunchHour , $normalLunchHour ) {
+	$style = ($lunchHour != $normalLunchHour) ? 'style="color: firebrick;"' : '';
+
+	return "<span $style>$lunchHour</span>";
 }
 
-function print_hour( $lunchHour, $normalLunchHour ) {
-    $style = ( $lunchHour != $normalLunchHour ) ? 'style="color: firebrick;"' : '';
+$id = $_GET[ 'id' ];
 
-    return "<span $style>$lunchHour</span>";
-}
+$json = json_decode(
+	file_get_contents( "restaurants.json", true )
+)->restaurants[$id];
+$restaurant = new Restaurant( $json );
 
-$id = $_GET['id'];
+/** @var \MenuJSON $menuJSON */
+$menuJSON = json_decode(
+	file_get_contents( "menus/menu-{$id}-{$lang->lang}.json" , true )
+);
 
-/** @var JSONMenuFormatter $restaurant */
-$restaurant = json_decode(file_get_contents("./menus/menu-{$id}.json"));
-if ( $restaurant ) {
-    $week = $restaurant->week;
-}
-$menu_available = (bool)$restaurant;
-$vege = !empty($_COOKIE['vege']) ? $_COOKIE['vege'] : false;
+$menu_available = (bool)$menuJSON;
 ?>
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>SDSCA - Menu</title>
-    <link rel="icon" href="img/favicon-anim.gif" type="image/gif">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="css/main.css">
-    <style>
+<html lang="<?= $lang->lang ?>">
+<?php require 'html-head.php'; ?>
 
-    </style>
-</head>
-<body>
+<body class="grid">
 
-<div class="header">
-    <a href="list.php"><i class="material-icons">navigate_before</i></a>
-    <h1>Menu</h1>
-    <a href="settings.php"><i class="material-icons">settings</i></a>
-</div>
+<?php require 'html-header.php'; ?>
 
-<p>Normal prices: student 1,88 € / staff 4,10 € / guest 7,20 €</p>
+<main class="main-body-container">
 
-<?php if ( $menu_available ) : ?>
-    <?php foreach ($week as $day) : ?>
-        <?php if ( $day->index >= $_SESSION['current_day'] ) : ?>
-        <figure data-id="<?= $day->index ?>" style="margin-top: 5em;
-                <?= ($day->index < $_SESSION['current_day']) ? 'display: hidden;' : ''; ?>">
-            <figcaption style="font-weight: bold; font-size: larger;"><?=$day->dayName?>,
-                <?= print_hour( $day->lunchHours[0], $_SESSION['times'][$restaurant->id][$day->index][0] ) ?>
-                &ndash;
-                <?= print_hour( $day->lunchHours[1], $_SESSION['times'][$restaurant->id][$day->index][1] ) ?>
-            </figcaption>
+	<div hidden>
+		<?php debug($menuJSON); ?>
+	</div>
 
-            <?php if ($day->lunchHours != null) : ?>
-                <ul>
-                    <?php foreach ($day->menu as $menu) : ?>
-                        <?php if ( !$vege OR $menu->vegetarian ) : ?>
-                            <li>
-                                <span style="font-weight: bold;"><?= $menu->name ?></span><br>
-                                <?php if ( $menu->prices != "Opiskelija 1,88 € / Henkilökunta 4,10 € / Vierailija 7,20 €" ) : ?>
-                                    <?= $menu->prices ?><br>
-                                <?php endif; ?>
-                                <?php foreach ($menu->components as $c) : ?>
-                                    <?= $c ?><br>
-                                <?php endforeach; ?>
-                            </li>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+	<a href="index.php" class="button return"><?= $lang->RETURN_INDEX ?></a>
 
-                    <?php if ( empty($day->menu) ) : ?>
-                        No menu available. (Restaurant may still be open.)
-                    <?php endif; ?>
-                </ul>
-            <?php else : ?>
-                Restaurant closed.
-            <?php endif; ?>
-        </figure>
-        <?php endif; ?>
-    <?php endforeach; ?>
+	<?php if ( $menu_available ) : ?>
+		<?php foreach ( $menuJSON->week as $day ) : ?>
+			<hr>
+			<?php if ( false and $day->index <= date('N') ) { continue; } ?>
+			<figure data-id="<?= $day->index ?>">
+				<figcaption style="font-weight: bold; font-size: larger;">
+					<?= $day->dayname ?>, <?= $day->lunchHours[0] ?> &ndash; <?= $day->lunchHours[0] ?>
+				</figcaption>
+				<?php if ( $day->lunchHours != null ) : ?>
+					<ul>
+						<?php foreach ( $day->menu as $menu ) : ?>
+							<li>
+								<span style="font-weight: bold;"><?= $menu->name ?></span><br>
+								<?php foreach ( $menu->components as $c ) : ?>
+									<?= $c ?><br>
+								<?php endforeach; ?>
+							</li>
+						<?php endforeach; ?>
 
-<?php else : ?>
-    No menu available.
-<?php endif; ?>
-
+						<?php if ( empty( $day->menu ) ) : ?>
+							No menu available. (Restaurant may still be open.)
+						<?php endif; ?>
+					</ul>
+				<?php else : ?>
+					Restaurant closed.
+				<?php endif; ?>
+			</figure>
+		<?php endforeach; ?>
+	<?php else : ?>
+		No menu available.
+	<?php endif; ?>
+</main>
 </body>
 </html>

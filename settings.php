@@ -18,15 +18,6 @@ require __DIR__ . '/components/_start.php';
 
 	<div class="settings">
 		<label>
-			<input type="checkbox" id="vegetarian" name="vege"
-				<?= $settings->vege ? 'checked' : '' ?>>
-			<span>
-				<?= $lang->SETT_VEGE ?><br>
-				<?= $lang->SETT_VEGE_INFO ?>
-			</span>
-		</label>
-
-		<label>
 			<input type="checkbox" id="cafes" name="food"
 				<?= $settings->food ? 'checked' : '' ?>>
 			<span>
@@ -142,7 +133,7 @@ require __DIR__ . '/components/_start.php';
 			input.addEventListener('click', saveLanguage);
 		});
 
-		setCookie( 'location', 0 )
+		setCookie( 'location', 0, 999 )
 	}
 </script>
 

@@ -60,6 +60,7 @@ body {
 
 /**
 	For keyboard users, we use javascript to detect and add .keyboard-user class to body
+	https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
  */
 body:not(.keyboard-user) button:focus,
 body:not(.keyboard-user) input:focus,
@@ -137,7 +138,7 @@ input[type=submit]:hover, button:hover, .button:hover {
 	color: var(--primary-color-text); background-color: var(--accent-dark); border-color:var(--accent-dark);
 }
 /* Normal button :focus (mousedown event basically) */
-input[type=submit]:focus, button:focus, .button:focus {
+input[type=submit]:active, button:active, .button:active {
 	color: var(--primary-text); background-color: var(--accent-light); border-color:var(--accent-light);
 }
 

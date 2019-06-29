@@ -56,6 +56,7 @@ function getLocation() {
 /**
  * For detecting keyboard users (they press tab).
  * When detected, add a CSS class to body, which displays focus outlines.
+ * https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
  * @param {Event} e
  */
 function handleFirstTab(e) {

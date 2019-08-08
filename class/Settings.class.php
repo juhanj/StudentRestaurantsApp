@@ -20,7 +20,7 @@ class Settings {
 	public $location = null;
 
 	/** @var string */
-	public $lang = 'eng';
+	public $lang = 'en';
 
 	/**
 	 * Settings constructor.
@@ -70,7 +70,7 @@ class Settings {
 
 		$this->currentGlobalTheme = $temp->current_global_theme;
 
-		$path = $_SERVER['DOCUMENT_ROOT'] . '/' . WEB_PATH .'/json/settings.json';
+		$path = SERVER_PATH .'/json/settings.json';
 
 		file_put_contents(
 			$path,
@@ -121,18 +121,18 @@ class Settings {
 			];
 		}
 
-		// Valid: 'eng' || 'fin' || ??
-		// By default 'eng', if not valid value
+		// Valid: 'en' || 'fi' || ??
+		// By default 'en', if not valid value
 		if ( !empty( $cookies[ 'lang' ] ) ) {
-			switch ( json_decode($cookies[ 'lang' ]) ) {
-				case 'eng' :
-					$this->lang = 'eng';
+			switch ( $cookies[ 'lang' ] ) {
+				case 'en' :
+					$this->lang = 'en';
 					break;
-				case 'fin' :
-					$this->lang = 'fin';
+				case 'fi' :
+					$this->lang = 'fi';
 					break;
 				default :
-					$this->lang = 'eng';
+					$this->lang = 'en';
 			}
 		}
 	}

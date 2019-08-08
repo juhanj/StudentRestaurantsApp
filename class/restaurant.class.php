@@ -45,7 +45,7 @@ class Restaurant {
 
 	public function printDistance (): string {
 		if ( !$this->distance ) {
-			return '';
+			return '(561&nbsp;m)';
 		}
 
 		$dist = $this->distance;
@@ -102,7 +102,7 @@ class Restaurant {
 		}
 		else {
 			$website_link =
-				"<a href='{$this->website_url->fin}' class='button'>
+				"<a href='{$this->website_url->fi}' class='button'>
 					<i class='material-icons'>link</i>🇫🇮
 				</a>";
 		}
@@ -111,12 +111,13 @@ class Restaurant {
 			$menu_link =
 				"<a href='menu.php?id={$this->id}' class='button'><i class='material-icons'>restaurant_menu</i></a>";
 		}
-		else if (empty($this->json_url->fin)) {
+		else if ( !empty($this->json_url->fi) or $this->name == 'Louhi' ) {
 			$menu_link =
 				"<a href='menu.php?id={$this->id}' class='button'><i class='material-icons'>restaurant_menu</i>🇫🇮</a>";
 		}
 		else {
-			$menu_link = '';
+			$menu_link =
+				"<button class='button disabled' disabled><i class='material-icons'>restaurant_menu</i></button>";
 		}
 
 		return $website_link . $menu_link;
@@ -142,8 +143,10 @@ class Restaurant {
 		// Get currentDay as number. Sunday == 7.
 		$currentDay = date('N');
 
+		if ( $this->normalLunchHours[$currentDay-1] === null ) { return; }
+
 		if ( $this->name == 'Louhi' or empty($this->json_url->{$lang}) ) {
-			$filename = "menus/menu-{$this->id}-fin.json";
+			$filename = "menus/menu-{$this->id}-fi.json";
 		}
 		else {
 			$filename = "menus/menu-{$this->id}-{$lang}.json";

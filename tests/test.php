@@ -6,3 +6,5 @@ function debug ( $var , bool $var_dump = false ) {
 	};
 }
 /*///////////////////////////////////////////////*/
+
+debug( __DIR__ );

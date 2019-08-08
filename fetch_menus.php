@@ -98,14 +98,14 @@ function fetchLouhiMenu ( $r, $url ) {
 	$louhi = [
 		'id' => $r->id,
 		'name' => "Ravintola Louhi",
-		'url' => $r->website_url->fin,
+		'url' => $r->website_url->fi,
 		'week' => $week
 	];
 
 	// Save the modified, cleaned format JSON
 	// This one is used on the site to show menus to user
 	file_put_contents(
-		"./json/menus/menu-{$r->id}-fin.json",
+		"./json/menus/menu-{$r->id}-fi.json",
 		json_encode(
 			$louhi,
 			JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK
@@ -133,13 +133,13 @@ foreach ( $json->restaurants as $obj ) {
 	// and PHP DOM-manipulation, I do it anyways.
 	// ... because I can!
 	if ( $rest->name == 'Louhi' ) {
-		fetchLouhiMenu($rest, $rest->website_url->fin);
+		fetchLouhiMenu($rest, $rest->website_url->fi);
 	}
 }
 
 $settings->updateMenusLastUpdatedDateAndSave();
 
 //header( "Location: https://{$_SERVER['HTTP_HOST']}/". WEB_PATH ."/settings.php?db_updated" );
-//$_SESSION['feedback'] = "<p class='info'>All menus fetched. You should now see what there is to eat this week.</p>";
+//$_SESSION['feedback'] = "<p class='success'>All menus fetched. You should now see what there is to eat this week.</p>";
 //exit;
 

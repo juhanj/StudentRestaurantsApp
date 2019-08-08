@@ -18,7 +18,7 @@ class Language extends stdClass {
 	 * @param string $lang From PHP $_COOKIES, Three character language code ISO 639-2/T
 	 * @param string $page Current page
 	 */
-	function __construct( string $lang = 'eng', string $page = CURRENT_PAGE ) {
+	function __construct( string $lang = 'en', string $page = CURRENT_PAGE ) {
 
 		$this->lang = $lang;
 		$this->page = $page;

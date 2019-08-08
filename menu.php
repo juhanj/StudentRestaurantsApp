@@ -29,6 +29,8 @@ $menu_available = (bool)$menuJSON;
 
 <?php require 'html-header.php'; ?>
 
+<div class="feedback" id="feedback"><?= check_feedback_POST() ?></div>
+
 <main class="main-body-container">
 
 	<div hidden>

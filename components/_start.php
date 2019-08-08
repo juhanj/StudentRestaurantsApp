@@ -38,36 +38,31 @@ function check_feedback_POST() : string {
 	return $feedback;
 }
 
+define(
+	'INI' ,
+	parse_ini_file(
+		'./cfg/config.ini',
+		true ,
+		INI_SCANNER_TYPED
+	)
+);
+
 /**
  * For easier access. This way any includes/requires and such can be written shorter,
  * and not be dependant on location.
- *
- * `$_SERVER['DOCUMENT_ROOT']` points to the wrong location for this situation.
  */
 define(
+	'SERVER_PATH',
+	INI['server_path']
+);
+define(
 	'WEB_PATH',
-	//'/~juhanj/studentrestaurantsapp/'
-	'/studentrestaurantsapp/'
+	INI['web_path']
 );
 define(
 	'CURRENT_PAGE',
 	basename( $_SERVER[ 'SCRIPT_NAME' ] , '.php' )
 );
-
-/*
- * If user is missing any cookies used on the site, send them to settings page.
- * Unless they are already there, in which case the problem is solved.
- * Unless the user is in the `test/`-dir, in which case I'm probably testing something,
- * and this was annoying me.
- */
-if ( (CURRENT_PAGE != 'settings') and
-	(  !isset($_COOKIE['food'])	or !isset($_COOKIE['kela'])
-	or !isset($_COOKIE['lang'])	or !isset($_COOKIE['location']) ) ) {
-	$_SESSION['feedback'] = "<p class='info'>First time user detected. Please see options.
-		<br>Site uses browser cookies to save these options.</p>";
-	header( "Location: ./settings.php?need_cookies" );
-	exit;
-}
 
 /*
  * Automatic class loading
@@ -85,8 +80,23 @@ spl_autoload_register();
 session_start();
 
 /*
+ * If user is missing any cookies used on the site, send them to settings page.
+ * Unless they are already there, in which case the problem is solved.
+ * Unless the user is in the `test/`-dir, in which case I'm probably testing something,
+ * and this was annoying me.
+ */
+if ( (CURRENT_PAGE != 'settings') and
+	(  !isset($_COOKIE['food'])	or !isset($_COOKIE['kela'])
+		or !isset($_COOKIE['lang'])	or !isset($_COOKIE['location']) ) ) {
+
+	$_SESSION['feedback'] = "<p class='info'>First time user detected. Please see options.
+		<br>Site uses browser cookies to save these options.</p>";
+	header( "Location: ".WEB_PATH."/settings.php" );
+	exit;
+}
+
+/*
  * Creating necessary objects
  */
 $settings = new Settings( $_COOKIE );
 $lang = new Language( $settings->lang );
-

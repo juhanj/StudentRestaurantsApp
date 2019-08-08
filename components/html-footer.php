@@ -1,15 +1,19 @@
 <?php declare(strict_types=1); ?>
 
-<footer class="page margins-off" id="page-footer">
-	<div class="left">
-		<span class="joke" title="Hello World">❤️</span>
-	</div>
-	<div class="center"></div>
-	<div class="right">
-		<a href="#page-header">
+<footer class="site-footer margins-off" id="site-footer">
+
+	<section class="left">
+		<a href="#site-header">
 			<span style="padding: .2em;">⤴️</span>
 			<?= $lang->FOOTER_LINK_TOP ?>
+			❤️
 		</a>
-	</div>
-</footer>
+	</section>
 
+	<section class="right">
+		<a href="<?= WEB_PATH ?>/settings.php" class="button light settings-link">
+			<i class="material-icons">settings</i>
+		</a>
+	</section>
+
+</footer>

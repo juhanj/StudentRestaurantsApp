@@ -6,15 +6,11 @@
  * @param value
  * @param {int} days
  */
-function setCookie(name, value, days) {
-	let expires = "";
-	let date;
-	if (days) {
-		date = new Date();
-		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-		expires = "; expires=" + date.toUTCString();
-	}
-	document.cookie = name + "=" + (value || "") + expires + "; path=/";
+function setCookie(name, value, days = 30) {
+	let date = new Date();
+	date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+	let expires = "; expires=" + date.toUTCString();
+	document.cookie = name + "=" + (value || "") + expires + "; path=" + WEB_PATH + ';secure;samesite=strict';
 }
 
 function getCookie( name ) {
@@ -52,17 +48,3 @@ function getLocation() {
 	navigator.geolocation.getCurrentPosition( success, error );
 	return true;
 }
-
-/**
- * For detecting keyboard users (they press tab).
- * When detected, add a CSS class to body, which displays focus outlines.
- * https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
- * @param {Event} e
- */
-function handleFirstTab(e) {
-	if (e.keyCode === 9) { // the "I am a keyboard user" key
-		document.body.classList.add('user-is-tabbing');
-		window.removeEventListener('keydown', handleFirstTab);
-	}
-}
-window.addEventListener('keydown', handleFirstTab);

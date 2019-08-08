@@ -1,3 +1,38 @@
+@CHARSET "UTF-8";
+
+.restaurant-list-grid {
+	display: grid;
+	grid-template-columns: auto;
+	grid-template-rows: auto auto auto;
+
+	grid-template-areas:
+		"details"
+		"quickmenu"
+		"links";
+}
+.restaurant-details {
+	grid-area: details;
+	margin-bottom: .2rem;
+}
+.quick-menu {
+	grid-area: quickmenu;
+}
+.links {
+	grid-area: links;
+}
+
+@media screen and (min-width: 50rem) {
+	.restaurant-list-grid {
+		grid-template-columns: 15rem auto;
+		grid-template-rows: auto 1fr;
+
+		grid-template-areas:
+				"details quickmenu"
+				"links quickmenu";
+	}
+}
+
+
 /************************************************************
 	RESTAURANT LIST (INDEX) STYLINGS
 *************************************************************/
@@ -68,7 +103,6 @@
 }
 
 .quick-menu {
-	grid-area: menu;
 	overflow: auto;
 	padding: 10px;
 }
@@ -79,6 +113,7 @@
 .links {
 	display: flex;
 	flex-direction: row;
+	justify-content: flex-start;
 }
 .links .button {
 	display: flex;
@@ -88,48 +123,8 @@
 	font-size: larger;
 	padding: 0.7em;
 	text-decoration: none;
+	height: 4rem;
 }
 .links .button .material-icons {
 	font-size: 2rem;
-}
-
-@supports (grid-area: auto) {
-	.restaurant-list-grid {
-		display: grid;
-		grid-template-rows: auto auto auto;
-		grid-template-columns: auto;
-
-		grid-template-areas:
-			"details"
-			"quickmenu"
-			"links";
-	}
-	.restaurant-details {
-		grid-area: details;
-	}
-	.quick-menu {
-		grid-area: quickmenu;
-	}
-	.links {
-		grid-area: links;
-	}
-	@media screen and (min-width: 50em) {
-		.restaurant-list-grid {
-			grid-template-rows: auto auto;
-			grid-template-columns: auto auto;
-
-			grid-template-areas:
-					"details quickmenu"
-					"links quickmenu";
-		}
-		.restaurant-details {
-			grid-area: details;
-		}
-		.quick-menu {
-			grid-area: quickmenu;
-		}
-		.links {
-			grid-area: links;
-		}
-	}
 }

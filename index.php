@@ -33,6 +33,7 @@ $day_names = [
 
 $restaurants = fetch_restaurants( $settings, $lang );
 ?>
+
 <!DOCTYPE html>
 <html lang="<?= $lang->lang ?>">
 
@@ -41,6 +42,8 @@ $restaurants = fetch_restaurants( $settings, $lang );
 <body class="grid">
 
 <?php require 'html-header.php'; ?>
+
+<div class="feedback" id="feedback"><?= check_feedback_POST() ?></div>
 
 <main class="main-body-container">
 	<ol class="restaurant-list">
@@ -75,7 +78,7 @@ $restaurants = fetch_restaurants( $settings, $lang );
 							<?php endforeach; ?>
 						</ol>
 						<p>
-							<a href="map.php?id=<?= $r->id ?>" class="button">
+							<a href="map.php?id=<?= $r->id ?>" class="button light">
 								<?= $lang->R_LIST_DIRECTIONS ?>
 								<i class="material-icons">directions</i>
 							</a>
@@ -90,7 +93,7 @@ $restaurants = fetch_restaurants( $settings, $lang );
 					</details>
 				<?php endif; ?>
 
-				<div class="links">
+				<div class="links margins-off">
 					<?= $r->printListLinks( $lang ) ?>
 				</div>
 			</li>

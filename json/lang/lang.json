@@ -88,7 +88,7 @@
 	"index": {
 		"HTML_TITLE": {
 			"en": "Student Restaurants",
-			"fi": "Opiskelija ravintolat"
+			"fi": "Opiskelijaravintolat"
 		},
 		"TIMES": {
 			"fi": "🕓",
@@ -115,17 +115,11 @@
 		"HEADER_TITLE": {
 			"fi": "Asetukset"
 		},
-		"SETT_VEGE": {
-			"fi": "Vain vegetaariset ruoat"
-		},
-		"SETT_VEGE_INFO": {
-			"fi": "Vain vegetariaaset ruoat näytetään pika-menussa, ja menu-sivulla."
-		},
 		"SETT_FOOD": {
 			"fi": "Älä näytä kahviloita"
 		},
 		"SETT_FOOD_INFO": {
-			"fi": "Ravintolat-sivulla näytetään vian paikat, joissa tarjotaan ruokaa."
+			"fi": "Ravintolat-sivulla näytetään vain paikat, joissa tarjotaan ruokaa."
 		},
 		"SETT_KELA": {
 			"fi": "Vain kela-tuetut ravintolat"
@@ -150,10 +144,7 @@
 			"en": "Affects UI and menus. Some restaurant menus might not be available in all languages, or they might have differences (in general, menus are better in Finnish.) Change is loaded on page refresh."
 		},
 		"SETT_DB_UPDATE": {
-			"fi": "Päivitä menut"
-		},
-		"SETT_DB_UPDATE_INFO": {
-			"fi": "Päivittää menut. Päivittäminen rajoitettu kerran tunnissa."
+			"fi": "Päivitä menut (saattaa kestää useamman sekunnin)"
 		},
 		"SETT_DB_UPDATE_LAST_DATE": {
 			"fi": "Viimeksi päivitetty"

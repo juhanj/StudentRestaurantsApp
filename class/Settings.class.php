@@ -62,7 +62,7 @@ class Settings {
 	}
 
 	public function getLastMenuUpdatedDate () {
-		$testFile = DOC_ROOT . WEB_PATH . '/json/menus/menu-1-fi.json';
+		$testFile = DOC_ROOT . WEB_PATH . '/json/menus/carelia-fi.json';
 		if ( file_exists( $testFile ) ) {
 			$this->menusLastUpdated = filemtime( $testFile );
 		}
@@ -73,6 +73,7 @@ class Settings {
 	 * @throws Exception
 	 */
 	public function printLastMenuUpdateDate () {
+		$this->getLastMenuUpdatedDate();
 		if ( !empty($this->menusLastUpdated) ) {
 			$tempDate = new DateTime( '@' . $this->menusLastUpdated );
 

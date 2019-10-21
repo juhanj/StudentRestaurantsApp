@@ -79,15 +79,21 @@ require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_
 
 	<section class="settings box">
 		<a href="fetch_menus.php" class="button margins-off">
+			<span><?= $lang->SETT_DB_UPDATE ?></span>
 			<span>
-				<?= $lang->SETT_DB_UPDATE ?>
-			</span><br>
-			<span><?= $lang->SETT_DB_UPDATE_INFO ?></span>
-			<p><?= $lang->SETT_DB_UPDATE_LAST_DATE ?>:
-				<?= $settings->printLastMenuUpdateDate() ?></p>
+				<?= $lang->SETT_DB_UPDATE_LAST_DATE ?>:
+				<?= $settings->printLastMenuUpdateDate() ?>
+			</span>
 		</a>
 	</section>
 
+	<section class="box">
+		<a href="https://github.com/juhanj/StudentRestaurantsApp"
+			target="_blank" rel="noopener noreferrer">
+			 <?php echo file_get_contents("./img/link.svg"); ?>
+			Link to GitHub page
+		</a>
+	</section>
 </main>
 
 <?php require 'html-footer.php'; ?>

@@ -1,3 +1,10 @@
 <?php declare(strict_types=1);
 require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_start.php';
 /*/////////////////////////////////////////////////*/
+
+
+debug( $settings );
+
+//$settings->
+
+debug( $settings->printLastMenuUpdateDate() );

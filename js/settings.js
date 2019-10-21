@@ -24,24 +24,28 @@ function saveLanguage(element) {
  * When user clicks on the checkbox for location,
  * ask for permission, and getLocation.
  **/
-function getLocation(element) {
+function getGPSCoordinates(element) {
 	//TODO: do location stuff here.
 }
 
-let currentFoodSetting = document.querySelector( 'input[name="food"]' );
-setCookie( currentFoodSetting.name, Number(currentFoodSetting.checked), 360 );
-currentFoodSetting.addEventListener( 'click', saveSetting );
+let foodCheckbox = document.querySelector( 'input[name="food"]' );
+let kelaCheckbox = document.querySelector( 'input[name="kela"]' );
+let joensuuCheckbox = document.querySelector( 'input[name="joensuu"]' );
+let locationCheckbox = document.querySelector( 'input[name="location"]' );
+let currentSelectedLanguage = document.querySelector("input[name='lang']:checked");
+let allLanguages = document.querySelectorAll("input[name='lang']");
 
-let currentKelaSetting = document.querySelector( 'input[name="kela"]' );
-setCookie( currentKelaSetting.name, Number(currentKelaSetting.checked), 360 );
-currentKelaSetting.addEventListener( 'click', saveSetting );
+setCookie( foodCheckbox.name, Number(foodCheckbox.checked), 360 );
+setCookie( kelaCheckbox.name, Number(kelaCheckbox.checked), 360 );
+setCookie( joensuuCheckbox.name, Number(joensuuCheckbox.checked), 360 );
+setCookie( locationCheckbox.name, Number(locationCheckbox.checked), 360 );
+setCookie( currentSelectedLanguage.name, currentSelectedLanguage.value, 360 );
 
-let currentLanguage = document.querySelector("input[name='lang']:checked");
-setCookie( currentLanguage.name, currentLanguage.value, 360 );
+foodCheckbox.onclick = saveSetting;
+kelaCheckbox.onclick = saveSetting;
+joensuuCheckbox.onclick = saveSetting;
 
-document.querySelectorAll("input[name='lang']").forEach((input) => {
-	// Add a listener for user made changes
-	input.addEventListener('click', saveLanguage);
-});
+for ( let langInput of allLanguages ) {
+	langInput.onclick = saveLanguage;
+}
 
-setCookie( 'location', null, 360 );

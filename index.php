@@ -1,12 +1,11 @@
 <?php declare(strict_types=1);
-require __DIR__ . '/components/_start.php';
+require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_start.php';
 
 /**
- * @param \Settings $settings Used for checking if the menu has been updated this week, for quick-menu.
- * @param \Language $language Quick-menu language
- * @return \Restaurant[]
+ * @param Settings $settings Used for checking if the menu has been updated this week, for quick-menu.
+ * @return Restaurant[]
  */
-function fetch_restaurants( Settings $settings, Language $language ) {
+function fetch_restaurants ( Settings $settings ) {
 
 	$json = json_decode(
 		file_get_contents( "restaurants.json", true )
@@ -14,28 +13,27 @@ function fetch_restaurants( Settings $settings, Language $language ) {
 
 	$restaurants = [];
 	foreach ( $json->restaurants as $obj ) {
-		$temp_var =  new Restaurant( $obj );
+		$rest = Restaurant::buildFromJSON( $obj );
 
 		if ( $settings->haveMenusBeenUpdatedThisWeek() ) {
-			$temp_var->fetchQuickMenu( $language->lang );
+			$rest->fetchQuickMenu( $settings->lang );
 		}
 
-		$restaurants[] = $temp_var;
+		$restaurants[] = $rest;
 	}
 
 	return $restaurants;
 }
 
-$day_names = [
-	$lang->R_LIST_HOURS_1 , $lang->R_LIST_HOURS_2 , $lang->R_LIST_HOURS_3 , $lang->R_LIST_HOURS_4 ,
-	$lang->R_LIST_HOURS_5 , $lang->R_LIST_HOURS_6 , $lang->R_LIST_HOURS_7
-];
-
-$restaurants = fetch_restaurants( $settings, $lang );
+$restaurants = fetch_restaurants( $settings );
+$current_day = (int)date( 'N' );
+$next_day = ($current_day === 7)
+	? 1
+	: $current_day + 1;
 ?>
 
 <!DOCTYPE html>
-<html lang="<?= $lang->lang ?>">
+<html lang="<?= $settings->lang ?>">
 
 <?php require 'html-head.php'; ?>
 
@@ -43,59 +41,48 @@ $restaurants = fetch_restaurants( $settings, $lang );
 
 <?php require 'html-header.php'; ?>
 
-<div class="feedback" id="feedback"><?= check_feedback_POST() ?></div>
+<section class="feedback" id="feedback"><?= check_feedback_POST() ?></section>
 
 <main class="main-body-container">
 	<ol class="restaurant-list">
 		<?php foreach ( $restaurants as $r ) : ?>
 			<?php
-			if ( ($settings->food and !$r->food) ) { continue; }
-			if ( ($settings->kela and !$r->kela) ) { continue; }
+			if ( $settings->food and !$r->food ) {
+				continue;
+			}
+			if ( $settings->kela and !$r->kela ) {
+				continue;
+			}
+			if ( $settings->onlyJoensuu and $r->city != 'Joensuu' ) {
+				continue;
+			}
 			?>
 
-			<li class="list-item restaurant-list-grid margins-off" data-id="<?= $r->id ?>">
-				<details class="restaurant-details">
-					<summary>
-						<h2 class="list-item-head">
-							<?= $r->name ?>
-							<span class="restaurant-distance"><?= $r->printDistance() ?></span>
-						</h2>
-					</summary>
+			<li class="box restaurant compact <?= ($r->isOpenRightNow()) ? 'open' : 'closed' ?>"
+			    data-id="<?= $r->id ?>">
+				<h2 class="name"> <?= $r->name ?> </h2>
 
-					<div class="more-info">
-						<p class="address"><?= $r->address ?></p>
-						<span><?= $lang->R_LIST_HOURS_HEAD ?>:</span>
-						<ol class="opening-hours-list compact">
-							<?php foreach ( $r->normalLunchHours as $index => $hours ) : ?>
-								<li>
-									<p class="opening-hours">
-										<span class="day-name"><?= $day_names[ $index ] ?></span>
-										<span class="opening-hours">
-											<?= $r->printHours( $index , $lang ) ?>
-										</span>
-									</p>
-								</li>
-							<?php endforeach; ?>
-						</ol>
-						<p>
-							<a href="map.php?id=<?= $r->id ?>" class="button light">
-								<?= $lang->R_LIST_DIRECTIONS ?>
-								<i class="material-icons">directions</i>
-							</a>
-						</p>
-					</div>
-				</details>
+				<p class="lunch-time current-open margins-off">
+					<span><?= $lang->TIMES ?>:</span>
+					<span><?= $r->getHoursToday( $lang ) ?></span>
+				</p>
 
-				<?php if ( !empty($r->quickMenu) ) : ?>
-					<details class="quick-menu">
-						<summary>Quick menu</summary>
-						<?= $r->prettyPrintQuickMenu() ?>
-					</details>
+				<p class="lunch-time tomorrow-open margins-off">
+					<span><?= $lang->{"DAY_{$next_day}_LONG"} ?>:</span>
+					<span><?= $r->getHoursDay( $next_day - 1, $lang ) ?></span>
+				</p>
+
+				<p class="other-info margins-off">
+					<span><?= $lang->FOOD ?>: <?= ($r->food) ? '✔' : '❌' ?></span>
+					|
+					<span><?= $lang->KELA ?>: <?= ($r->kela) ? '✔' : '❌' ?></span>
+				</p>
+
+				<?php if ( $settings->location ) : ?>
+					<p class="restaurant-distance"><?= $r->distance ?>&nbsp;m</p>
 				<?php endif; ?>
 
-				<div class="links margins-off">
-					<?= $r->printListLinks( $lang ) ?>
-				</div>
+				<a href="menu.php?id=<?= $r->id ?>" class="button"><?= $lang->LINK_MENU ?></a>
 			</li>
 
 		<?php endforeach; ?>

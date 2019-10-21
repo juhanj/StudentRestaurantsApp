@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 class JSONMenuFormatter {
 
     /** @var int */
@@ -13,8 +14,8 @@ class JSONMenuFormatter {
 
 	/**
 	 * JSONMenuFormatter constructor.
-	 * @param $res \Restaurant
-	 * @param $json \stdClass
+	 * @param $res Restaurant
+	 * @param $json stdClass
 	 */
     function __construct ( $res, $json ) {
         $this->id = $res->id;

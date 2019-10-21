@@ -2,138 +2,93 @@
 
 class Settings {
 
-	/**
-	 * @var \DateTime|null
-	 */
-	public $menusLastUpdated = null;
-	/** @var |null Currently not in use, but man do I have ideas for this one. */
-	public $currentGlobalTheme = null;
-
 	/** @var bool */
 	public $vege;
 	/** @var bool */
 	public $food;
 	/** @var bool */
 	public $kela;
+	/** @var bool */
+	public $onlyJoensuu;
 
-	/** @var array|null [ lat, long ]*/
+
+	/** @var array|null [ lat, long ] */
 	public $location = null;
 
 	/** @var string */
-	public $lang = 'en';
+	public $lang = 'fi';
 
-	/**
-	 * Settings constructor.
-	 * @param array $cookies
-	 */
-	public function __construct ( array $cookies ) {
-		$this->sortThroughUserCookies( $cookies );
+	/** @var string|null */
+	public $menusLastUpdated = null;
 
-		$json = json_decode(
-			file_get_contents( 'settings.json', true )
-		);
+	public static function getSettings (): Settings {
+		$settings = new Settings();
 
-		// DateTime can throw exception. If so, just print it to $feedback.
-		try {
-			$this->menusLastUpdated = $json->db_last_updated
-				? new DateTime( $json->db_last_updated )
-				: null;
-		} catch ( Exception $e ) {
-			$_SESSION['feedback'] = "<p class='error'>{$e}</p>";
+		$settings->food = (!empty( $_COOKIE['food'] ))
+			? true
+			: false;
+
+		$settings->kela = (!empty( $_COOKIE['kela'] ))
+			? true
+			: false;
+
+		$settings->onlyJoensuu = (!empty( $_COOKIE['joensuu'] ))
+			? true
+			: false;
+
+		if ( !empty( $_COOKIE['location'] ) ) {
+			$temp = json_decode( $_COOKIE['location'] );
+			$settings->location = [
+				(float)$temp[0],
+				(float)$temp[1]
+			];
 		}
-		$this->currentGlobalTheme = $json->current_global_theme;
+		if ( !empty( $_COOKIE['lang'] ) ) {
+			switch ( $_COOKIE['lang'] ) {
+				case 'en' :
+					$settings->lang = 'en';
+					break;
+				case 'fi' :
+					$settings->lang = 'fi';
+					break;
+				default :
+					$settings->lang = 'fi';
+			}
+		}
+
+		$settings->getLastMenuUpdatedDate();
+
+		return $settings;
+	}
+
+	public function getLastMenuUpdatedDate () {
+		$testFile = DOC_ROOT . WEB_PATH . '/json/menus/menu-1-fi.json';
+		if ( file_exists( $testFile ) ) {
+			$this->menusLastUpdated = filemtime( $testFile );
+		}
 	}
 
 	/**
 	 * @return string
+	 * @throws Exception
 	 */
-	public function printLastMenuUpdatedDate () {
+	public function printLastMenuUpdateDate () {
+		if ( !empty($this->menusLastUpdated) ) {
+			$tempDate = new DateTime( '@' . $this->menusLastUpdated );
 
-		return !empty($this->menusLastUpdated)
-			? $this->menusLastUpdated->format( "Y-m-d H:i:s" )
-			: '---';
-	}
-
-	public function updateMenusLastUpdatedDateAndSave () {
-		$this->menusLastUpdated = new DateTime();
-
-		$this->saveSettings();
-	}
-
-	/**
-	 * Saves `current_global_theme` and `db_last_updated` to the settings.json file
-	 */
-	public function saveSettings () {
-		$temp = json_decode(
-			file_get_contents( 'settings.json', true )
-		);
-
-		$this->currentGlobalTheme = $temp->current_global_theme;
-
-		$path = SERVER_PATH .'/json/settings.json';
-
-		file_put_contents(
-			$path,
-			json_encode(
-				[
-					'db_last_updated' => $this->menusLastUpdated->format(DATE_ATOM),
-					'current_global_theme' => $this->currentGlobalTheme
-				]
-			)
-		);
+			return $tempDate->format( "Y-m-d H:i" );
+		}
+		return '---';
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function haveMenusBeenUpdatedThisWeek () : bool {
-		return !empty($this->menusLastUpdated)
-			? $this->menusLastUpdated->format( 'W') == date( 'W')
-			: false;
-	}
+	public function haveMenusBeenUpdatedThisWeek (): bool {
 
-	/**
-	 * Checks user cookies and sets class variables for later use.
-	 * Also, no user input is actually used, so protects against any such attack.
-	 * @param array $cookies
-	 */
-	private function sortThroughUserCookies ( array $cookies ) {
-		// Valid values: False || True
-		$this->vege = isset($cookies[ 'vege' ])
-			? (bool)$cookies['vege']
-			: false;
-		// Valid: False || True
-		$this->food = isset($cookies[ 'food' ])
-			? (bool)$cookies['food']
-			: false;
-		// Valid: False || True
-		$this->kela = isset($cookies[ 'kela' ])
-			? (bool)$cookies['kela']
-			: false;
+		$week_start = strtotime( 'monday this week' ); // First date
+		$week_end = strtotime( 'sunday this week' ); // last date
 
-		// Valid: False || [decimal,decimal]
-		// By default the value is set as False already.
-		if ( !empty( $cookies[ 'location' ] ) ) {
-			$temp = json_decode( $cookies[ 'location' ] );
-			$this->location = [
-				(float)$temp[0],
-				(float)$temp[1]
-			];
-		}
-
-		// Valid: 'en' || 'fi' || ??
-		// By default 'en', if not valid value
-		if ( !empty( $cookies[ 'lang' ] ) ) {
-			switch ( $cookies[ 'lang' ] ) {
-				case 'en' :
-					$this->lang = 'en';
-					break;
-				case 'fi' :
-					$this->lang = 'fi';
-					break;
-				default :
-					$this->lang = 'en';
-			}
-		}
+		return ($this->menusLastUpdated > $week_start) and ($this->menusLastUpdated < $week_end);
 	}
 }

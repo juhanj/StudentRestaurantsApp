@@ -38,26 +38,17 @@ function check_feedback_POST() : string {
 	return $feedback;
 }
 
-define(
-	'INI' ,
-	parse_ini_file(
-		'./cfg/config.ini',
-		true ,
-		INI_SCANNER_TYPED
-	)
-);
-
 /**
  * For easier access. This way any includes/requires and such can be written shorter,
  * and not be dependant on location.
  */
 define(
-	'SERVER_PATH',
-	INI['server_path']
+	'DOC_ROOT',
+	$_SERVER['CONTEXT_DOCUMENT_ROOT']
 );
 define(
 	'WEB_PATH',
-	INI['web_path']
+	$_SERVER['CONTEXT_PREFIX'] . '/studentrestaurantsapp'
 );
 define(
 	'CURRENT_PAGE',
@@ -67,36 +58,20 @@ define(
 /*
  * Automatic class loading
  * Set folders for all possible folders where includes/requires might happen.
- * Relative paths due to server situation.
  */
 set_include_path(
 	get_include_path() . PATH_SEPARATOR
-	. './components/' . PATH_SEPARATOR
-	. './class/' . PATH_SEPARATOR
-	. './json/' . PATH_SEPARATOR );
+	. DOC_ROOT . '/studentrestaurantsapp' . '/class/' . PATH_SEPARATOR
+	. DOC_ROOT . '/studentrestaurantsapp' . '/components/' . PATH_SEPARATOR
+	. DOC_ROOT . '/studentrestaurantsapp' . '/cfg/' . PATH_SEPARATOR
+	. DOC_ROOT . '/studentrestaurantsapp' . '/json/' . PATH_SEPARATOR );
 spl_autoload_extensions( '.class.php' );
 spl_autoload_register();
 
 session_start();
 
 /*
- * If user is missing any cookies used on the site, send them to settings page.
- * Unless they are already there, in which case the problem is solved.
- * Unless the user is in the `test/`-dir, in which case I'm probably testing something,
- * and this was annoying me.
- */
-if ( (CURRENT_PAGE != 'settings') and
-	(  !isset($_COOKIE['food'])	or !isset($_COOKIE['kela'])
-		or !isset($_COOKIE['lang'])	or !isset($_COOKIE['location']) ) ) {
-
-	$_SESSION['feedback'] = "<p class='info'>First time user detected. Please see options.
-		<br>Site uses browser cookies to save these options.</p>";
-	header( "Location: ".WEB_PATH."/settings.php" );
-	exit;
-}
-
-/*
  * Creating necessary objects
  */
-$settings = new Settings( $_COOKIE );
-$lang = new Language( $settings->lang );
+$settings = Settings::getSettings();
+$lang = Language::getLanguageStrings( $settings->lang, CURRENT_PAGE );

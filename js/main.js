@@ -10,7 +10,8 @@ function setCookie(name, value, days = 30) {
 	let date = new Date();
 	date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
 	let expires = "; expires=" + date.toUTCString();
-	document.cookie = name + "=" + (value || "") + expires + "; path=" + WEB_PATH + ';secure;samesite=strict';
+	let newCookie = name + "=" + (value || "") + expires + "; path=" + WEB_PATH + ';samesite=strict';
+	document.cookie = newCookie;
 }
 
 function getCookie( name ) {

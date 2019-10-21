@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-require __DIR__ . '/components/_start.php';
+require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_start.php';
 ?>
 <!DOCTYPE html>
 <html lang="<?= $lang->lang ?>">
@@ -10,16 +10,17 @@ require __DIR__ . '/components/_start.php';
 
 <?php require 'html-header.php'; ?>
 
-<div class="feedback" id="feedback"><?= check_feedback_POST() ?></div>
+<section class="feedback" id="feedback"><?= check_feedback_POST() ?></section>
 
 <main class="main-body-container">
 
 	<a href="index.php" class="button return"><?= $lang->RETURN_INDEX ?></a>
 
-	<div class="settings">
+	<section class="settings box">
 		<label>
 			<input type="checkbox" id="cafes" name="food"
-				<?= $settings->food ? 'checked' : '' ?>>
+				<?= $settings->food ? 'checked' : '' ?>
+			>
 			<span>
 				<?= $lang->SETT_FOOD ?><br>
 				<?= $lang->SETT_FOOD_INFO ?>
@@ -28,53 +29,64 @@ require __DIR__ . '/components/_start.php';
 
 		<label>
 			<input type="checkbox" id="kela" name="kela"
-				<?= $settings->kela ? 'checked' : '' ?>>
+				<?= $settings->kela ? 'checked' : '' ?>
+			>
 			<span>
 				<?= $lang->SETT_KELA ?><br>
 				<?= $lang->SETT_KELA_INFO ?>
 			</span>
 		</label>
-	</div>
 
-	<div class="settings" id="location">
+		<label>
+			<input type="checkbox" id="joensuu" name="joensuu"
+				<?= $settings->onlyJoensuu ? 'checked' : '' ?>
+			>
+			<span>
+				<?= $lang->SETT_JOENSUU ?>
+			</span>
+		</label>
+	</section>
+
+	<section class="settings box" id="location">
 		<label>
 			<input type="checkbox" id="location" name="location"
-				<?= $settings->location ? 'checked' : '' ?>>
+				<?= $settings->location ? 'checked' : '' ?>
+			>
 			<span>
 				<?= $lang->SETT_LOC ?><br>
 				<?= $lang->SETT_LOC_INFO ?>
 			</span>
 		</label>
-	</div>
+	</section>
 
-	<div class="settings" id="languages">
+	<section class="settings box" id="languages">
 		<h2 class="settings-head"><?= $lang->SETT_LANG_HEAD ?></h2>
 		<p><?= $lang->SETT_LANG_INFO ?></p>
 
 		<label for="english">
 			<input type="radio" id="english" name="lang" value="en"
 				<?= $settings->lang == 'en' ? 'checked' : '' ?>>
-			<?= $lang->SETT_LANG_ENG ?>
+			<span>🇬🇧 English</span>
 		</label>
 
 		<label for="finnish">
 			<input type="radio" id="finnish" name="lang" value="fi"
-				<?= $settings->lang == 'fi' ? 'checked' : '' ?>>
-			<?= $lang->SETT_LANG_FIN ?>
+				<?= $settings->lang == 'fi' ? 'checked' : '' ?>
+			>
+			<span>🇫🇮 Suomi</span>
 		</label>
-	</div>
+	</section>
 
-	<div class="settings">
-		<a href="fetch_menus.php" class="button">
+	<section class="settings box">
+		<a href="fetch_menus.php" class="button margins-off">
 			<span>
 				<?= $lang->SETT_DB_UPDATE ?>
-				<i class="material-icons">refresh</i>
 			</span><br>
 			<span><?= $lang->SETT_DB_UPDATE_INFO ?></span>
 			<p><?= $lang->SETT_DB_UPDATE_LAST_DATE ?>:
-				<?= $settings->printLastMenuUpdatedDate() ?></p>
+				<?= $settings->printLastMenuUpdateDate() ?></p>
 		</a>
-	</div>
+	</section>
 
 </main>
 

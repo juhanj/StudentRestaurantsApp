@@ -1,130 +1,39 @@
 @CHARSET "UTF-8";
 
-.restaurant-list-grid {
-	display: grid;
-	grid-template-columns: auto;
-	grid-template-rows: auto auto auto;
-
-	grid-template-areas:
-		"details"
-		"quickmenu"
-		"links";
+:root {
+    --closed: hsla(0,0%,100%,.6);
 }
-.restaurant-details {
-	grid-area: details;
-	margin-bottom: .2rem;
-}
-.quick-menu {
-	grid-area: quickmenu;
-}
-.links {
-	grid-area: links;
+.main-body-container {
+    justify-content: space-evenly;
 }
 
-@media screen and (min-width: 50rem) {
-	.restaurant-list-grid {
-		grid-template-columns: 15rem auto;
-		grid-template-rows: auto 1fr;
-
-		grid-template-areas:
-				"details quickmenu"
-				"links quickmenu";
-	}
-}
-
-
-/************************************************************
-	RESTAURANT LIST (INDEX) STYLINGS
-*************************************************************/
 .restaurant-list {
-	list-style: none;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    align-content: space-around;
 }
 
-.restaurant-list .list-item summary {
-	display: flex;
+.restaurant-list .restaurant {
+    min-width: 15rem;
+    margin: .5rem;
+}
+.restaurant-list .restaurant.open {
+    box-shadow: 0 0.3rem 0.3rem 0.1rem var(--text-dark);
+}
+.restaurant-list .restaurant.closed {
+    background-color: var(--closed);
+}
+
+.restaurant .name {
+    text-align: center;
+}
+
+.restaurant .lunch-time,
+.restaurant .other-info {
+    display: flex;
+    flex-direction: row;
+	justify-content: space-between;
 	align-items: center;
-	padding: 1rem;
-	border: 1px solid var(--divider);
-	border-radius: 5px;
-}
-.restaurant-list .list-item details summary {
-	color: var(--secondary-text);
-}
-.restaurant-list .list-item details[open] summary {
-	color: var(--accent);
-}
-
-.restaurant-list .list-item details[open] summary ~ * {
-	animation: sweep .5s ease-in-out;
-}
-@keyframes sweep {
-	0% { opacity: 0; margin-top: -.5rem; }
-	100% { opacity: 1; margin-left: 0; }
-}
-
-.restaurant-list .restaurant-details .more-info {
-	padding: 5px;
-}
-
-.opening-hours-list {
-	list-style: none;
-	counter-reset: item;
-}
-.opening-hours-list li {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	counter-increment: item;
-}
-.opening-hours-list li * {
-	margin: 0;
-}
-.opening-hours-list li::before {
-	content: counter(item);
-	background: var(--primary-light);
-	color: var(--primary-color-text);
-	font-family: monospace;
-	font-size: smaller;
-	font-weight: bold;
-	margin-right: .5rem;
-	border-radius: 100%;
-	padding: 0 3px;
-}
-
-.opening-hours-list li .day-name {
-	font-family: monospace;
-	font-size: larger;
-	width: 3rem;
-}
-
-.opening-hours-list li .opening-hours {
-	display: flex;
-	align-items: center;
-}
-
-.quick-menu {
-	overflow: auto;
-	padding: 10px;
-}
-.day-menu {
-	list-style: none;
-}
-
-.links {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-}
-.links .button {
-	display: flex;
-	flex: 1;
-	justify-content: center;
-	align-items: center;
-	font-size: larger;
-	padding: 0.7em;
-	text-decoration: none;
-	height: 4rem;
-}
-.links .button .material-icons {
-	font-size: 2rem;
 }

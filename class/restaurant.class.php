@@ -2,13 +2,13 @@
 
 class Restaurant {
 
-	/** @var int Database ID */
+	/** @var string $id Short version of the name*/
 	public $id;
 	/** @var string Name of the restaurant */
 	public $name;
-	/** @var \stdClass Menu URLs, for differen languages */
+	/** @var stdClass Menu URLs, for differen languages */
 	public $website_url;
-	/** @var \stdClass URL for JSON file, for different languages. */
+	/** @var stdClass URL for JSON file, for different languages. */
 	public $json_url;
 	/** @var bool Does it offer food or not */
 	public $food;
@@ -19,10 +19,10 @@ class Restaurant {
 	/** @var string */
 	public $city;
 
-	/** @var \stdClass -->lat & -->long */
+	/** @var stdClass ->lat & ->long */
 	public $location;
 
-	/* @var \stdClass */
+	/* @var stdClass */
 	public $quickMenu;
 
 	/** @var array Monday === 1 */
@@ -31,104 +31,85 @@ class Restaurant {
 	/** @var int */
 	public $distance;
 
-	public function __construct ( stdClass $json ) {
+	public function __construct () {
+	}
+
+	public static function buildFromJSON ( stdClass $json ) : Restaurant {
+		$r = new Restaurant();
 		foreach ( $json AS $key => $value ) {
-			$this->{$key} = $value;
+			$r->{$key} = $value;
 		}
+		return $r;
 	}
 
-	private function ceiling ( $number , $significance = 1 ): ?float {
-		return (is_numeric( $number ) && is_numeric( $significance ))
-			? (ceil( $number / $significance ) * $significance)
-			: null;
+	public function isOpenRightNow() : bool {
+		// Get currentDay as number. Monday == 1, Sunday == 7.
+		$currentDay = date( 'N' ) - 1;
+		$todayHours = $this->normalLunchHours[ $currentDay ];
+
+		if ( is_null( $todayHours ) ) {
+			return false;
+		}
+
+		$lunchEnd = new DateTime( "today {$todayHours[1]}", new DateTimeZone( 'Europe/Helsinki' ) );
+		$now = new DateTime( 'now', new DateTimeZone( 'Europe/Helsinki' ) );
+
+
+		if ( $now > $lunchEnd ) {
+			return false;
+		}
+
+		return true;
 	}
 
-	public function printDistance (): string {
-		if ( !$this->distance ) {
-			return '(561&nbsp;m)';
+	public function getHoursToday ( Language $language ) : string {
+		// Get currentDay as number. Monday == 1, Sunday == 7.
+		$currentDay = date( 'N' ) - 1;
+
+		$closingTime = new DateTime( "today {$this->normalLunchHours[$currentDay][1]}", new DateTimeZone( 'Europe/Helsinki' ) );
+		$now = new DateTime( 'now', new DateTimeZone( 'Europe/Helsinki' ) );
+
+		if ( empty( $this->normalLunchHours[$currentDay] ) ) {
+			return "{$language->CLOSED}";
 		}
 
-		$dist = $this->distance;
-
-		if ( $dist <= 500 ) {
-			$dist = $this->ceiling( $dist , 10 );
-		}
-		elseif ( $dist > 500 ) {
-			$dist = $this->ceiling( $dist , 50 );
-		}
-		elseif ( $dist > 1000 ) {
-			$dist = $this->ceiling( $dist , 100 );
-		}
-		elseif ( $dist > 50000 ) {
-			$dist = $this->ceiling( $dist , 5000 );
-		}
-		elseif ( $dist > 100000 ) {
-			$dist = $this->ceiling( $dist , 10000 );
+		if ( $now > $closingTime ) {
+			return "{$language->CLOSED}";
 		}
 
-		if ( $dist >= 1000 ) {
-			$unit = "km";
-			$dist = $dist / 1000;
-			$dist = fNumber( $dist , ($dist >= 5 ? 1 : 0) );
-		}
-		else {
-			$unit = "m";
-			$dist = fNumber( $dist , 0 );
-		}
-
-		return "({$dist}&nbsp;{$unit})";
+		return "{$this->normalLunchHours[$currentDay][0]} &ndash; {$this->normalLunchHours[$currentDay][1]}";
 	}
 
-	public function printMenuLink ( Language $lang ) : string {
-		if ( empty($this->website_url->{$lang->lang}) ) { return ''; }
+	public function getHoursDay ( int $weekDay, Language $language ) : string {
+		// Get currentDay as number. Monday == 1, Sunday == 7.
+		$currentDay = date( 'N' ) - 1;
 
-		return (!empty( $this->json_url->{$lang->lang} ))
-			? "<a href='menu.php?id={$this->id}' class='button'><i class='material-icons'>restaurant_menu</i></a>"
-			: "<a href='{$this->website_url->{$lang->lang}}' class='button'><i class='material-icons'>link</i></a>";
+		if ( $currentDay === 6 ) {
+			$weekDay = 0;
+		}
+
+		if ( empty( $this->normalLunchHours[$weekDay] ) ) {
+			return "{$language->CLOSED}";
+		}
+
+		return "{$this->normalLunchHours[$weekDay][0]} &ndash; {$this->normalLunchHours[$weekDay][1]}";
 	}
 
-	public function printListLinks ( Language $lang ) : string {
-		/*
-		 * Print two button-like links
-		 * 1. Link to website
-		 *      - check language, print finnish, if chosen $lang not available
-		 * 2. Link to on-site menu
-		 *      - check language, print finnish, if chosen $lang not available
-		 */
+	public function getHoursHTMLString ( Language $lang ) {
+		$currentDay = date( 'N' ) - 1;
 
-		if ( !empty($this->website_url->{$lang->lang}) ) {
-			$website_link =
-				"<a href='{$this->website_url->{$lang->lang}}' class='button'><i class='material-icons'>link</i></a>";
-		}
-		else {
-			$website_link =
-				"<a href='{$this->website_url->fi}' class='button'>
-					<i class='material-icons'>link</i>🇫🇮
-				</a>";
+		$html = '';
+
+		foreach ( $this->normalLunchHours as $index => $day ) {
+			$fontWeight = ($currentDay == $index) ? 'today' : '';
+			$dayName = "<span class='day-name'>{$lang->{"DAY_" . ($index+1)}}</span>";
+			$hours =  "<span class='times'>{$day[0]} &ndash; {$day[1]}</span>";
+			$html .= "<li class='margins-off {$fontWeight}'>{$dayName}{$hours}</li>";
 		}
 
-		if ( !empty($this->json_url->{$lang->lang}) ) {
-			$menu_link =
-				"<a href='menu.php?id={$this->id}' class='button'><i class='material-icons'>restaurant_menu</i></a>";
-		}
-		else if ( !empty($this->json_url->fi) or $this->name == 'Louhi' ) {
-			$menu_link =
-				"<a href='menu.php?id={$this->id}' class='button'><i class='material-icons'>restaurant_menu</i>🇫🇮</a>";
-		}
-		else {
-			$menu_link =
-				"<button class='button disabled' disabled><i class='material-icons'>restaurant_menu</i></button>";
-		}
+		$html = "<ol class='opening-hours-list margins-off'>{$html}</ol>";
 
-		return $website_link . $menu_link;
-	}
-
-	public function printHours ( int $i , Language $lang ): string {
-		if ( empty( $this->normalLunchHours[$i] ) ) {
-			return "<i class='material-icons' style='color: firebrick;'>close</i>{$lang->R_LIST_HOURS_CLOSED}";
-		}
-
-		return "{$this->normalLunchHours[$i][0]} &ndash; {$this->normalLunchHours[$i][1]}";
+		return $html;
 	}
 
 	/**
@@ -136,27 +117,32 @@ class Restaurant {
 	 */
 	public function fetchQuickMenu ( string $lang ) {
 		// Check that there actually is something to fetch.
+		if ( !$this->food ) {
+			return;
+		}
 		// Louhi is a special case, since that menu is fetched by parsing HTML directly.
-		if ( !$this->food ) { return; }
-		if ( !$this->json_url and $this->name != 'Louhi' ) { return; }
-
-		// Get currentDay as number. Sunday == 7.
-		$currentDay = date('N');
-
-		if ( $this->normalLunchHours[$currentDay-1] === null ) { return; }
-
-		if ( $this->name == 'Louhi' or empty($this->json_url->{$lang}) ) {
-			$filename = "menus/menu-{$this->id}-fi.json";
-		}
-		else {
-			$filename = "menus/menu-{$this->id}-{$lang}.json";
+		if ( !$this->json_url and $this->id != 'louhi' ) {
+			return;
 		}
 
-		$string = file_get_contents(
+		// Get currentDay as number. Monday == 1, Sunday == 7.
+		$currentDay = date( 'N' ) - 1;
+
+		if ( $this->normalLunchHours[$currentDay] === null ) {
+			return;
+		}
+
+		if ( $this->id == 'louhi' or empty( $this->json_url->{$lang} ) ) {
+			$filename = "menus/{$this->id}-fi.json";
+		} else {
+			$filename = "menus/{$this->id}-{$lang}.json";
+		}
+
+		$fileString = file_get_contents(
 			$filename,
 			true
 		);
-		$json = json_decode( $string );
+		$json = json_decode( $fileString );
 
 		$this->quickMenu = new stdClass();
 
@@ -164,29 +150,10 @@ class Restaurant {
 			if ( $day->index == $currentDay ) {
 				$this->quickMenu->today = $day;
 
-				$this->quickMenu->tomorrow = ($index==6)
-					? $json->week[$index+1]
+				$this->quickMenu->tomorrow = ($index == 6)
+					? $json->week[$index + 1]
 					: null;
 			}
 		}
-	}
-
-	public function prettyPrintQuickMenu () {
-
-		$listItems = '';
-		foreach ( $this->quickMenu->today->menu as $food ) {
-			$foodTitle = !empty( $food->name )
-				? "<span style='font-weight: bold;'>{$food->name}</span>"
-				: '';
-			$components = implode( '<br>' , $food->components );
-			$listItems .=
-				"<li class='menu-item'>
-					{$foodTitle}<br>{$components}
-				</li>";
-		}
-
-		return  "<ul class='day-menu'>
-			<h2>{$this->quickMenu->today->dayname}</h2>
-			{$listItems}</ul>";
 	}
 }

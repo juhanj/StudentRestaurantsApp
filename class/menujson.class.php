@@ -4,10 +4,14 @@ class MenuJSON {
 
 	/** @var int */
 	public $id;
+
 	/** @var string */
 	public $name;
+
 	/** @var string */
 	public $url;
-	/** @var \Week */
+
+	/** @var Week */
 	public $week;
+
 }

@@ -3,7 +3,7 @@
 /**
  * Class Language
  * Extends stdClass because we want it's functionality regarding dynamic variables
- * (I think that refers only to the IDE warnings.)
+ * (I think that refers only to the IDE warnings. The code would work just as well without.)
  */
 class Language extends stdClass {
 
@@ -11,17 +11,16 @@ class Language extends stdClass {
 	 * @var string $lang Three character language code ISO 639-2/T
 	 */
 	public $lang;
-	public $page;
 
-	/**
-	 * Language constructor.
-	 * @param string $lang From PHP $_COOKIES, Three character language code ISO 639-2/T
-	 * @param string $page Current page
-	 */
-	function __construct( string $lang = 'en', string $page = CURRENT_PAGE ) {
+	public $strings = [];
 
+	function __construct( string $lang = '', string $page = '' ) {
 		$this->lang = $lang;
 		$this->page = $page;
+	}
+
+	public static function getLanguageStrings ( string $lang = 'fi', string $page = CURRENT_PAGE ) : Language {
+		$l = new Language( $lang, $page );
 
 		/*
 		 * Load the whole JSON file for one language, which is a bit
@@ -29,35 +28,35 @@ class Language extends stdClass {
 		 * from the database
 		 */
 		$json = json_decode(
-			file_get_contents( "lang/{$lang}.json", true )
+			file_get_contents( "lang/lang.json", true )
 		);
 
 		/**
 		 * This would be a bit cleaner with a database,
 		 * but with a small enough JSON file probably won't matter.
 		 */
-		foreach ( $json->pages as $jsonPage ) {
-			if ( $jsonPage->page === '_common' or $jsonPage->page === $page ) {
-
-				foreach ( $jsonPage->strings as $type => $str ) {
-					$this->{$type} = $str;
+		foreach ( $json as $pageName => $pageStrings ) {
+			if ( $pageName === '_common' or $pageName === $page ) {
+				foreach ( $pageStrings as $type => $str ) {
+					$l->strings[$type] = $str;
 				}
-
 			}
 		}
+
+		return $l;
 	}
 
 	/**
 	 * Custom _GET for printing custom backup string, in case something is missing.
-	 * @param string $name The title, or type, or header of the wanted string.
+	 * @param string $string The title, or type, or header of the wanted string.
 	 * @return string Either the correct string or "UNDEFINED {$str}"
 	 */
-	function __get( $name ) {
-		if ( !isset($this->{$name}) ) {
-			return "UNDEFINED {$name}";
+	function __get( $string ) : string {
+		if ( !isset($this->strings[$string]->{$this->lang}) ) {
+			return "❔{$string}";
 		}
 
-		return $this->{$name};
+		return $this->strings[$string]->{$this->lang};
 	}
 
 }

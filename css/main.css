@@ -7,15 +7,19 @@
 	margin: 0;
 	padding: 0;
 }
+
 * + * {
-	margin-top: 1.5em;
+	margin-top: 1.5rem;
 }
+
 .compact * + * {
 	margin-top: 0.65rem;
 }
+
 .margins-off > * {
 	margin-top: 0; /* Note: this is for all children. */
 }
+
 /**
  * Needed for third-party elements, e.g. Google Maps, which do not like the setup above
  */
@@ -23,188 +27,197 @@
 	margin-top: initial;
 }
 
-
-/**
- * Colors, and other variables used on the site;
- * Colors taken from Google's material design
- * https://www.materialpalette.com/
- */
 :root {
-   --primary-dark: #303F9F; /* Indigo 700 */
-   --primary: #3F51B5; /* Indigo 500 */
-   --primary-light: #C5CAE9; /* Indigo 100 */
-   --primary-lighter: #e8eaf6; /* Indigo 50 */
+	--primary: hsl(231, 45%, 55%);
+	--primary-darker: hsl(231, 45%, 40%);
+	--primary-dark: hsl(231, 45%, 25%);
+	--primary-lighter: hsl(231, 60%, 70%);
+	--primary-light: hsl(231, 70%, 90%);
 
-   --accent-dark: #c51162; /* Pink A700 */
-   --accent: #FF4081; /* Pink A200 */
-   --accent-light: #ff80ab; /* Pink A100 */
-   --accent-lighter: #fce4ec; /* Pink A50 */
+	--text-dark: hsl(0, 0%, 10%);
+	--text-light: hsl(0, 0%, 90%);
+	--secondary-text: hsl(0, 0%, 50%);
 
-   --text-dark: #212121;
-   --text-light: #FFFFFF;
-   --secondary-text: #757575;
+	--input-bg: hsla(0,0%,75%,.5);
 
-   --divider-dark: #616161;
-   --divider: #BDBDBD;
-   --divider-light: #f5f5f5;
+	--button-shadow: hsla(0, 0%, 10%, .5);
 
+	--content-box-bg: hsl(0, 0%, 100%);
 
-   --site-bg-white: white;
-   --site-bg-dark: #4e4e4e;
+	--site-bg: hsl(0, 0%, 30%);
 
-   --success: #5ccc5c;
-   --error: #B00020;
-   --info: var(--primary-light);
-   --warning: #f79b19;
+	--success: hsl(120, 50%, 60%);
+	--error: hsl(349, 80%, 40%);
+	--error-darker: hsl(349, 85%, 30%);
+	--info: var(--primary-light);
+	--warning: hsl(35, 100%, 50%);
+
+	--border-radius: .5rem;
 }
 
-.info { background-color: var(--info); color: var(--text-dark); }
-.success { background-color: var(--success); color: var(--text-dark); }
-.error { background-color: var(--error); color: var(--text-light); }
-.warning { background-color: var(--warning); color: var(--text-dark) }
+.info {
+	background-color: var(--info);
+	color: var(--text-dark);
+}
+
+.success {
+	background-color: var(--success);
+	color: var(--text-dark);
+}
+
+.error {
+	background-color: var(--error);
+	color: var(--text-light);
+}
+
+.warning {
+	background-color: var(--warning);
+	color: var(--text-dark)
+}
 
 html {
 	height: 100vh;
 }
 
 body {
-	background-color: var(--site-bg-white);
-	color: var(--primary-text);
+	background-color: var(--site-bg);
 	min-height: 100%; /* 100% of html's 100vh */
 }
 
-/**
- * Centering material icons a bit, they look a bit off without.
-*/
-.material-icons {
-	vertical-align: middle;
-}
-
-/* A better looking default horizontal rule */
-hr {
-	display: block;
-	height: 1px;
-	border: 0;
-	border-top: 1px solid var(--primary);
-	margin: 1rem 0;
-	padding: 0;
-}
-
-::-moz-selection {
-	background: var(--primary-light);
-	text-shadow: none;
-}
-::selection {
-	background: var(--primary-light);
-	text-shadow: none;
-}
-
-/*
-	Fixes problem with possible PHP debug printing going beyond HTML-width,
-	which just looks ugly. Mostly for mobile devices.
- */
-pre {
-	white-space: pre-wrap; /* Wraps at spaces if line too long. */
-	word-wrap: break-word; /* Should break when one word too long. */
-	overflow: auto; /* Should add a scroll bar, doesn't seem to do anything. */
-}
-
-.dev-borders * {
-	border: 1px dashed indianred;
-}
-
-/************************************************************
-	Button
-*************************************************************/
-input[type=submit],
-button,
-.button {
-	display: inline-block;
-	padding: 1rem;
-
-	justify-content: center; /* Horizontal align */
-	align-items: center; /* Vertical align */
-
-	border-radius: 5px;
-	transition-duration: 0.2s; /* Animation on button press */
-	border: solid 1px;
-	text-decoration: none;
-}
-
-/* Normal button */
-input[type=submit], button, .button{
-	color: var(--text-light); background-color: var(--accent); border-color:var(--accent-dark);
-}
-/* Normal button :hover */
-input[type=submit]:hover, button:hover, .button:hover {
-	color: var(--text-light); background-color: var(--accent-dark); border-color:var(--accent-dark);
-}
-/* Normal button :focus (mousedown event basically) */
-input[type=submit]:active, button:active, .button:active {
-	color: var(--text-dark); background-color: var(--accent-light); border-color:var(--accent-light);
-}
-
-.button.light {
-	color: var(--text-dark); background-color: var(--primary-light); border-color:var(--primary);
-}
-.button.light:hover {
-	color: var(--text-dark); background-color: var(--primary-lighter); border-color:var(--primary-dark);
-}
-
-/* Normal button :disabled */
-input[type=submit]:disabled, button:disabled, .button:disabled {
-	color:dimgrey; background-color: darkgrey; border-color:#212121;
-}
-
-/************************************************************
-	Stuff
-*************************************************************/
-.feedback {
-	width: 100%;
-	font-weight: bold;
-}
-.feedback:empty {
-	display: none;
-}
-.feedback > p {
-	padding: 1rem 5rem;
-}
-
-[hidden],
-.hidden {
-	display: none;
-}
-
-/************************************************************
-	Most basic layout
+/****************************************************************************
+	Most basic CSS Grid layout
 	Basically every page will overwrite this
-*************************************************************/
+*****************************************************************************/
 body.grid {
 	display: grid;
 	grid-template-columns: auto;
-	grid-template-rows:	auto
-						auto
-						1fr
-						auto;
-	grid-template-areas:
-			"header"
-			"feedback"
-			"content"
-			"footer";
+	grid-template-rows: auto auto 1fr auto;
+	grid-template-areas: "header" "feedback" "content" "footer";
 }
 
 .site-header {
 	grid-area: header;
 }
+
 .feedback {
 	grid-area: feedback;
 }
+
 .main-body-container {
 	grid-area: content;
-	width: 100%;
-	max-width: 40rem;
-	justify-self: center;
 }
+
 .site-footer {
 	grid-area: footer;
+}
+
+
+/****************************************************************************
+	More layout stuff
+	Content containers
+*****************************************************************************/
+.main-body-container {
+	width: 100%;
+	max-width: 50rem;
+	justify-self: center;
+
+	display: flex;
+	flex-direction: column;
+	align-content: space-evenly;
+	/*justify-content: space-evenly;*/
+}
+
+.box {
+	display: flex;
+	flex-direction: column;
+	align-content: space-evenly;
+	justify-content: space-evenly;
+
+	background: var(--content-box-bg);
+	padding: 1.5rem;
+	border-radius: var(--border-radius);
+}
+
+/****************************************************************************
+	Button
+*****************************************************************************/
+/* Display settings */
+.button {
+	display: flex;
+	justify-content: center; /* Horizontal align */
+	align-items: center; /* Vertical align */
+
+	padding: 1rem;
+	width: 100%;
+	border: 0;
+	border-radius: var(--border-radius);
+
+	box-shadow: 0 .1rem 0 0 var(--button-shadow);
+}
+
+/* Colours */
+.button {
+	background-color: var(--primary);
+	color: var(--text-light);
+}
+
+.button:hover, .button.hover {
+	background-color: var(--primary-darker);
+	color: var(--text-light);
+}
+
+.button:active, .button.active {
+	background-color: var(--primary-dark);
+	color: var(--text-light);
+	box-shadow: 0 0 0 0;
+}
+
+/* Colours */
+.button.red {
+	background-color: var(--error);
+	color: var(--text-light);
+}
+
+.button.red:hover, .button.red.hover {
+	background-color: var(--error-darker);
+	color: var(--text-light);
+}
+
+.button.red:active, .button.red.active {
+	background-color: var(--error-darker);
+	color: var(--text-light);
+}
+
+.button:disabled {
+	filter: grayscale(70%);
+}
+
+/****************************************************************************
+	Feedback
+*****************************************************************************/
+.feedback {
+	width: 100%;
+	font-weight: bold;
+}
+
+.feedback:empty {
+	display: none;
+}
+
+.feedback > p {
+	padding: 1rem 5rem;
+}
+
+/****************************************************************************
+	Smaller stuff
+*****************************************************************************/
+[hidden],
+.hidden {
+	display: none;
+}
+
+.svg-icon {
+	height: 1em;
+	display: inline-flex;
+	align-self: center;
 }

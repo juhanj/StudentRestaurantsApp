@@ -1,0 +1,162 @@
+{
+	"_common": {
+		"HTML_TITLE": {
+			"en": "SDSCA \uD83D\uDC4B \uD83C\uDF0D",
+			"fi": "SDSCA \uD83D\uDC4B \uD83C\uDF0D"
+		},
+		"HEADER_TITLE": {
+			"en": "SuperDuperStuCaApp",
+			"fi": "SuperDuperStuCaApp"
+		},
+		"SETTINGS": {
+			"en": "Settings",
+			"fi": "Asetukset"
+		},
+		"RETURN_INDEX": {
+			"en": "Return to front page",
+			"fi": "Takaisin etusivulle"
+		},
+		"DAY_1": {
+			"fi": "Ma",
+			"en": "Mon"
+		},
+		"DAY_1_LONG": {
+			"fi": "Maanantai",
+			"en": "Monday"
+		},
+		"DAY_2": {
+			"fi": "Ti",
+			"en": "Tue"
+		},
+		"DAY_2_LONG": {
+			"fi": "Tiistai",
+			"en": "Tuesday"
+		},
+		"DAY_3": {
+			"fi": "Ke",
+			"en": "Wed"
+		},
+		"DAY_3_LONG": {
+			"fi": "Keskiviikko",
+			"en": "Wednesday"
+		},
+		"DAY_4": {
+			"fi": "To",
+			"en": "Thu"
+		},
+		"DAY_4_LONG": {
+			"fi": "Torstai",
+			"en": "Thursday"
+		},
+		"DAY_5": {
+			"fi": "Pe",
+			"en": "Fri"
+		},
+		"DAY_5_LONG": {
+			"fi": "Perjantai",
+			"en": "Friday"
+		},
+		"DAY_6": {
+			"fi": "La",
+			"en": "Sat"
+		},
+		"DAY_6_LONG": {
+			"fi": "Lauantai",
+			"en": "Saturday"
+		},
+		"DAY_7": {
+			"fi": "Su",
+			"en": "Sun"
+		},
+		"DAY_7_LONG": {
+			"fi": "Sunnuntai",
+			"en": "Sunday"
+		},
+		"CLOSED": {
+			"fi": "Suljettu",
+			"en": "Closed"
+		},
+		"TOMORROW": {
+			"fi": "Huomenna",
+			"en": "Tomorrow"
+		},
+		"LUNCH": {
+			"fi": "Lounas",
+			"en": "Lunch"
+		}
+	},
+	"index": {
+		"HTML_TITLE": {
+			"en": "Student Restaurants",
+			"fi": "Opiskelija ravintolat"
+		},
+		"TIMES": {
+			"fi": "🕓",
+			"en": "Times"
+		},
+		"FOOD": {
+			"fi": "Lounas",
+			"en": "Lunch"
+		},
+		"KELA": {
+			"fi": "Kela",
+			"en": "Student"
+		},
+		"LINK_MENU": {
+			"fi": "Menu / Info",
+			"en": "Link to menu"
+		}
+	},
+	"settings": {
+		"HTML_TITLE": {
+			"fi": "SDSCA - Asetukset",
+			"en": "SDSCA - Settings"
+		},
+		"HEADER_TITLE": {
+			"fi": "Asetukset"
+		},
+		"SETT_VEGE": {
+			"fi": "Vain vegetaariset ruoat"
+		},
+		"SETT_VEGE_INFO": {
+			"fi": "Vain vegetariaaset ruoat näytetään pika-menussa, ja menu-sivulla."
+		},
+		"SETT_FOOD": {
+			"fi": "Älä näytä kahviloita"
+		},
+		"SETT_FOOD_INFO": {
+			"fi": "Ravintolat-sivulla näytetään vian paikat, joissa tarjotaan ruokaa."
+		},
+		"SETT_KELA": {
+			"fi": "Vain kela-tuetut ravintolat"
+		},
+		"SETT_KELA_INFO": {
+			"fi": "Ohittaa ylläolevan kahvila-asetuksen."
+		},
+		"SETT_JOENSUU": {
+			"fi": "Näytä vain ravintolat Joensuussa"
+		},
+		"SETT_LOC": {
+			"fi": "Salli henkilökohtaisen sijainnin haku."
+		},
+		"SETT_LOC_INFO": {
+			"fi": "Sallii ravintoloiden järjestämisen etäisyyden mukaan."
+		},
+		"SETT_LANG_HEAD": {
+			"fi": "Valitse kieli"
+		},
+		"SETT_LANG_INFO": {
+			"fi": "Käyttöliittymä ja menut. Jotkin menut eivät saata olla kaikilla kielillä. Päivitä sivu nähdäksesi muutokset.",
+			"en": "Affects UI and menus. Some restaurant menus might not be available in all languages, or they might have differences (in general, menus are better in Finnish.) Change is loaded on page refresh."
+		},
+		"SETT_DB_UPDATE": {
+			"fi": "Päivitä menut"
+		},
+		"SETT_DB_UPDATE_INFO": {
+			"fi": "Päivittää menut. Päivittäminen rajoitettu kerran tunnissa."
+		},
+		"SETT_DB_UPDATE_LAST_DATE": {
+			"fi": "Viimeksi päivitetty"
+		}
+	}
+}

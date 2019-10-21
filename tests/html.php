@@ -20,6 +20,14 @@ require __DIR__ . '/../components/_start.php';
 		<i class="material-icons">settings</i>
 		Hi there!
 	</button>
+
 </main>
 
 <?php require 'html-footer.php'; ?>
+
+<script>
+</script>
+
+</body>
+
+</html>

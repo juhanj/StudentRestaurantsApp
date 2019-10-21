@@ -185,6 +185,15 @@ $json = json_decode(
 	file_get_contents( "restaurants.json", true )
 );
 
+$settings->getLastMenuUpdatedDate();
+$difference = time() - $settings->menusLastUpdated;
+
+if ( $difference < 3600 ) {
+	header( "Location: " . WEB_PATH . "/settings.php?dbupdated" );
+	$_SESSION['feedback'] = "<p class='info'>{$lang->MENUS_ALREADY_UPDATED}</p>";
+	exit;
+}
+
 $restaurants = [];
 foreach ( $json->restaurants as $obj ) {
 	$rest = Restaurant::buildFromJSON( $obj );
@@ -205,8 +214,10 @@ foreach ( $json->restaurants as $obj ) {
 	if ( $rest->id == 'louhi' ) {
 		fetchLouhiMenu( $rest, $rest->website_url->fi, $lang );
 	}
+
+	$lang->lang = $settings->lang;
 }
 
 header( "Location: " . WEB_PATH . "/settings.php?db_updated" );
-$_SESSION['feedback'] = "<p class='success'>All menus fetched. You should now see what there is to eat this week.</p>";
+$_SESSION['feedback'] = "<p class='success'>{$lang->MENU_UPDATE_SUCCESS}</p>";
 exit;

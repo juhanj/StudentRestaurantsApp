@@ -62,7 +62,7 @@ class Settings {
 	}
 
 	public function getLastMenuUpdatedDate () {
-		$testFile = DOC_ROOT . WEB_PATH . '/json/menus/carelia-fi.json';
+		$testFile = DOC_ROOT . '/studentrestaurantsapp/json/menus/carelia-fi.json';
 		if ( file_exists( $testFile ) ) {
 			$this->menusLastUpdated = filemtime( $testFile );
 		}

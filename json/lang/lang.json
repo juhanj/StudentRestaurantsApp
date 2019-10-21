@@ -149,5 +149,15 @@
 		"SETT_DB_UPDATE_LAST_DATE": {
 			"fi": "Viimeksi päivitetty"
 		}
+	},
+	"fetch_menus": {
+		"MENUS_ALREADY_UPDATED": {
+			"fi": "Menut päivitetty viimeisen tunnin aikana. Kokeile myöhemmin uudelleen.",
+			"en": "Menus have been updated within the last hour already. Try again later."
+		},
+		"MENU_UPDATE_SUCCESS": {
+			"fi": "Menut päivitetty. Uusimmat ruokalistat pitäisi nyt näkyä sivustolla.",
+			"en": "All menus fetched. You should now see what there is to eat this week."
+		}
 	}
 }

@@ -2,22 +2,26 @@
 require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_start.php';
 /*/////////////////////////////////////////////////*/
 
-//debug( $_SERVER );
 
-debug( DOC_ROOT );
+$json = '
+{
+	"restaurants": {
+		"carelia": {
+			"location": {
+				"lat": 62.60393,
+				"long": 29.74413
+			}
+		}
+	}
+}';
 
-$testFile = DOC_ROOT . '/studentrestaurantsapp/json/menus/carelia-fi.json';
+$obj = json_decode( $json );
 
-debug( $testFile );
+Utils::debug( $obj );
 
-if ( file_exists( $testFile ) ) {
-	echo "hi";
-}
+$r = $obj->restaurants->carelia->location;
+$location = [ 62.60025395192303, 29.763872623443604 ];
 
-$testFile = "/home/tko/juhanj/web-docs/studentrestaurantsapp/json/menus/carelia-fi.json";
+$d = Utils::geoDistance( $r->long, $r->lat, $location[0], $location[1] );
 
-debug( $testFile );
-
-if ( file_exists( $testFile ) ) {
-	echo "hi";
-}
+Utils::debug( $d, true );

@@ -8,7 +8,6 @@
 
 label {
 	padding: 1rem;
-	/*border: 1px var(--primary-lighter) dashed;*/
 	background-color: var(--input-bg);
 	border-radius: var(--border-radius);
 }

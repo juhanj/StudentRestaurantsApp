@@ -30,7 +30,7 @@ $next_day = ($current_day === 7)
 
 <?php require 'html-header.php'; ?>
 
-<section class="feedback" id="feedback"><?= check_feedback_POST() ?></section>
+<section class="feedback" id="feedback"><?= Utils::check_feedback_POST() ?></section>
 
 <main class="main-body-container">
 
@@ -48,10 +48,9 @@ $next_day = ($current_day === 7)
 			<p>Address</p>
 			<a href="./map.php" class="button">Map link</a>
 			-->
-			<a href="<?= $r->website_url->{$settings->lang} ?>" class="button url-link"
-			   target="_blank" rel="noopener noreferrer">
+			<a href="<?= $r->website_url->{$settings->lang} ?>" class="button url-link" rel="noopener noreferrer">
 				<?php echo file_get_contents("./img/link.svg"); ?>
-				Link to site
+				<?= $lang->LINK_TO_SITE ?>
 			</a>
 		</section>
 	</article>
@@ -68,7 +67,7 @@ $next_day = ($current_day === 7)
 			-->
 			<?php foreach ( $menu->week as $day ) : ?>
 				<?php if ( $day->index <= ($current_day-1) ) {
-					debug( $current_day);
+					//Utils::debug( $current_day);
 					continue;
 				} ?>
 				<section class="menu-day" data-id="<?= $day->index ?>">

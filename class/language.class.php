@@ -8,7 +8,7 @@
 class Language extends stdClass {
 
 	/**
-	 * @var string $lang Three character language code ISO 639-2/T
+	 * @var string $lang Two character language code ISO 639-1
 	 */
 	public $lang;
 

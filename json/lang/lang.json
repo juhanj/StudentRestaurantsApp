@@ -159,5 +159,11 @@
 			"fi": "Menut päivitetty. Uusimmat ruokalistat pitäisi nyt näkyä sivustolla.",
 			"en": "All menus fetched. You should now see what there is to eat this week."
 		}
+	},
+	"menu": {
+		"LINK_TO_SITE": {
+			"fi": "Kotisivut",
+			"en": "Link to home page"
+		}
 	}
 }

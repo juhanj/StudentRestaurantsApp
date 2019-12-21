@@ -3,8 +3,6 @@
 class Settings {
 
 	/** @var bool */
-	public $vege;
-	/** @var bool */
 	public $food;
 	/** @var bool */
 	public $kela;
@@ -24,20 +22,20 @@ class Settings {
 	public static function getSettings (): Settings {
 		$settings = new Settings();
 
-		$settings->food = (!empty( $_COOKIE['food'] ))
-			? true
-			: false;
+		$settings->food = (isset( $_COOKIE['food'] ))
+			? boolval( $_COOKIE['food'] )
+			: true;
 
 		$settings->kela = (!empty( $_COOKIE['kela'] ))
-			? true
-			: false;
+			? boolval( $_COOKIE['kela'] )
+			: true;
 
 		$settings->onlyJoensuu = (!empty( $_COOKIE['joensuu'] ))
-			? true
-			: false;
+			? boolval( $_COOKIE['joensuu'] )
+			: true;
 
-		if ( !empty( $_COOKIE['location'] ) ) {
-			$temp = json_decode( $_COOKIE['location'] );
+		if ( !empty( $_COOKIE['location'] ) and !empty( $_COOKIE['gps'] ) ) {
+			$temp = json_decode( $_COOKIE['gps'] );
 			$settings->location = [
 				(float)$temp[0],
 				(float)$temp[1]
@@ -74,7 +72,7 @@ class Settings {
 	 */
 	public function printLastMenuUpdateDate () {
 		$this->getLastMenuUpdatedDate();
-		if ( !empty($this->menusLastUpdated) ) {
+		if ( !empty( $this->menusLastUpdated ) ) {
 			$tempDate = new DateTime( '@' . $this->menusLastUpdated );
 
 			return $tempDate->format( "Y-m-d H:i" );

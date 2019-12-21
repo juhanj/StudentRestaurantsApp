@@ -1,12 +1,16 @@
 <?php declare(strict_types=1);
 require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_start.php';
 
+function custom_sort ( Restaurant $a, Restaurant $b ) {
+	return strcmp( $a->name, $b->name );
+}
+
 /**
- * @param Settings $settings Used for checking if the menu has been updated this week, for quick-menu.
+ * @param Settings $sett
+ * @param bool $sort
  * @return Restaurant[]
  */
-function fetch_restaurants ( Settings $settings ) {
-
+function fetch_restaurants ( Settings $sett, bool $sort = false ) {
 	$json = json_decode(
 		file_get_contents( "restaurants.json", true )
 	);
@@ -15,13 +19,15 @@ function fetch_restaurants ( Settings $settings ) {
 	foreach ( $json->restaurants as $obj ) {
 		$rest = Restaurant::buildFromJSON( $obj );
 
-		if ( $settings->haveMenusBeenUpdatedThisWeek() ) {
-			$rest->fetchQuickMenu( $settings->lang );
+		if ( $sett->location ) {
+			$rest->calcDistance( $sett->location );
 		}
-
 		$restaurants[] = $rest;
 	}
 
+	if ( $sort ) {
+		usort( $restaurants, 'custom_sort' );
+	}
 	return $restaurants;
 }
 
@@ -30,6 +36,8 @@ $current_day = (int)date( 'N' );
 $next_day = ($current_day === 7)
 	? 1
 	: $current_day + 1;
+
+Utils::debug( $settings )
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +49,7 @@ $next_day = ($current_day === 7)
 
 <?php require 'html-header.php'; ?>
 
-<section class="feedback" id="feedback"><?= check_feedback_POST() ?></section>
+<section class="feedback" id="feedback"><?= Utils::check_feedback_POST() ?></section>
 
 <main class="main-body-container">
 	<ol class="restaurant-list">

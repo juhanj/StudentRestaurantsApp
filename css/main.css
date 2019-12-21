@@ -81,6 +81,7 @@ html {
 
 body {
 	background-color: var(--site-bg);
+	color: var(--text-dark);
 	min-height: 100%; /* 100% of html's 100vh */
 }
 

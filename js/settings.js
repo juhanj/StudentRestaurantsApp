@@ -25,7 +25,6 @@ function saveLanguage(element) {
  * ask for permission, and getLocation.
  **/
 function getGPSCoordinates(element) {
-	//TODO: do location stuff here.
 }
 
 let foodCheckbox = document.querySelector( 'input[name="food"]' );
@@ -44,6 +43,7 @@ setCookie( currentSelectedLanguage.name, currentSelectedLanguage.value, 360 );
 foodCheckbox.onclick = saveSetting;
 kelaCheckbox.onclick = saveSetting;
 joensuuCheckbox.onclick = saveSetting;
+locationCheckbox.onclick = saveSetting;
 
 for ( let langInput of allLanguages ) {
 	langInput.onclick = saveLanguage;

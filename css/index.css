@@ -4,7 +4,7 @@
     --closed: hsla(0,0%,100%,.6);
 }
 .main-body-container {
-    justify-content: space-evenly;
+    /*justify-content: space-evenly;*/
 }
 
 .restaurant-list {

@@ -40,12 +40,18 @@ function getLocation() {
 	}
 
 	function success( position ) {
-		setCookie( "location", JSON.stringify([position.coords.latitude,position.coords.longitude]), 0 );
+		setCookie( "gps", JSON.stringify([position.coords.latitude,position.coords.longitude]), 360 );
 	}
 	function error() {
-		setCookie( "location", JSON.stringify(null), 0 );
+		setCookie( "gps", JSON.stringify(null), 360 );
 	}
 
 	navigator.geolocation.getCurrentPosition( success, error );
 	return true;
+}
+
+let locationSetting = getCookie( 'location' );
+
+if ( locationSetting == true ) {
+	getLocation();
 }

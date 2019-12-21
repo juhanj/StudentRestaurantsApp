@@ -500,6 +500,94 @@
 			"address": "Yliopistokatu 6",
 			"city": "Joensuu"
 		},
+		"wire": {
+			"id": "wire",
+			"name": "Wire",
+			"website_url": {
+				"fi": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/wire/",
+				"en": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/wire/"
+			},
+			"json_url": {
+				"fi": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0447&language=fi",
+				"en": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0447&language=en"
+			},
+			"location": {
+				"lat": 62.605359,
+				"long": 29.741623
+			},
+			"normalLunchHours": [
+				[
+					"10:00",
+					"13:30"
+				],
+				[
+					"11:00",
+					"13:30"
+				],
+				[
+					"11:00",
+					"13:30"
+				],
+				[
+					"11:00",
+					"13:30"
+				],
+				[
+					"11:00",
+					"13:30"
+				],
+				null,
+				null
+			],
+			"food": true,
+			"kela": true,
+			"address": "Karjalankatu 3",
+			"city": "Joensuu"
+		},
+		"solina": {
+			"id": "solina",
+			"name": "Solina",
+			"website_url": {
+				"fi": "https://www.fazerfoodco.fi/ravintolat/Ravintolat-kaupungeittain/joensuu/solina/",
+				"en": "https://www.fazerfoodco.fi/en/restaurants/Ravintolat-kaupungeittain/joensuu/solina/"
+			},
+			"json_url": {
+				"fi": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0424&language=fi",
+				"en": "https://www.fazerfoodco.fi/modules/json/json/Index?costNumber=0424&language=en"
+			},
+			"location": {
+				"lat": 62.605359,
+				"long": 29.741623
+			},
+			"normalLunchHours": [
+				[
+					"10:00",
+					"13:30"
+				],
+				[
+					"11:00",
+					"13:30"
+				],
+				[
+					"11:00",
+					"13:30"
+				],
+				[
+					"11:00",
+					"13:30"
+				],
+				[
+					"11:00",
+					"13:30"
+				],
+				null,
+				null
+			],
+			"food": true,
+			"kela": true,
+			"address": "Tikkarinne 9",
+			"city": "Joensuu"
+		},
 		"canthia": {
 			"id": "canthia",
 			"name": "Canthia",

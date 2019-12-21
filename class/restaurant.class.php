@@ -2,7 +2,7 @@
 
 class Restaurant {
 
-	/** @var string $id Short version of the name*/
+	/** @var string $id Short version of the name */
 	public $id;
 	/** @var string Name of the restaurant */
 	public $name;
@@ -34,7 +34,7 @@ class Restaurant {
 	public function __construct () {
 	}
 
-	public static function buildFromJSON ( stdClass $json ) : Restaurant {
+	public static function buildFromJSON ( stdClass $json ): Restaurant {
 		$r = new Restaurant();
 		foreach ( $json AS $key => $value ) {
 			$r->{$key} = $value;
@@ -42,10 +42,10 @@ class Restaurant {
 		return $r;
 	}
 
-	public function isOpenRightNow() : bool {
+	public function isOpenRightNow (): bool {
 		// Get currentDay as number. Monday == 1, Sunday == 7.
 		$currentDay = date( 'N' ) - 1;
-		$todayHours = $this->normalLunchHours[ $currentDay ];
+		$todayHours = $this->normalLunchHours[$currentDay];
 
 		if ( is_null( $todayHours ) ) {
 			return false;
@@ -62,7 +62,7 @@ class Restaurant {
 		return true;
 	}
 
-	public function getHoursToday ( Language $language ) : string {
+	public function getHoursToday ( Language $language ): string {
 		// Get currentDay as number. Monday == 1, Sunday == 7.
 		$currentDay = date( 'N' ) - 1;
 
@@ -80,7 +80,7 @@ class Restaurant {
 		return "{$this->normalLunchHours[$currentDay][0]} &ndash; {$this->normalLunchHours[$currentDay][1]}";
 	}
 
-	public function getHoursDay ( int $weekDay, Language $language ) : string {
+	public function getHoursDay ( int $weekDay, Language $language ): string {
 		// Get currentDay as number. Monday == 1, Sunday == 7.
 		$currentDay = date( 'N' ) - 1;
 
@@ -103,7 +103,7 @@ class Restaurant {
 		foreach ( $this->normalLunchHours as $index => $day ) {
 			$fontWeight = ($currentDay == $index) ? 'today' : '';
 			$dayName = "<span class='day-name'>{$lang->{"DAY_" . ($index+1)}}</span>";
-			$hours =  "<span class='times'>{$day[0]} &ndash; {$day[1]}</span>";
+			$hours = "<span class='times'>{$day[0]} &ndash; {$day[1]}</span>";
 			$html .= "<li class='margins-off {$fontWeight}'>{$dayName}{$hours}</li>";
 		}
 
@@ -112,48 +112,24 @@ class Restaurant {
 		return $html;
 	}
 
-	/**
-	 * @param string $lang From browser cookies
-	 */
-	public function fetchQuickMenu ( string $lang ) {
-		// Check that there actually is something to fetch.
-		if ( !$this->food ) {
-			return;
-		}
-		// Louhi is a special case, since that menu is fetched by parsing HTML directly.
-		if ( !$this->json_url and $this->id != 'louhi' ) {
-			return;
-		}
+	public function calcDistance ( array $location ) {
 
-		// Get currentDay as number. Monday == 1, Sunday == 7.
-		$currentDay = date( 'N' ) - 1;
+		$earth_radius = 6371;
 
-		if ( $this->normalLunchHours[$currentDay] === null ) {
-			return;
-		}
+		$dLat = deg2rad( $location[0] - $this->location->lat );
+		$dLon = deg2rad( $location[1] - $this->location->long );
 
-		if ( $this->id == 'louhi' or empty( $this->json_url->{$lang} ) ) {
-			$filename = "menus/{$this->id}-fi.json";
-		} else {
-			$filename = "menus/{$this->id}-{$lang}.json";
-		}
+		$a = sin( $dLat / 2 )
+			* sin( $dLat / 2 ) + cos( deg2rad( $this->location->lat ) )
+			* cos( deg2rad( $location[0] ) )
+			* sin( $dLon / 2 )
+			* sin( $dLon / 2 );
 
-		$fileString = file_get_contents(
-			$filename,
-			true
-		);
-		$json = json_decode( $fileString );
+		$c = 2 * asin( sqrt( $a ) );
+		$d = $earth_radius * $c;
 
-		$this->quickMenu = new stdClass();
+		return $d;
 
-		foreach ( $json->week as $index => $day ) {
-			if ( $day->index == $currentDay ) {
-				$this->quickMenu->today = $day;
-
-				$this->quickMenu->tomorrow = ($index == 6)
-					? $json->week[$index + 1]
-					: null;
-			}
-		}
 	}
+
 }

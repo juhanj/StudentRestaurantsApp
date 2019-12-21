@@ -10,7 +10,7 @@ require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_
 
 <?php require 'html-header.php'; ?>
 
-<section class="feedback" id="feedback"><?= check_feedback_POST() ?></section>
+<section class="feedback" id="feedback"><?= Utils::check_feedback_POST() ?></section>
 
 <main class="main-body-container">
 
@@ -88,8 +88,7 @@ require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_
 	</section>
 
 	<section class="box">
-		<a href="https://github.com/juhanj/StudentRestaurantsApp"
-			target="_blank" rel="noopener noreferrer">
+		<a href="https://github.com/juhanj/StudentRestaurantsApp" rel="noopener noreferrer">
 			 <?php echo file_get_contents("./img/link.svg"); ?>
 			Link to GitHub page
 		</a>

@@ -9,10 +9,14 @@ $r = Restaurant::buildFromJSON( $json->restaurants->{$id} );
 
 $filename = "./json/menus/{$id}-{$settings->lang}.json";
 if ( file_exists( $filename ) ) {
-	$menuFile = file_get_contents( $filename, true );
+	$file_last_updated = filemtime( $filename );
 
-	/** @var MenuJSON $menu */
-	$menu = json_decode( $menuFile );
+	if ( date( 'W', $file_last_updated ) === date( 'W' ) ) {
+		$menuFile = file_get_contents( $filename, true );
+
+		/** @var MenuJSON $menu */
+		$menu = json_decode( $menuFile );
+	}
 }
 
 $current_day = (int)date( 'N' );
@@ -34,8 +38,6 @@ $next_day = ($current_day === 7)
 
 <main class="main-body-container">
 
-	<a href="index.php" class="button return"><?= $lang->RETURN_INDEX ?></a>
-
 	<article class="restaurant-info box">
 		<h2 class="name"> <?= $r->name ?> </h2>
 
@@ -49,32 +51,33 @@ $next_day = ($current_day === 7)
 			<a href="./map.php" class="button">Map link</a>
 			-->
 			<a href="<?= $r->website_url->{$settings->lang} ?>" class="button url-link" rel="noopener noreferrer">
-				<?php echo file_get_contents("./img/link.svg"); ?>
+				<?php echo file_get_contents( "./img/link.svg" ); ?>
 				<?= $lang->LINK_TO_SITE ?>
 			</a>
 		</section>
 	</article>
 
-	<?php if ( isset( $menu ) ) : ?>
-		<article class="box menu-week">
-			<!--
-			<section class="menu-header margins-off">
-				<button class="button previous">Prev</button>
-				<h2 class="current-day">Current day</h2>
-				<button class="button next">Next</button>
-			</section>
-			<section>Current selected menu</section>
-			-->
+	<article class="box menu-week" hidden>
+		<section class="menu-header margins-off">
+			<button class="button previous">Prev</button>
+			<h2 class="current-day">Current day</h2>
+			<button class="button next">Next</button>
+		</section>
+		<section>Current selected menu</section>
+	</article>
+
+	<article class="box menu-week" id="menu-container" <?= isset( $menu ) ? '' : 'hidden' ?>>
+		<?php if ( isset( $menu ) ) : ?>
 			<?php foreach ( $menu->week as $day ) : ?>
-				<?php if ( $day->index <= ($current_day-1) ) {
-					//Utils::debug( $current_day);
+				<?php if ( $day->index <= ($current_day - 1) ) {
 					continue;
 				} ?>
 				<section class="menu-day" data-id="<?= $day->index ?>">
 					<h2 class="day-header">
-						<?= $day->dayname ?>, <?= $day->lunchHours[0] ?> &ndash; <?= $day->lunchHours[1] ?>
+						<?= $lang->{"DAY_{$day->index}_LONG"} ?>,
+						<?= $day->lunchHours[0] ?> &ndash; <?= $day->lunchHours[1] ?>
 					</h2>
-					<?php if ( $day->lunchHours != null ) : ?>
+					<?php if ( $day->lunchHours != null or $day->menu != null ) : ?>
 						<ul class="menu-list">
 							<?php foreach ( $day->menu as $menu ) : ?>
 								<li class="food">
@@ -93,19 +96,40 @@ $next_day = ($current_day === 7)
 							<?php endif; ?>
 						</ul>
 					<?php else : ?>
-						Restaurant closed.
+						<p>Restaurant closed.</p>
 					<?php endif; ?>
 				</section>
-				<hr>
+				<?= ($day->index < 7) ? '<hr>' : '' ?>
 			<?php endforeach; ?>
-		</article>
-	<?php else : ?>
-		<p class="box">
-			No menu available.
-		</p>
-	<?php endif; ?>
+		<?php endif; ?>
+	</article>
+
+	<section class="box menu-loading" id="loading-container" <?= isset( $menu ) ? 'hidden' : '' ?>>
+		Please wait, loading menu <span class="loading"></span>
+	</section>
+
+	<button class="button" id="force-update">
+		<?= $lang->FORCE_UPDATE ?>
+	</button>
 </main>
 
 <?php require 'html-footer.php'; ?>
+
+<script>
+	let restaurantID = '<?= $r->id ?>';
+	let language = '<?= $lang->lang ?>';
+	let updateNeeded = <?= isset( $menu ) ? 0 : 1 ?>;
+
+	let days = [
+		'<?= $lang->DAY_0_LONG ?>',
+		'<?= $lang->DAY_1_LONG ?>',
+		'<?= $lang->DAY_2_LONG ?>',
+		'<?= $lang->DAY_3_LONG ?>',
+		'<?= $lang->DAY_4_LONG ?>',
+		'<?= $lang->DAY_5_LONG ?>',
+		'<?= $lang->DAY_6_LONG ?>',
+		'<?= $lang->DAY_7_LONG ?>',
+	];
+</script>
 </body>
 </html>

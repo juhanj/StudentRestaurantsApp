@@ -14,8 +14,6 @@ require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_
 
 <main class="main-body-container">
 
-	<a href="index.php" class="button return"><?= $lang->RETURN_INDEX ?></a>
-
 	<section class="settings box">
 		<label>
 			<input type="checkbox" id="cafes" name="food"
@@ -75,16 +73,6 @@ require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_
 			>
 			<span>🇫🇮 Suomi</span>
 		</label>
-	</section>
-
-	<section class="settings box">
-		<a href="fetch_menus.php" class="button margins-off">
-			<span><?= $lang->SETT_DB_UPDATE ?></span>
-			<span>
-				<?= $lang->SETT_DB_UPDATE_LAST_DATE ?>:
-				<?= $settings->printLastMenuUpdateDate() ?>
-			</span>
-		</a>
 	</section>
 
 	<section class="box">

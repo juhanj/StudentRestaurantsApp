@@ -23,7 +23,6 @@ class JSONMenuFormatter {
         $this->url = $json->RestaurantUrl;
 
         foreach ( $json->MenusForDays as $index => $weekday ) {
-            //$this->week[$key] = new Day( $res, $value );
 	        $this->week[$index] = $this->formatDay( $weekday );
         }
     }
@@ -46,14 +45,13 @@ class JSONMenuFormatter {
 	    return [
 		    'date' => $day->Date,
 		    'index' => $properDate->format('N'),
-		    'dayname' => $properDate->format('l'),
 		    'lunchHours' => $day->LunchTime ? $this->formatLunchHours( $day->LunchTime ) : null,
 		    'menu' => $menu
 	    ];
 
     }
 
-    public function formatLunchHours ( /*$db, $day,*/ string $str/*, $dayIndex*/ ) : ?array {
+    public function formatLunchHours ( string $str ) : ?array {
 		// "10.00 - 15.00" --> ['10.00','15.00']
 	    $new_lunchhours = array_map('trim', explode('-', $str));
 
@@ -79,7 +77,7 @@ class JSONMenuFormatter {
 
     function formatMenu ( $ogMenu ) : array {
 		return [
-			'name' => $ogMenu->Name,
+			'name' => ucfirst(mb_strtolower($ogMenu->Name ?? '')),
 			'prices' => $ogMenu->Price,
 	        'components' => $ogMenu->Components,
 		];

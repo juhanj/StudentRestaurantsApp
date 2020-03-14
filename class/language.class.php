@@ -28,7 +28,7 @@ class Language extends stdClass {
 		 * from the database
 		 */
 		$json = json_decode(
-			file_get_contents( "lang/lang.json", true )
+			file_get_contents( "lang.json", true )
 		);
 
 		/**

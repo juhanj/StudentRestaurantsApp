@@ -1,10 +1,6 @@
 <?php declare(strict_types=1);
 require $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/studentrestaurantsapp/components/_start.php';
 
-function custom_sort ( Restaurant $a, Restaurant $b ) {
-	return strcmp( $a->name, $b->name );
-}
-
 /**
  * @param Settings $sett
  * @param bool $sort
@@ -26,7 +22,7 @@ function fetch_restaurants ( Settings $sett, bool $sort = false ) {
 	}
 
 	if ( $sort ) {
-		usort( $restaurants, 'custom_sort' );
+		usort( $restaurants, function ( $a, $b ) { return strcmp( $a->name, $b->name ); } );
 	}
 	return $restaurants;
 }
@@ -37,7 +33,6 @@ $next_day = ($current_day === 7)
 	? 1
 	: $current_day + 1;
 
-Utils::debug( $settings )
 ?>
 
 <!DOCTYPE html>
